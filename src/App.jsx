@@ -1,10 +1,10 @@
-import Login from './components/Login';
+import InventarioApp from './Inventario';
 import { ProveedorAutenticacion } from './context/auntenticarContext';
 
 function App() {
   return (
     <ProveedorAutenticacion>
-      <Login />
+      <InventarioApp />
     </ProveedorAutenticacion>
   );
 }

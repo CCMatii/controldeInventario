@@ -29,6 +29,7 @@
   
   .login-container button {
     padding: 0.75rem;
+    margin-left: 25%;
     background:linear-gradient(to bottom right, #3d7bdf, #cc2e9f);
     color: #333;
     border: none;
@@ -43,7 +44,12 @@
     background-color: #a1c4fd;
   }
   .login-container img{
+    margin-left: 25%;
     width: 150px;
     height: 150px;
     margin-bottom: 60px;
+  }
+  .login-container p {
+    margin-left: 15%;
+    color: #333;
   }
