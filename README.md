@@ -3,8 +3,8 @@
 Trabajo para la asignatura de Taller de Ingeniería Informática
 
 Desarrollado por:
-Denisse Maldonado
-Matías Salgado
+Denisse Maldonado<br>
+Matías Salgado<br>
 Ángel Vargas
 
 ## 📃 Descripción
@@ -13,9 +13,9 @@ El objetivo de este proyecto es crear una aplicación web donde una empresa, emp
 
 ## 🖥️ Uso de tecnologías
 
-Hasta la fecha las tecnologías ocupadas son:
+Hasta la fecha las tecnologías ocupadas son:<br>
 
-Frontend: React, HTML
+Frontend: React, HTML<br>
 Backend: FastAPI, PostgresSQL
 
 
