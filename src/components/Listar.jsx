@@ -30,7 +30,7 @@ function Listar({ visible, actualizaVisibilidad }) {
         <ul>
             {usuarios.map((usuario) => (
             <li key={usuario.usuario_id}>
-                {usuario.usuario_nombre} - {usuario.usuario_cargo}
+                {usuario.usuario_nombre} - {usuario.usuario_id}
             </li>
             ))}
         </ul>
