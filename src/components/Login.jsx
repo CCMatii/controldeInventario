@@ -2,8 +2,11 @@ import './Login.css';
 import rombo from '../assets/rombo.png';
 import { useState, useContext } from 'react';
 import { ContextoAutenticacion } from '../context/auntenticarContext';
+import CryptoJS from 'crypto-js'; // Importar la librería para hashear
 
 function Login({ visible, actualizaVisibilidad }) {
+  console.log("El componente Login se está renderizando"); // Depuración
+
   const [usuario, setUsuario] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [error, setError] = useState('');
@@ -11,7 +14,12 @@ function Login({ visible, actualizaVisibilidad }) {
 
   const manejarSubmit = async (e) => {
     e.preventDefault();
-    const exito = await autenticarUsuario(usuario, contraseña);
+
+    console.log("Intentando autenticar con usuario:", usuario); // Depuración
+    const contraseñaHasheada = CryptoJS.SHA256(contraseña).toString();
+    console.log("Contraseña hasheada:", contraseñaHasheada); // Depuración
+
+    const exito = await autenticarUsuario(usuario, contraseñaHasheada);
     if (!exito) {
       setError('Usuario o contraseña incorrectos');
     } else {
@@ -20,7 +28,7 @@ function Login({ visible, actualizaVisibilidad }) {
     }
   };
 
-  if (!visible) return null; // No renderiza nada si el login no es visible
+  if (!visible) return null; // No renderiza nada si el componente no es visible
 
   return (
     <div className="login-container">

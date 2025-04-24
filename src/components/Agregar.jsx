@@ -1,4 +1,5 @@
 import React from "react";
+import CryptoJS from "crypto-js"; // Asegúrate de que esta librería esté instalada
 import { agregarUsuario } from "../services/consultas";
 
 function Agregar({ visible, actualizaVisibilidad }) {
@@ -12,16 +13,28 @@ function Agregar({ visible, actualizaVisibilidad }) {
     event.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
     setError(""); // Limpiar errores previos
 
+    // Validar que todos los campos estén completos
     if (!id || !nombre || !contrasena || !cargo) {
       setError("Por favor, completa todos los campos.");
       return;
     }
 
+    // Validar que ID y Cargo sean números
+    const idNumerico = parseInt(id, 10);
+    const cargoNumerico = parseInt(cargo, 10);
+    if (isNaN(idNumerico) || isNaN(cargoNumerico)) {
+      setError("El ID y el Cargo deben ser números válidos.");
+      return;
+    }
+
+    // Hashear la contraseña antes de enviarla
+    const contrasenaHasheada = CryptoJS.SHA256(contrasena).toString();
+
     const nuevoUsuario = {
-      id, // Se pasa como usuario_id en la consulta
-      nombre, // Se pasa como usuario_nombre en la consulta
-      cargo, // Se pasa como usuario_cargo en la consulta
-      contrasena, // Se pasa como usuario_contrasena en la consulta
+      id: idNumerico, // Convertido a número
+      nombre,
+      cargo: cargoNumerico, // Convertido a número
+      contrasena: contrasenaHasheada, // Contraseña hasheada
     };
 
     try {

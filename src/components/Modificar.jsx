@@ -1,5 +1,6 @@
 import React from "react";
 import { modificarUsuario } from "../services/consultas";
+import CryptoJS from "crypto-js"; // Importar la librería para hashear
 
 function Modificar({ visible, actualizaVisibilidad }) {
   const [id, setId] = React.useState("");
@@ -22,7 +23,10 @@ function Modificar({ visible, actualizaVisibilidad }) {
     const usuario = {};
     usuario.id = parseInt(id, 10); // Convertir ID a número
     if (nombre) usuario.nombre = nombre; // Solo incluir si tiene valor
-    if (contrasena) usuario.contrasena = contrasena; // Solo incluir si tiene valor
+    if (contrasena) {
+      // Hashear la contraseña antes de incluirla
+      usuario.contrasena = CryptoJS.SHA256(contrasena).toString();
+    }
     if (cargo) usuario.cargo = parseInt(cargo, 10); // Convertir cargo a número si tiene valor
 
     // Validar que al menos un campo opcional tenga valor
