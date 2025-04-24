@@ -1,12 +1,21 @@
-# React + Vite
+# 📦 Sistema de gestión de inventario
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Trabajo para la asignatura de Taller de Ingeniería Informática
 
-Currently, two official plugins are available:
+Desarrollado por:
+Denisse Maldonado
+Matías Salgado
+Ángel Vargas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📃 Descripción
 
-## Expanding the ESLint configuration
+El objetivo de este proyecto es crear una aplicación web donde una empresa, emprendimiento, etc. pueda gestionar su inventario. La aplicación permitiría realizar distintas acciones como por ejemplo manejo de stock, de productos, de bodegas, entre otros. Así mismo, estando implementada con una base de datos y un inicio de sesión por roles para que las acciones realizadas sean seguras
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🖥️ Uso de tecnologías
+
+Hasta la fecha las tecnologías ocupadas son:
+
+Frontend: React, HTML
+Backend: FastAPI, PostgresSQL
+
+
