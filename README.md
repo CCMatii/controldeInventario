@@ -2,7 +2,7 @@
 
 Trabajo para la asignatura de Taller de Ingeniería Informática
 
-Desarrollado por:
+Desarrollado por:<br>
 Denisse Maldonado<br>
 Matías Salgado<br>
 Ángel Vargas
