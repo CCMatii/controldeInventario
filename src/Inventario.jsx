@@ -12,15 +12,22 @@ const InventarioApp = () => {
   const [agregarVisible, setAgregarVisible] = useState(false);
   const [modificarVisible, setModificarVisible] = useState(false);
   const [listarVisible, setListarVisible] = useState(false);
+
+  const toggleVisibilidad = (componente) => {
+    if (componente === 'borrar') setBorrarVisible(!borrarvisible);
+    if (componente === 'agregar') setAgregarVisible(!agregarVisible);
+    if (componente === 'modificar') setModificarVisible(!modificarVisible);
+    if (componente === 'listar') setListarVisible(!listarVisible);
+  };
   
   return (
     <div className="inventario-app">
       {estaAutenticado ? (
         <div className="contenido-inventario">
-          <button onClick={()=>setBorrarVisible(true)}>Borrar Usuario</button>
-          <button onClick={()=>setAgregarVisible(true)}>Agregar Usuario</button>
-          <button onClick={()=>setModificarVisible(true)}>Modificar Usuario</button>
-          <button onClick={()=>setListarVisible(true)}>Listar Usuarios</button>
+          <button onClick={() => toggleVisibilidad('borrar')}>Borrar Usuario</button>
+          <button onClick={() => toggleVisibilidad('agregar')}>Agregar Usuario</button>
+          <button onClick={() => toggleVisibilidad('modificar')}>Modificar Usuario</button>
+          <button onClick={() => toggleVisibilidad('listar')}>Listar Usuarios</button>
         </div>
       ) : (
         <Login visible={true} actualizaVisibilidad={() => {}} />

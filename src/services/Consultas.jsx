@@ -95,13 +95,12 @@ export const agregarUsuario = async (usuario) => {
 export const modificarUsuario = async (usuario) => {
   const url = `${urlBase}usuarios/update/${usuario.id}`;
 
-  // Construir el cuerpo de la solicitud con los campos opcionales
   const usuarioData = {};
   if (usuario.nombre) usuarioData.usuario_nombre = usuario.nombre;
   if (usuario.contrasena) usuarioData.usuario_password = usuario.contrasena;
   if (usuario.cargo) usuarioData.cargo_id = usuario.cargo;
 
-  // Verificar si hay datos para actualizar
+
   if (Object.keys(usuarioData).length === 0) {
     throw new Error("No se proporcionaron datos para actualizar");
   }
