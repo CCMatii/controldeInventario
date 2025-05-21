@@ -3,6 +3,7 @@ import { ContextoAutenticacion } from './context/auntenticarContext';
 import Login from './components/Login';
 import Agregar from './components/Agregar';
 import Listar from './components/Listar';
+import Productos from './components/Productos';
 
 const InventarioApp = () => {
   const { estaAutenticado } = useContext(ContextoAutenticacion);
@@ -20,6 +21,7 @@ const InventarioApp = () => {
         <div className="contenido-inventario">
           <button onClick={() => toggleVisibilidad('agregar')}>Agregar Usuario</button>
           <button onClick={() => toggleVisibilidad('listar')}>Listar Usuarios</button>
+          <Productos visible={true}/>
         </div>
       ) : (
         <Login visible={true} actualizaVisibilidad={() => {}} />
