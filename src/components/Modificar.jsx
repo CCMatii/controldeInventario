@@ -27,10 +27,10 @@ function Modificar({ visible, actualizaVisibilidad }) {
       // Hashear la contraseña antes de incluirla
       usuario.contrasena = CryptoJS.SHA256(contrasena).toString();
     }
-    if (cargo) usuario.cargo = parseInt(cargo, 10); // Convertir cargo a número si tiene valor
+    if (cargo) usuario.cargo_nombre = cargo; // Usar el nombre del cargo en lugar del ID
 
     // Validar que al menos un campo opcional tenga valor
-    if (!usuario.nombre && !usuario.contrasena && !usuario.cargo) {
+    if (!usuario.nombre && !usuario.contrasena && !usuario.cargo_nombre) {
       setError("Debes proporcionar al menos un campo para actualizar.");
       return;
     }
@@ -73,7 +73,7 @@ function Modificar({ visible, actualizaVisibilidad }) {
           type="text"
           value={cargo}
           onChange={(e) => setCargo(e.target.value)}
-          placeholder="Cargo del usuario"
+          placeholder="Cargo del usuario (nombre)"
         />
         <button type="submit">Modificar</button>
       </form>

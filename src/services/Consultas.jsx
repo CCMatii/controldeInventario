@@ -1,4 +1,3 @@
-
 const urlBase = "https://inventario-api-mu.vercel.app/";
 
 export const autenticar = async (usuario, contrasena) => {
@@ -95,12 +94,13 @@ export const agregarUsuario = async (usuario) => {
 export const modificarUsuario = async (usuario) => {
   const url = `${urlBase}usuarios/update/${usuario.id}`;
 
+  // Construir el objeto con los datos a modificar
   const usuarioData = {};
-  if (usuario.nombre) usuarioData.usuario_nombre = usuario.nombre;
-  if (usuario.contrasena) usuarioData.usuario_password = usuario.contrasena;
-  if (usuario.cargo) usuarioData.cargo_id = usuario.cargo;
+  if (usuario.nombre) usuarioData.usuario_nombre = usuario.nombre; // Nombre del usuario
+  if (usuario.contrasena) usuarioData.usuario_password = usuario.contrasena; // Contraseña hasheada
+  if (usuario.cargo_nombre) usuarioData.cargo_nombre = usuario.cargo_nombre; // Cargo como texto (VARCHAR)
 
-
+  // Validar que haya al menos un campo para actualizar
   if (Object.keys(usuarioData).length === 0) {
     throw new Error("No se proporcionaron datos para actualizar");
   }
@@ -109,9 +109,9 @@ export const modificarUsuario = async (usuario) => {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json"
+      Accept: "application/json",
     },
-    body: JSON.stringify(usuarioData)
+    body: JSON.stringify(usuarioData), // Convertir los datos a JSON
   };
 
   try {

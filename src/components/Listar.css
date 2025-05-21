@@ -1,0 +1,26 @@
+.tabla-usuarios {
+    width: 100%;
+    border-collapse: collapse; /* Elimina espacios entre bordes */
+    color: #000000;
+  }
+  
+  .tabla-usuarios th,
+  .tabla-usuarios td {
+    border: 1px solid #000000; /* Bordes para las celdas */
+    padding: 8px; /* Espaciado interno */
+    text-align: center; /* Alineación del texto */
+    text-align: left; /* Alineación del texto */
+  }
+  
+  .tabla-usuarios tr:hover {
+    background-color: #f1f1f1; /* Color de fondo al pasar el mouse */
+  }
+  
+  .tabla-usuarios th {
+    background-color: #4b0294; /* Color de fondo para el encabezado */
+    color: white; /* Color del texto del encabezado */
+  }
+
+  .botonEditar{
+    background-color: red;
+  }
