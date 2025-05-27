@@ -64,7 +64,7 @@ export const eliminarUsuario = async (usuarioId) => {
 };
 
 export const agregarUsuario = async (usuario) => {
-  const url = `${urlBase}usuarios/add?usuario_id=${usuario.id}&usuario_nombre=${usuario.nombre}&cargo_id=${usuario.cargo}&usuario_password=${usuario.contrasena}`;
+  const url = `${urlBase}usuarios/add?usuario_id=${usuario.id}&usuario_nombre=${usuario.nombre}&cargo_nombre=${usuario.cargo_nombre}&usuario_password=${usuario.contrasena}`;
 
   const options = {
     method: "POST",

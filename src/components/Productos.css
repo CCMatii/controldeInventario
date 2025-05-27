@@ -132,3 +132,9 @@
 .productos-btn-cancelar:hover {
   background: #424242;
 }
+
+.contenido-inventario {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Esto centra los hijos horizontalmente */
+}
