@@ -27,7 +27,7 @@ export const autenticar = async (usuario, contrasena) => {
       throw new Error("Error en la autenticación");
     }
 
-    const result = JSON.parse(text); // { access_token, token_type }
+    const result = JSON.parse(text); 
     return result;
   } catch (error) {
     console.error("Error capturado:", error);
@@ -284,3 +284,134 @@ export const agregarProducto = async (producto) => {
     throw error;
   }
 };
+
+//listarProveedores
+export const listarProveedores = async () => {
+  const url = `${urlBase}proveedores`;
+
+  const options = {
+    method: "GET",
+    headers: {
+      Accept: "application/json"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al listar proveedores:", errorText);
+      throw new Error("No se pudo listar los proveedores");
+    }
+
+    const result = await response.json();
+    console.log("Lista de proveedores:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al listar proveedores:", error);
+    throw error;
+  }
+};
+
+//agregarProveedor
+export const agregarProveedor = async (proveedor) => {
+  const url = `${urlBase}proveedores/add?proveedor_id=${proveedor.id}&proveedor_nombre=${encodeURIComponent(proveedor.nombre)}&proveedor_vendedor=${encodeURIComponent(proveedor.vendedor)}&proveedor_contacto=${encodeURIComponent(proveedor.contacto)}&proveedor_direccion=${encodeURIComponent(proveedor.direccion)}&proveedor_comuna=${encodeURIComponent(proveedor.comuna)}&proveedor_giro=${encodeURIComponent(proveedor.giro)}`;
+
+  const options = {
+    method: "POST",
+    headers: {
+      Accept: "application/json"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al agregar proveedor:", errorText);
+      throw new Error("No se pudo agregar el proveedor");
+    }
+
+    const result = await response.json();
+    console.log("Proveedor agregado exitosamente:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al agregar proveedor:", error);
+    throw error;
+  }
+};
+
+//modificarProveedor
+export const modificarProveedor = async (proveedor) => {
+  const url = `${urlBase}proveedores/update/${proveedor.id}`;
+
+  const proveedorData = {};
+  if (proveedor.nombre) proveedorData.proveedor_nombre = proveedor.nombre; // Nombre del proveedor
+  if (proveedor.vendedor) proveedorData.proveedor_vendedor = proveedor.vendedor; // Vendedor del proveedor
+  if (proveedor.contacto) proveedorData.proveedor_contacto = proveedor.contacto; // Contacto del proveedor
+  if (proveedor.direccion) proveedorData.proveedor_direccion = proveedor.direccion; // Dirección del proveedor
+  if (proveedor.comuna) proveedorData.proveedor_comuna = proveedor.comuna; // Comuna del proveedor
+  if (proveedor.giro) proveedorData.proveedor_giro = proveedor.giro; // Giro del proveedor
+
+  // Validar que haya al menos un campo para actualizar
+  if (Object.keys(proveedorData).length === 0) {
+    throw new Error("No se proporcionaron datos para actualizar");
+  }
+
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(proveedorData), // Convertir los datos a JSON
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al modificar proveedor:", errorText);
+      throw new Error("No se pudo modificar el proveedor");
+    }
+
+    const result = await response.json();
+    console.log("Proveedor modificado exitosamente:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al modificar proveedor:", error);
+    throw error;
+  }
+}
+
+// eliminarProveedor
+export const eliminarProveedor = async (proveedorId) => {
+  const url = `${urlBase}proveedores/delete/${proveedorId}`;
+
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al eliminar proveedor:", errorText);
+      throw new Error("No se pudo eliminar el proveedor");
+    }
+
+    console.log(`Proveedor con ID ${proveedorId} eliminado exitosamente`);
+    return { success: true };
+  } catch (error) {
+    console.error("Error capturado al eliminar proveedor:", error);
+    throw error;
+  }
+}
