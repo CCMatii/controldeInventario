@@ -1,10 +1,11 @@
 import React from "react";
-import { listarUsuarios, eliminarUsuario, modificarUsuario, agregarUsuario } from "../services/consultas";
+import { listarUsuarios, eliminarUsuario, modificarUsuario, agregarUsuario, listarCargos } from "../services/consultas";
 import CryptoJS from "crypto-js";
 import "./Listar.css";
 
 function Listar({ visible, actualizaVisibilidad }) {
   const [usuarios, setUsuarios] = React.useState([]);
+  const [cargos, setCargos] = React.useState([]);
   const [error, setError] = React.useState("");
   const [modalAbierto, setModalAbierto] = React.useState(false);
   const [usuarioEdit, setUsuarioEdit] = React.useState(null);
@@ -110,11 +111,27 @@ function Listar({ visible, actualizaVisibilidad }) {
     }
   };
 
+  const handleListarCargos = async () => {
+    try {
+      const resultado = await listarCargos(); // Asegúrate de tener esta función en tu archivo de servicios
+      setCargos(resultado);
+    } catch (error) {
+      console.error("No se pudieron listar los cargos:", error);
+    }
+  };
+
   React.useEffect(() => {
     if (visible) {
       handleListarUsuarios();
+      handleListarCargos();
     }
   }, [visible]);
+
+  React.useEffect(() => {
+    if (modalAgregar || modalAbierto) {
+      handleListarCargos();
+    }
+  }, [modalAgregar, modalAbierto]);
 
   if (!visible) return null;
 
@@ -194,12 +211,18 @@ function Listar({ visible, actualizaVisibilidad }) {
                 </label>
                 <label>
                   Cargo:
-                  <input
-                    type="text"
+                  <select
                     value={nuevoCargoAgregar}
                     onChange={(e) => setNuevoCargoAgregar(e.target.value)}
                     required
-                  />
+                  >
+                    <option value="">Seleccione un cargo</option>
+                    {cargos.map((cargo) => (
+                      <option key={cargo.cargo_nombre} value={cargo.cargo_nombre}>
+                        {cargo.cargo_nombre}
+                      </option>
+                    ))}
+                  </select>
                 </label>
                 <div className="listar-modal-agregar-acciones">
                   <button type="submit" className="listar-modal-agregar-btn-guardar">Agregar</button>
@@ -237,12 +260,18 @@ function Listar({ visible, actualizaVisibilidad }) {
                 </label>
                 <label>
                   Cargo:
-                  <input
-                    type="text"
+                  <select
                     value={nuevoCargo}
                     onChange={(e) => setNuevoCargo(e.target.value)}
                     required
-                  />
+                  >
+                    <option value="">Seleccione un cargo</option>
+                    {cargos.map((cargo) => (
+                      <option key={cargo.cargo_nombre} value={cargo.cargo_nombre}>
+                        {cargo.cargo_nombre}
+                      </option>
+                    ))}
+                  </select>
                 </label>
                 <div className="modal-acciones">
                   <button type="submit">Guardar</button>

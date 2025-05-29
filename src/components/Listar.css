@@ -100,7 +100,6 @@
   cursor: pointer;
 }
 
-/* Solo estilos para el modal de agregar usuario */
 .listar-modal-agregar-fondo {
   position: fixed;
   top: 0; left: 0;

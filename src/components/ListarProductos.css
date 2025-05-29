@@ -1,0 +1,193 @@
+/* Fondo del modal */
+.listar-modal-fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Contenido del modal */
+.listar-modal-contenido {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 800px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Botón para cerrar el modal */
+.listar-modal-cerrar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #6a0dad; /* Morado */
+}
+
+/* Título del modal */
+.title-listaproductos {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #6a0dad; /* Morado */
+}
+
+/* Botón de agregar */
+.agregarbutton {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.agregarbutton:hover {
+  background-color: #45a049;
+}
+
+/* Tabla de productos */
+.tabla-productos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  color: #000; /* Texto negro */
+}
+
+.tabla-productos th,
+.tabla-productos td {
+  border: 1px solid #000000;
+  padding: 10px;
+  text-align: center;
+}
+
+.tabla-productos th {
+  background-color: #6a0dad; /* Morado */
+  color: white; /* Texto blanco */
+  font-weight: bold;
+}
+
+.tabla-productos tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tabla-productos tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Botones de acciones */
+.botonEditar,
+.botonEliminar {
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.botonEditar {
+  background-color: #2196f3;
+  color: white;
+}
+
+.botonEditar:hover {
+  background-color: #1976d2;
+}
+
+.botonEliminar {
+  background-color: #f44336;
+  color: white;
+}
+
+.botonEliminar:hover {
+  background-color: #d32f2f;
+}
+
+/* Fondo del modal de agregar */
+.listar-modal-agregar-fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Contenido del modal de agregar */
+.listar-modal-agregar-contenido {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Formulario de agregar/modificar */
+.listar-modal-agregar-contenido form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #000; /* Texto negro */
+}
+
+.listar-modal-agregar-contenido form input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Botones del formulario */
+.listar-modal-agregar-acciones {
+  display: flex;
+  justify-content: space-between;
+}
+
+.listar-modal-agregar-btn-guardar {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.listar-modal-agregar-btn-guardar:hover {
+  background-color: #45a049;
+}
+
+.listar-modal-agregar-btn-cancelar {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.listar-modal-agregar-btn-cancelar:hover {
+  background-color: #d32f2f;
+}

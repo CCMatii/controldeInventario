@@ -5,7 +5,6 @@ import { ContextoAutenticacion } from '../context/auntenticarContext';
 import CryptoJS from 'crypto-js'; // Importar la librería para hashear
 
 function Login({ visible, actualizaVisibilidad }) {
-  console.log("El componente Login se está renderizando"); // Depuración
 
   const [usuario, setUsuario] = useState('');
   const [contraseña, setContraseña] = useState('');
@@ -14,11 +13,7 @@ function Login({ visible, actualizaVisibilidad }) {
 
   const manejarSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("Intentando autenticar con usuario:", usuario); // Depuración
     const contraseñaHasheada = CryptoJS.SHA256(contraseña).toString();
-    console.log("Contraseña hasheada:", contraseñaHasheada); // Depuración
-
     const exito = await autenticarUsuario(usuario, contraseñaHasheada);
     if (!exito) {
       setError('Usuario o contraseña incorrectos');

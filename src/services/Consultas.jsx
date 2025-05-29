@@ -35,6 +35,34 @@ export const autenticar = async (usuario, contrasena) => {
   }
 };
 
+export const obtenerUsuarioActual = async () => {
+  const url = `${urlBase}usuarios/me`;
+
+  const options = {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`, // Token de autenticación
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al obtener el usuario actual:", errorText);
+      throw new Error("No se pudo obtener el usuario actual");
+    }
+
+    const usuario = await response.json();
+    return usuario;
+  } catch (error) {
+    console.error("Error capturado al obtener el usuario actual:", error);
+    throw error;
+  }
+};
+
 export const eliminarUsuario = async (usuarioId) => {
   const url = `${urlBase}usuarios/delete/${usuarioId}`;
 
@@ -194,7 +222,6 @@ export const modificarProducto = async (producto) => {
   const productoData = {};
   if (producto.nombre) productoData.producto_nombre = producto.nombre; // Nombre del producto
   if (producto.descripcion) productoData.producto_descripcion = producto.descripcion; // Descripción del producto
-  if (producto.bodega) productoData.producto_bodega = producto.bodega; // Bodega del producto
   if (producto.proveedor) productoData.producto_proovedor = producto.proveedor; // Proveedor del producto
 
   // Validar que haya al menos un campo para actualizar
@@ -258,13 +285,13 @@ export const eliminarProducto = async (productoId) => {
 }
 
 export const agregarProducto = async (producto) => {
-  const url = `${urlBase}productos/add?producto_id=${producto.producto_id}&producto_nombre=${encodeURIComponent(producto.producto_nombre)}&producto_descripcion=${encodeURIComponent(producto.producto_descripcion)}&producto_bodega=${producto.producto_bodega}&producto_proovedor=${producto.producto_proovedor}`;
+  const url = `${urlBase}productos/add?producto_id=${producto.producto_id}&producto_nombre=${encodeURIComponent(producto.producto_nombre)}&producto_descripcion=${encodeURIComponent(producto.producto_descripcion)}&producto_proovedor=${producto.producto_proovedor}`;
 
   const options = {
     method: "POST",
     headers: {
-      Accept: "application/json"
-    }
+      Accept: "application/json",
+    },
   };
 
   try {
@@ -415,3 +442,260 @@ export const eliminarProveedor = async (proveedorId) => {
     throw error;
   }
 }
+
+export const listarCargos = async () => {
+  const url = `${urlBase}cargos`;
+
+  const options = {
+    method: "GET",
+    headers: {
+      Accept: "application/json"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al listar cargos:", errorText);
+      throw new Error("No se pudo listar los cargos");
+    }
+
+    const result = await response.json();
+    console.log("Lista de cargos:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al listar cargos:", error);
+    throw error;
+  }
+}
+
+export const listarInventario = async () => {
+  const url = `${urlBase}inventario`;
+
+  const options = {
+    method: "GET",
+    headers: {
+      Accept: "application/json"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al listar inventario:", errorText);
+      throw new Error("No se pudo listar el inventario");
+    }
+
+    const result = await response.json();
+    console.log("Lista de inventario:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al listar inventario:", error);
+    throw error;
+  }
+}
+
+export const agregarInventario = async (inventario) => {
+  const url = `${urlBase}inventario/add?producto_id=${inventario.producto_id}&producto_nombre=${encodeURIComponent(
+    inventario.producto_nombre
+  )}&bodega_id=${inventario.bodega_id}&inventario_cantidad=${inventario.inventario_cantidad}`;
+
+  const options = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al agregar inventario:", errorText);
+      throw new Error("No se pudo agregar el inventario");
+    }
+
+    const result = await response.json();
+    console.log("Inventario agregado exitosamente:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al agregar inventario:", error);
+    throw error;
+  }
+};
+
+export const modificarInventario = async (inventario) => {
+  const url = `${urlBase}inventario/update/${inventario.inventario_id}`;
+
+  // Construir el objeto con los datos a modificar
+  const inventarioData = {};
+  if (inventario.producto_nombre) inventarioData.producto_nombre = inventario.producto_nombre;
+  if (inventario.bodega_id) inventarioData.bodega_id = inventario.bodega_id;
+  if (inventario.inventario_cantidad) inventarioData.inventario_cantidad = inventario.inventario_cantidad;
+
+  // Validar que haya al menos un campo para actualizar
+  if (Object.keys(inventarioData).length === 0) {
+    throw new Error("No se proporcionaron datos para actualizar");
+  }
+
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(inventarioData), // Convertir los datos a JSON
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al modificar inventario:", errorText);
+      throw new Error("No se pudo modificar el inventario");
+    }
+
+    const result = await response.json();
+    console.log("Inventario modificado exitosamente:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al modificar inventario:", error);
+    throw error;
+  }
+};
+
+export const eliminarInventario = async (inventarioId) => {
+  const url = `${urlBase}inventario/delete/${inventarioId}`;
+
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al eliminar inventario:", errorText);
+      throw new Error("No se pudo eliminar el inventario");
+    }
+
+    console.log(`Inventario con ID ${inventarioId} eliminado exitosamente`);
+    return { success: true };
+  } catch (error) {
+    console.error("Error capturado al eliminar inventario:", error);
+    throw error;
+  }
+};
+
+export const eliminarCantidadInventario = async ({ producto_id, bodega_id, cantidad_a_eliminar }) => {
+  const url = `${urlBase}inventario/remove?producto_id=${producto_id}&bodega_id=${bodega_id}&cantidad_a_eliminar=${cantidad_a_eliminar}`;
+
+  const options = {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al eliminar cantidad del inventario:", errorText);
+      throw new Error("No se pudo eliminar la cantidad del inventario");
+    }
+
+    const result = await response.json();
+    console.log("Cantidad eliminada del inventario exitosamente:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al eliminar cantidad del inventario:", error);
+    throw error;
+  }
+};
+
+export const listarMovimientos = async () => {
+  const url = `${urlBase}movimientos`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("No se pudieron cargar los movimientos");
+    }
+
+    const movimientos = await response.json();
+    return movimientos;
+  } catch (error) {
+    console.error("Error al listar movimientos:", error);
+    throw error;
+  }
+};
+
+export const agregarMovimiento = async ({
+  movimiento_producto,
+  movimiento_descripcion,
+  bodega_origen,
+  bodega_destino,
+  cantidad,
+  movimiento_usuario,
+}) => {
+  const url = `${urlBase}movimientos/add?movimiento_producto=${movimiento_producto}&movimiento_descripcion=${encodeURIComponent(
+    movimiento_descripcion
+  )}&bodega_origen=${bodega_origen}&bodega_destino=${bodega_destino}&cantidad=${cantidad}&movimiento_usuario=${movimiento_usuario}`;
+
+  const options = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al registrar el movimiento:", errorText);
+      throw new Error("No se pudo registrar el movimiento");
+    }
+
+    const result = await response.json();
+    console.log("Movimiento registrado exitosamente:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al registrar el movimiento:", error);
+    throw error;
+  }
+};
+
+export const listarBodegas = async () => {
+  const url = `${urlBase}bodegas`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error("No se pudieron cargar las bodegas");
+    }
+
+    const bodegas = await response.json();
+    return bodegas;
+  } catch (error) {
+    console.error("Error al listar bodegas:", error);
+    throw error;
+  }
+};
+
