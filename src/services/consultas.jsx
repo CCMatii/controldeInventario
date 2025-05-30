@@ -35,34 +35,6 @@ export const autenticar = async (usuario, contrasena) => {
   }
 };
 
-export const obtenerUsuarioActual = async () => {
-  const url = `${urlBase}usuarios/me`;
-
-  const options = {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      Authorization: `Bearer ${localStorage.getItem("token")}`, // Token de autenticación
-    },
-  };
-
-  try {
-    const response = await fetch(url, options);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Error al obtener el usuario actual:", errorText);
-      throw new Error("No se pudo obtener el usuario actual");
-    }
-
-    const usuario = await response.json();
-    return usuario;
-  } catch (error) {
-    console.error("Error capturado al obtener el usuario actual:", error);
-    throw error;
-  }
-};
-
 export const eliminarUsuario = async (usuarioId) => {
   const url = `${urlBase}usuarios/delete/${usuarioId}`;
 
@@ -122,13 +94,13 @@ export const agregarUsuario = async (usuario) => {
 export const modificarUsuario = async (usuario) => {
   const url = `${urlBase}usuarios/update/${usuario.id}`;
 
-  // Construir el objeto con los datos a modificar
+  
   const usuarioData = {};
-  if (usuario.nombre) usuarioData.usuario_nombre = usuario.nombre; // Nombre del usuario
-  if (usuario.contrasena) usuarioData.usuario_password = usuario.contrasena; // Contraseña hasheada
-  if (usuario.cargo_nombre) usuarioData.cargo_nombre = usuario.cargo_nombre; // Cargo como texto (VARCHAR)
+  if (usuario.nombre) usuarioData.usuario_nombre = usuario.nombre; 
+  if (usuario.contrasena) usuarioData.usuario_password = usuario.contrasena; 
+  if (usuario.cargo_nombre) usuarioData.cargo_nombre = usuario.cargo_nombre; 
 
-  // Validar que haya al menos un campo para actualizar
+ 
   if (Object.keys(usuarioData).length === 0) {
     throw new Error("No se proporcionaron datos para actualizar");
   }
@@ -139,7 +111,7 @@ export const modificarUsuario = async (usuario) => {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify(usuarioData), // Convertir los datos a JSON
+    body: JSON.stringify(usuarioData),
   };
 
   try {
@@ -220,11 +192,11 @@ export const modificarProducto = async (producto) => {
   const url = `${urlBase}productos/update/${producto.id}`;
 
   const productoData = {};
-  if (producto.nombre) productoData.producto_nombre = producto.nombre; // Nombre del producto
-  if (producto.descripcion) productoData.producto_descripcion = producto.descripcion; // Descripción del producto
-  if (producto.proveedor) productoData.producto_proovedor = producto.proveedor; // Proveedor del producto
+  if (producto.nombre) productoData.producto_nombre = producto.nombre; 
+  if (producto.descripcion) productoData.producto_descripcion = producto.descripcion; 
+  if (producto.proveedor) productoData.producto_proovedor = producto.proveedor; 
 
-  // Validar que haya al menos un campo para actualizar
+ 
   if (Object.keys(productoData).length === 0) {
     throw new Error("No se proporcionaron datos para actualizar");
   }
@@ -235,7 +207,7 @@ export const modificarProducto = async (producto) => {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify(productoData), // Convertir los datos a JSON
+    body: JSON.stringify(productoData), 
   };
 
   try {
@@ -312,7 +284,7 @@ export const agregarProducto = async (producto) => {
   }
 };
 
-//listarProveedores
+
 export const listarProveedores = async () => {
   const url = `${urlBase}proveedores`;
 
@@ -341,7 +313,7 @@ export const listarProveedores = async () => {
   }
 };
 
-//agregarProveedor
+
 export const agregarProveedor = async (proveedor) => {
   const url = `${urlBase}proveedores/add?proveedor_id=${proveedor.id}&proveedor_nombre=${encodeURIComponent(proveedor.nombre)}&proveedor_vendedor=${encodeURIComponent(proveedor.vendedor)}&proveedor_contacto=${encodeURIComponent(proveedor.contacto)}&proveedor_direccion=${encodeURIComponent(proveedor.direccion)}&proveedor_comuna=${encodeURIComponent(proveedor.comuna)}&proveedor_giro=${encodeURIComponent(proveedor.giro)}`;
 
@@ -370,19 +342,18 @@ export const agregarProveedor = async (proveedor) => {
   }
 };
 
-//modificarProveedor
+
 export const modificarProveedor = async (proveedor) => {
   const url = `${urlBase}proveedores/update/${proveedor.id}`;
 
   const proveedorData = {};
-  if (proveedor.nombre) proveedorData.proveedor_nombre = proveedor.nombre; // Nombre del proveedor
-  if (proveedor.vendedor) proveedorData.proveedor_vendedor = proveedor.vendedor; // Vendedor del proveedor
-  if (proveedor.contacto) proveedorData.proveedor_contacto = proveedor.contacto; // Contacto del proveedor
-  if (proveedor.direccion) proveedorData.proveedor_direccion = proveedor.direccion; // Dirección del proveedor
-  if (proveedor.comuna) proveedorData.proveedor_comuna = proveedor.comuna; // Comuna del proveedor
-  if (proveedor.giro) proveedorData.proveedor_giro = proveedor.giro; // Giro del proveedor
+  if (proveedor.nombre) proveedorData.proveedor_nombre = proveedor.nombre; 
+  if (proveedor.vendedor) proveedorData.proveedor_vendedor = proveedor.vendedor; 
+  if (proveedor.contacto) proveedorData.proveedor_contacto = proveedor.contacto; 
+  if (proveedor.direccion) proveedorData.proveedor_direccion = proveedor.direccion; 
+  if (proveedor.comuna) proveedorData.proveedor_comuna = proveedor.comuna; 
+  if (proveedor.giro) proveedorData.proveedor_giro = proveedor.giro; 
 
-  // Validar que haya al menos un campo para actualizar
   if (Object.keys(proveedorData).length === 0) {
     throw new Error("No se proporcionaron datos para actualizar");
   }
@@ -393,7 +364,7 @@ export const modificarProveedor = async (proveedor) => {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify(proveedorData), // Convertir los datos a JSON
+    body: JSON.stringify(proveedorData),
   };
 
   try {
@@ -414,7 +385,7 @@ export const modificarProveedor = async (proveedor) => {
   }
 }
 
-// eliminarProveedor
+
 export const eliminarProveedor = async (proveedorId) => {
   const url = `${urlBase}proveedores/delete/${proveedorId}`;
 
@@ -532,13 +503,13 @@ export const agregarInventario = async (inventario) => {
 export const modificarInventario = async (inventario) => {
   const url = `${urlBase}inventario/update/${inventario.inventario_id}`;
 
-  // Construir el objeto con los datos a modificar
+ 
   const inventarioData = {};
   if (inventario.producto_nombre) inventarioData.producto_nombre = inventario.producto_nombre;
   if (inventario.bodega_id) inventarioData.bodega_id = inventario.bodega_id;
   if (inventario.inventario_cantidad) inventarioData.inventario_cantidad = inventario.inventario_cantidad;
 
-  // Validar que haya al menos un campo para actualizar
+
   if (Object.keys(inventarioData).length === 0) {
     throw new Error("No se proporcionaron datos para actualizar");
   }
@@ -549,7 +520,7 @@ export const modificarInventario = async (inventario) => {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify(inventarioData), // Convertir los datos a JSON
+    body: JSON.stringify(inventarioData), N
   };
 
   try {
@@ -699,3 +670,97 @@ export const listarBodegas = async () => {
   }
 };
 
+export const agregarBodega = async (bodega) => {
+  const url = `${urlBase}bodegas/add?bodega_id=${bodega.id}&bodega_nombre=${encodeURIComponent(bodega.nombre)}&bodega_ubicacion=${encodeURIComponent(bodega.ubicacion)}`;
+
+  const options = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al agregar bodega:", errorText);
+      throw new Error("No se pudo agregar la bodega");
+    }
+
+    const result = await response.json();
+    console.log("Bodega agregada exitosamente:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al agregar bodega:", error);
+    throw error;
+  }
+}
+
+export const modificarBodega = async (bodega) => {
+  const url = `${urlBase}bodegas/update/${bodega.id}`;
+
+  const bodegaData = {};
+  if (bodega.nombre) bodegaData.bodega_nombre = bodega.nombre; 
+  if (bodega.ubicacion) bodegaData.bodega_ubicacion = bodega.ubicacion;
+
+
+  if (Object.keys(bodegaData).length === 0) {
+    throw new Error("No se proporcionaron datos para actualizar");
+  }
+
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(bodegaData), 
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al modificar bodega:", errorText);
+      throw new Error("No se pudo modificar la bodega");
+    }
+
+    const result = await response.json();
+    console.log("Bodega modificada exitosamente:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al modificar bodega:", error);
+    throw error;
+  }
+}
+
+export const eliminarBodega = async (bodegaId) => {
+  const url = `${urlBase}bodegas/delete/${bodegaId}`;
+
+  const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al eliminar bodega:", errorText);
+      throw new Error("No se pudo eliminar la bodega");
+    }
+
+    console.log(`Bodega con ID ${bodegaId} eliminada exitosamente`);
+    return { success: true };
+  } catch (error) {
+    console.error("Error capturado al eliminar bodega:", error);
+    throw error;
+  }
+}

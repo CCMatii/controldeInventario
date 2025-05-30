@@ -1,0 +1,230 @@
+/* Fondo modal general */
+.listar-modal-fondo,
+.listar-modal-agregar-fondo,
+.modal-fondo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(30, 30, 30, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Contenido del modal principal */
+.listar-modal-contenido {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  min-width: 400px;
+  max-width: 90vw;
+  position: relative;
+}
+
+/* Botón cerrar */
+.listar-modal-cerrar {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+/* Título */
+.title-listaproveedor {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+}
+
+/* Tabla */
+.tabla-proveedores {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.tabla-proveedores th,
+.tabla-proveedores td {
+  border: 1px solid #e0e0e0;
+  padding: 0.6rem 0.8rem;
+  text-align: left;
+}
+
+.tabla-proveedores th {
+  background: purple;
+  color: #ffffff;
+}
+.tabla-proveedores td {
+  color: #000000;
+}
+
+.tabla-proveedores tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+/* Botones de acción */
+.botonEditar,
+.botonEliminar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+  transition: color 0.2s;
+}
+
+.botonEditar:hover {
+  color: #2980b9;
+}
+
+.botonEliminar:hover {
+  color: #e74c3c;
+}
+
+/* Botón agregar */
+.agregarbutton {
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.agregarbutton:hover {
+  background: #219150;
+}
+
+/* Modal agregar */
+.listar-modal-agregar-contenido {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  min-width: 320px;
+  max-width: 90vw;
+}
+
+.listar-modal-agregar-contenido h3 {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.listar-modal-agregar-contenido label {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: #34495e;
+}
+
+.listar-modal-agregar-contenido input {
+  width: 100%;
+  padding: 0.4rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid #bfc9d1;
+  border-radius: 4px;
+}
+
+.listar-modal-agregar-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.listar-modal-agregar-btn-guardar {
+  background: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.listar-modal-agregar-btn-guardar:hover {
+  background: #219150;
+}
+
+.listar-modal-agregar-btn-cancelar {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.listar-modal-agregar-btn-cancelar:hover {
+  background: #c0392b;
+}
+
+/* Modal editar */
+.modal-contenido {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  min-width: 320px;
+  max-width: 90vw;
+}
+
+.modal-contenido h3 {
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.modal-contenido label {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: #34495e;
+}
+
+.modal-contenido input {
+  width: 100%;
+  padding: 0.4rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid #bfc9d1;
+  border-radius: 4px;
+}
+
+.modal-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.modal-acciones button[type="submit"] {
+  background: #2980b9;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-acciones button[type="submit"]:hover {
+  background: #1c5d8c;
+}
+
+.modal-acciones button[type="button"] {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-acciones button[type="button"]:hover {
+  background: #c0392b;
+}

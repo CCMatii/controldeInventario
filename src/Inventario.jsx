@@ -6,6 +6,7 @@ import ListProvee from './components/List_provee';
 import ListaInventario from './components/ListaInventario';
 import ListarProductos from './components/ListarProductos';
 import ListMovimientos from './components/ListaMovimentos';
+import ListaBodega from './components/ListaBodega';
 
 const InventarioApp = () => {
   const { estaAutenticado, credenciales } = useContext(ContextoAutenticacion);
@@ -13,12 +14,14 @@ const InventarioApp = () => {
   const [listarProveeVisible, setListarProveeVisible] = useState(false);
   const [productosVisible, setProductosVisible] = useState(false);
   const [movimientosVisible, setMovimientosVisible] = useState(false);
+  const [bodegaVisible, setBodegaVisible] = useState(false);
 
   const toggleVisibilidad = (componente) => {
     if (componente === 'listar') setListarVisible(!listarVisible);
     if (componente === 'listarProvee') setListarProveeVisible(!listarProveeVisible);
     if (componente === 'productos') setProductosVisible(!productosVisible);
     if (componente === 'movimientos') setMovimientosVisible(!movimientosVisible);
+    if (componente === 'bodega') setBodegaVisible(!bodegaVisible);
   };
   
   return (
@@ -29,6 +32,7 @@ const InventarioApp = () => {
             <>
               <button onClick={() => toggleVisibilidad('listar')}>Manejo de Usuarios</button>
               <button onClick={() => toggleVisibilidad('listarProvee')}>Manejo de Proveedores</button>
+              <button onClick={() => toggleVisibilidad('bodega')}>Manejo de Bodegas</button>
             </>
           )}
           <button onClick={() => toggleVisibilidad('productos')}>Manejo de Productos</button>
@@ -42,6 +46,7 @@ const InventarioApp = () => {
       <ListProvee visible={listarProveeVisible} actualizaVisibilidad={setListarProveeVisible} />
       <ListMovimientos visible={movimientosVisible} actualizaVisibilidad={setMovimientosVisible} />
       <ListarProductos visible={productosVisible} actualizaVisibilidad={setProductosVisible} />
+      <ListaBodega visible={bodegaVisible} actualizaVisibilidad={setBodegaVisible} />
     </div>
   );
 };
