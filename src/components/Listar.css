@@ -150,7 +150,7 @@
 }
 .listar-modal-agregar-contenido input[type="text"]:focus,
 .listar-modal-agregar-contenido input[type="password"]:focus {
-  border: 1.5px solid #1565c0;
+  border: 1.5px solid purple;
   outline: none;
   background: #fff;
 }

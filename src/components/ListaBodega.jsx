@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { listarBodegas, eliminarBodega, modificarBodega, agregarBodega } from "../services/consultas";
-import "./ListaBodega.css"; 
+import "./ListaBodega.css";
 
 function ListaBodega({ visible, actualizaVisibilidad }) {
   const [bodegas, setBodegas] = useState([]);
   const [error, setError] = useState("");
   const [modalAbierto, setModalAbierto] = useState(false);
   const [bodegaEdit, setBodegaEdit] = useState(null);
-
   const [nuevoNombre, setNuevoNombre] = useState("");
   const [nuevaUbicacion, setNuevaUbicacion] = useState("");
-
   const [modalAgregar, setModalAgregar] = useState(false);
   const [nuevoIdAgregar, setNuevoIdAgregar] = useState("");
   const [nuevoNombreAgregar, setNuevoNombreAgregar] = useState("");
@@ -90,6 +88,11 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
   const handleAgregarBodega = async (e) => {
     e.preventDefault();
     try {
+      if (parseInt(nuevoIdAgregar, 10) < 0) {
+        setError("El ID no puede ser un número negativo.");
+        return;
+      }
+
       const nuevaBodega = await agregarBodega({
         id: nuevoIdAgregar,
         nombre: nuevoNombreAgregar,
@@ -111,13 +114,13 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
   if (!visible) return null;
 
   return (
-    <div className="listar-modal-fondo">
-      <div className="listar-modal-contenido">
-        <button className="listar-modal-cerrar" onClick={() => actualizaVisibilidad(false)}>✖️</button>
-        <h2 className="title-listaproveedor">Lista de Bodegas</h2>
-        <button className="agregarbutton" onClick={abrirModalAgregar}>Agregar Bodega</button>
+    <div className="bodega-modal-fondo">
+      <div className="bodega-modal-contenido">
+        <button className="bodega-modal-cerrar" onClick={() => actualizaVisibilidad(false)}>✖️</button>
+        <h2 className="bodega-title">Lista de Bodegas</h2>
+        <button className="bodega-agregar-button" onClick={abrirModalAgregar}>Agregar Bodega</button>
         {error && <p style={{ color: "red" }}>{error}</p>}
-        <table className="tabla-proveedores">
+        <table className="bodega-tabla">
           <thead>
             <tr>
               <th>ID</th>
@@ -134,14 +137,14 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
                 <td>{bodega.bodega_ubicacion}</td>
                 <td>
                   <button
-                    className="botonEditar"
+                    className="bodega-boton-editar"
                     onClick={() => abrirModal(bodega)}
                     title="Modificar"
                   >
                     ✏️
                   </button>
                   <button
-                    className="botonEliminar"
+                    className="bodega-boton-eliminar"
                     onClick={() => handleEliminarBodega(bodega.bodega_id)}
                     title="Eliminar"
                   >
@@ -153,8 +156,8 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
           </tbody>
         </table>
         {modalAgregar && (
-          <div className="listar-modal-agregar-fondo">
-            <div className="listar-modal-agregar-contenido">
+          <div className="bodega-modal-agregar-fondo">
+            <div className="bodega-modal-agregar-contenido">
               <h3>Agregar Bodega</h3>
               <form onSubmit={handleAgregarBodega}>
                 <label>
@@ -184,9 +187,9 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
                     required
                   />
                 </label>
-                <div className="listar-modal-agregar-acciones">
-                  <button type="submit" className="listar-modal-agregar-btn-guardar">Agregar</button>
-                  <button type="button" className="listar-modal-agregar-btn-cancelar" onClick={cerrarModalAgregar}>
+                <div className="bodega-modal-agregar-acciones">
+                  <button type="submit" className="bodega-modal-agregar-btn-guardar">Agregar</button>
+                  <button type="button" className="bodega-modal-agregar-btn-cancelar" onClick={cerrarModalAgregar}>
                     Cancelar
                   </button>
                 </div>
@@ -196,8 +199,8 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
         )}
 
         {modalAbierto && (
-          <div className="modal-fondo">
-            <div className="modal-contenido">
+          <div className="bodega-modal-fondo">
+            <div className="bodega-modal-contenido">
               <h3>Modificar Bodega</h3>
               <form onSubmit={handleGuardar}>
                 <label>
@@ -218,7 +221,7 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
                     required
                   />
                 </label>
-                <div className="modal-acciones">
+                <div className="bodega-modal-acciones">
                   <button type="submit">Guardar</button>
                   <button type="button" onClick={cerrarModal}>
                     Cancelar

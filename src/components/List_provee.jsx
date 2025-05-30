@@ -7,16 +7,12 @@ function ListProvee({ visible, actualizaVisibilidad }) {
   const [error, setError] = React.useState("");
   const [modalAbierto, setModalAbierto] = React.useState(false);
   const [proveedorEdit, setProveedorEdit] = React.useState(null);
-
-  // Estados para editar
   const [nuevoNombre, setNuevoNombre] = React.useState("");
   const [nuevoVendedor, setNuevoVendedor] = React.useState("");
   const [nuevoContacto, setNuevoContacto] = React.useState("");
   const [nuevaDireccion, setNuevaDireccion] = React.useState("");
   const [nuevaComuna, setNuevaComuna] = React.useState("");
   const [nuevoGiro, setNuevoGiro] = React.useState("");
-
-  // Estados para agregar
   const [modalAgregar, setModalAgregar] = React.useState(false);
   const [nuevoIdAgregar, setNuevoIdAgregar] = React.useState("");
   const [nuevoNombreAgregar, setNuevoNombreAgregar] = React.useState("");
@@ -124,6 +120,11 @@ function ListProvee({ visible, actualizaVisibilidad }) {
   const handleAgregarProveedor = async (e) => {
     e.preventDefault();
     try {
+      if (parseInt(nuevoIdAgregar, 10) < 0) {
+        setError("El ID no puede ser un número negativo.");
+        return;
+      }
+
       const nuevoProveedor = await agregarProveedor({
         id: nuevoIdAgregar,
         nombre: nuevoNombreAgregar,
@@ -149,13 +150,13 @@ function ListProvee({ visible, actualizaVisibilidad }) {
   if (!visible) return null;
 
   return (
-    <div className="listar-modal-fondo">
-      <div className="listar-modal-contenido">
-        <button className="listar-modal-cerrar" onClick={() => actualizaVisibilidad(false)}>✖️</button>
-        <h2 className="title-listaproveedor">Lista de Proveedores</h2>
-        <button className="agregarbutton" onClick={abrirModalAgregar}>Agregar Proveedor</button>
+    <div className="proveedor-modal-fondo">
+      <div className="proveedor-modal-contenido">
+        <button className="proveedor-modal-cerrar" onClick={() => actualizaVisibilidad(false)}>✖️</button>
+        <h2 className="proveedor-title">Lista de Proveedores</h2>
+        <button className="proveedor-agregar-button" onClick={abrirModalAgregar}>Agregar Proveedor</button>
         {error && <p style={{ color: "red" }}>{error}</p>}
-        <table className="tabla-proveedores">
+        <table className="proveedor-tabla">
           <thead>
             <tr>
               <th>ID</th>
@@ -180,14 +181,14 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                 <td>{proveedor.proveedor_giro}</td>
                 <td>
                   <button
-                    className="botonEditar"
+                    className="proveedor-boton-editar"
                     onClick={() => abrirModal(proveedor)}
                     title="Modificar"
                   >
                     ✏️
                   </button>
                   <button
-                    className="botonEliminar"
+                    className="proveedor-boton-eliminar"
                     onClick={() => handleEliminarProveedor(proveedor.proveedor_id)}
                     title="Eliminar"
                   >
@@ -199,8 +200,8 @@ function ListProvee({ visible, actualizaVisibilidad }) {
           </tbody>
         </table>
         {modalAgregar && (
-          <div className="listar-modal-agregar-fondo">
-            <div className="listar-modal-agregar-contenido">
+          <div className="proveedor-modal-agregar-fondo">
+            <div className="proveedor-modal-agregar-contenido">
               <h3>Agregar Proveedor</h3>
               <form onSubmit={handleAgregarProveedor}>
                 <label>
@@ -266,9 +267,9 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                     required
                   />
                 </label>
-                <div className="listar-modal-agregar-acciones">
-                  <button type="submit" className="listar-modal-agregar-btn-guardar">Agregar</button>
-                  <button type="button" className="listar-modal-agregar-btn-cancelar" onClick={cerrarModalAgregar}>
+                <div className="proveedor-modal-agregar-acciones">
+                  <button type="submit" className="proveedor-modal-agregar-btn-guardar">Agregar</button>
+                  <button type="button" className="proveedor-modal-agregar-btn-cancelar" onClick={cerrarModalAgregar}>
                     Cancelar
                   </button>
                 </div>
@@ -278,8 +279,8 @@ function ListProvee({ visible, actualizaVisibilidad }) {
         )}
 
         {modalAbierto && (
-          <div className="modal-fondo">
-            <div className="modal-contenido">
+          <div className="proveedor-modal-fondo">
+            <div className="proveedor-modal-contenido">
               <h3>Modificar Proveedor</h3>
               <form onSubmit={handleGuardar}>
                 <label>
@@ -336,7 +337,7 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                     required
                   />
                 </label>
-                <div className="modal-acciones">
+                <div className="proveedor-modal-acciones">
                   <button type="submit">Guardar</button>
                   <button type="button" onClick={cerrarModal}>
                     Cancelar

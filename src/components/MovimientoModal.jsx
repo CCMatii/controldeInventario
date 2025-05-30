@@ -50,6 +50,11 @@ function MovimientoModal({ visible, actualizaVisibilidad }) {
         return;
       }
 
+      if (parseInt(cantidadMovimiento, 10) <= 0) {
+        setError("La cantidad debe ser un número positivo.");
+        return;
+      }
+
       const movimiento = {
         movimiento_producto: parseInt(productoSeleccionado, 10),
         movimiento_descripcion: descripcionMovimiento,

@@ -73,26 +73,27 @@ function ListaInventario({ visible }) {
   const handleAgregarInventario = async (e) => {
     e.preventDefault();
     try {
-      // Buscar el nombre del producto en la lista de productos
-      const productoSeleccionado = productos.find((p) => p.producto_id === parseInt(agregarProductoId, 10));
+      if (parseInt(agregarCantidad, 10) <= 0) {
+        setError("La cantidad debe ser un número positivo.");
+        return;
+      }
 
+      const productoSeleccionado = productos.find((p) => p.producto_id === parseInt(agregarProductoId, 10));
       if (!productoSeleccionado) {
         setError("El producto seleccionado no existe.");
         return;
       }
 
       const nuevoItem = {
-        producto_id: parseInt(agregarProductoId, 10), // Convertir a entero
-        producto_nombre: productoSeleccionado.producto_nombre, // Obtener el nombre del producto
-        bodega_id: parseInt(agregarBodegaId, 10), // Convertir a entero
-        inventario_cantidad: parseInt(agregarCantidad, 10), // Convertir a entero
+        producto_id: parseInt(agregarProductoId, 10),
+        producto_nombre: productoSeleccionado.producto_nombre,
+        bodega_id: parseInt(agregarBodegaId, 10),
+        inventario_cantidad: parseInt(agregarCantidad, 10),
       };
 
-      // Llamar al servicio para agregar o actualizar el inventario
       const respuesta = await agregarInventario(nuevoItem);
-
-      // Actualizar el estado del inventario con la respuesta del backend
       const inventarioActualizado = respuesta.inventario;
+
       const existeEnInventario = inventario.some(
         (item) =>
           item.producto_id === inventarioActualizado.producto_id &&
@@ -100,7 +101,6 @@ function ListaInventario({ visible }) {
       );
 
       if (existeEnInventario) {
-        // Si ya existe, actualizar la cantidad en el estado
         setInventario(
           inventario.map((item) =>
             item.producto_id === inventarioActualizado.producto_id &&
@@ -110,7 +110,6 @@ function ListaInventario({ visible }) {
           )
         );
       } else {
-        // Si no existe, agregar el nuevo registro al estado
         setInventario([...inventario, inventarioActualizado]);
       }
 

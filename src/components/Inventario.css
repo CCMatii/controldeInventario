@@ -110,7 +110,7 @@
 .inventario-modal-contenido select {
   color: #000; /* Asegura que el texto dentro de los campos sea negro */
   background-color: #fff; /* Fondo blanco para los campos */
-  border: 1px solid #ddd;
+  border: 1px solid #dddddd;
   padding: 8px;
   border-radius: 4px;
   font-size: 14px;
@@ -140,4 +140,11 @@
 .inventario-btn-cancelar {
   background-color: #f44336;
   color: white;
+}
+
+.inventario-modal-contenido input:focus,
+.inventario-modal-contenido select:focus {
+  border: 1.5px solid purple;
+  outline: none; 
+  background: #fff; 
 }

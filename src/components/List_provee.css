@@ -1,37 +1,39 @@
-.tabla-proveedores {
+/* Tabla de proveedores */
+.proveedor-tabla {
   width: 100%;
   border-collapse: collapse;
   color: #000000;
 }
 
-.title-listaproveedor {
+.proveedor-title {
   color: #000000;
   text-align: center;
 }
 
-.agregarbutton {
+.proveedor-agregar-button {
   margin-bottom: 10px;
   display: flex;
   justify-content: center;
 }
 
-.tabla-proveedores th,
-.tabla-proveedores td {
+.proveedor-tabla th,
+.proveedor-tabla td {
   border: 1px solid #000000;
   padding: 8px;
   text-align: left;
 }
 
-.tabla-proveedores tr:hover {
+.proveedor-tabla tr:hover {
   background-color: #f1f1f1;
 }
 
-.tabla-proveedores th {
+.proveedor-tabla th {
   background-color: #4b0294;
   color: white;
 }
 
-.botonEditar {
+/* Botones de acción */
+.proveedor-boton-editar {
   margin-right: 5px;
   background: #1976d2;
   color: #fff;
@@ -41,7 +43,11 @@
   cursor: pointer;
 }
 
-.botonEliminar {
+.proveedor-boton-editar:hover {
+  background: #1565c0;
+}
+
+.proveedor-boton-eliminar {
   background: #d32f2f;
   color: #fff;
   border: none;
@@ -50,37 +56,43 @@
   cursor: pointer;
 }
 
-.modal-fondo {
+.proveedor-boton-eliminar:hover {
+  background: #b71c1c;
+}
+
+/* Fondo del modal */
+.proveedor-modal-fondo {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 
-.modal-contenido {
+/* Contenido del modal */
+.proveedor-modal-contenido {
   background: #fff;
   padding: 2rem;
   border-radius: 8px;
   min-width: 300px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.modal-contenido h3 {
+.proveedor-modal-contenido h3 {
   margin-top: 0;
 }
 
-.modal-contenido label {
+.proveedor-modal-contenido label {
   display: block;
   margin-bottom: 10px;
 }
 
-.modal-contenido input {
+.proveedor-modal-contenido input {
   width: 100%;
   padding: 6px;
   margin-top: 4px;
@@ -89,49 +101,57 @@
   border-radius: 4px;
 }
 
-.modal-acciones {
+/* Acciones del modal */
+.proveedor-modal-acciones {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
 
 /* Modal agregar proveedor */
-.listar-modal-agregar-fondo {
+.proveedor-modal-agregar-fondo {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.55);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
-.listar-modal-agregar-contenido {
+
+.proveedor-modal-agregar-contenido {
   background: #fff;
   padding: 32px 28px 24px 28px;
   border-radius: 10px;
   min-width: 320px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
   position: relative;
 }
-.listar-modal-agregar-contenido h3 {
+
+.proveedor-modal-agregar-contenido h3 {
   color: #1976d2;
   margin-bottom: 18px;
   font-weight: 700;
   letter-spacing: 1px;
 }
-.listar-modal-agregar-contenido form {
+
+.proveedor-modal-agregar-contenido form {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.listar-modal-agregar-contenido label {
+
+.proveedor-modal-agregar-contenido label {
   font-weight: 600;
   color: #222;
   margin-bottom: 2px;
   display: block;
 }
-.listar-modal-agregar-contenido input[type="text"] {
+
+.proveedor-modal-agregar-contenido input[type="text"] {
   width: 100%;
   padding: 9px 12px;
   border: 1.5px solid #1976d2;
@@ -143,18 +163,21 @@
   margin-bottom: 8px;
   transition: border 0.2s;
 }
-.listar-modal-agregar-contenido input[type="text"]:focus {
+
+.proveedor-modal-agregar-contenido input[type="text"]:focus {
   border: 1.5px solid #1565c0;
   outline: none;
   background: #fff;
 }
-.listar-modal-agregar-acciones {
+
+.proveedor-modal-agregar-acciones {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
   margin-top: 10px;
 }
-.listar-modal-agregar-btn-guardar {
+
+.proveedor-modal-agregar-btn-guardar {
   background: #1976d2;
   color: #fff;
   border: none;
@@ -165,10 +188,12 @@
   cursor: pointer;
   transition: background 0.2s;
 }
-.listar-modal-agregar-btn-guardar:hover {
+
+.proveedor-modal-agregar-btn-guardar:hover {
   background: #1565c0;
 }
-.listar-modal-agregar-btn-cancelar {
+
+.proveedor-modal-agregar-btn-cancelar {
   background: #757575;
   color: #fff;
   border: none;
@@ -179,35 +204,7 @@
   cursor: pointer;
   transition: background 0.2s;
 }
-.listar-modal-agregar-btn-cancelar:hover {
+
+.proveedor-modal-agregar-btn-cancelar:hover {
   background: #424242;
-}
-.listar-modal-fondo {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-.listar-modal-contenido {
-  background: #fff;
-  padding: 32px 28px 24px 28px;
-  border-radius: 10px;
-  min-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-  position: relative;
-}
-.listar-modal-cerrar {
-  position: absolute;
-  top: 12px;
-  right: 18px;
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
 }

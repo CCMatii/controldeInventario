@@ -1,7 +1,6 @@
 /* Fondo modal general */
-.listar-modal-fondo,
-.listar-modal-agregar-fondo,
-.modal-fondo {
+.bodega-modal-fondo,
+.bodega-modal-agregar-fondo {
   position: fixed;
   top: 0;
   left: 0;
@@ -15,18 +14,18 @@
 }
 
 /* Contenido del modal principal */
-.listar-modal-contenido {
+.bodega-modal-contenido {
   background: #fff;
   padding: 2rem 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
   min-width: 400px;
   max-width: 90vw;
   position: relative;
 }
 
 /* Botón cerrar */
-.listar-modal-cerrar {
+.bodega-modal-cerrar {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -37,41 +36,42 @@
 }
 
 /* Título */
-.title-listaproveedor {
+.bodega-title {
   text-align: center;
   margin-bottom: 1.5rem;
   color: #2c3e50;
 }
 
 /* Tabla */
-.tabla-proveedores {
+.bodega-tabla {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 1.5rem;
 }
 
-.tabla-proveedores th,
-.tabla-proveedores td {
+.bodega-tabla th,
+.bodega-tabla td {
   border: 1px solid #e0e0e0;
   padding: 0.6rem 0.8rem;
   text-align: left;
 }
 
-.tabla-proveedores th {
+.bodega-tabla th {
   background: purple;
   color: #ffffff;
 }
-.tabla-proveedores td {
+
+.bodega-tabla td {
   color: #000000;
 }
 
-.tabla-proveedores tr:nth-child(even) {
+.bodega-tabla tr:nth-child(even) {
   background: #fafbfc;
 }
 
 /* Botones de acción */
-.botonEditar,
-.botonEliminar {
+.bodega-boton-editar,
+.bodega-boton-eliminar {
   background: none;
   border: none;
   cursor: pointer;
@@ -80,16 +80,16 @@
   transition: color 0.2s;
 }
 
-.botonEditar:hover {
+.bodega-boton-editar:hover {
   color: #2980b9;
 }
 
-.botonEliminar:hover {
+.bodega-boton-eliminar:hover {
   color: #e74c3c;
 }
 
 /* Botón agregar */
-.agregarbutton {
+.bodega-agregar-button {
   background: #27ae60;
   color: #fff;
   border: none;
@@ -101,12 +101,12 @@
   transition: background 0.2s;
 }
 
-.agregarbutton:hover {
+.bodega-agregar-button:hover {
   background: #219150;
 }
 
 /* Modal agregar */
-.listar-modal-agregar-contenido {
+.bodega-modal-agregar-contenido {
   background: #fff;
   padding: 2rem 2.5rem;
   border-radius: 10px;
@@ -114,18 +114,18 @@
   max-width: 90vw;
 }
 
-.listar-modal-agregar-contenido h3 {
+.bodega-modal-agregar-contenido h3 {
   margin-bottom: 1rem;
   color: #2c3e50;
 }
 
-.listar-modal-agregar-contenido label {
+.bodega-modal-agregar-contenido label {
   display: block;
   margin-bottom: 0.7rem;
   color: #34495e;
 }
 
-.listar-modal-agregar-contenido input {
+.bodega-modal-agregar-contenido input {
   width: 100%;
   padding: 0.4rem;
   margin-top: 0.2rem;
@@ -134,14 +134,14 @@
   border-radius: 4px;
 }
 
-.listar-modal-agregar-acciones {
+.bodega-modal-agregar-acciones {
   display: flex;
   justify-content: flex-end;
   gap: 0.7rem;
   margin-top: 1rem;
 }
 
-.listar-modal-agregar-btn-guardar {
+.bodega-modal-agregar-btn-guardar {
   background: #27ae60;
   color: #fff;
   border: none;
@@ -150,11 +150,11 @@
   cursor: pointer;
 }
 
-.listar-modal-agregar-btn-guardar:hover {
+.bodega-modal-agregar-btn-guardar:hover {
   background: #219150;
 }
 
-.listar-modal-agregar-btn-cancelar {
+.bodega-modal-agregar-btn-cancelar {
   background: #e74c3c;
   color: #fff;
   border: none;
@@ -163,12 +163,12 @@
   cursor: pointer;
 }
 
-.listar-modal-agregar-btn-cancelar:hover {
+.bodega-modal-agregar-btn-cancelar:hover {
   background: #c0392b;
 }
 
 /* Modal editar */
-.modal-contenido {
+.bodega-modal-editar-contenido {
   background: #fff;
   padding: 2rem 2.5rem;
   border-radius: 10px;
@@ -176,18 +176,18 @@
   max-width: 90vw;
 }
 
-.modal-contenido h3 {
+.bodega-modal-editar-contenido h3 {
   margin-bottom: 1rem;
   color: #2c3e50;
 }
 
-.modal-contenido label {
+.bodega-modal-editar-contenido label {
   display: block;
   margin-bottom: 0.7rem;
   color: #34495e;
 }
 
-.modal-contenido input {
+.bodega-modal-editar-contenido input {
   width: 100%;
   padding: 0.4rem;
   margin-top: 0.2rem;
@@ -196,14 +196,14 @@
   border-radius: 4px;
 }
 
-.modal-acciones {
+.bodega-modal-editar-acciones {
   display: flex;
   justify-content: flex-end;
   gap: 0.7rem;
   margin-top: 1rem;
 }
 
-.modal-acciones button[type="submit"] {
+.bodega-modal-editar-btn-guardar {
   background: #2980b9;
   color: #fff;
   border: none;
@@ -212,11 +212,11 @@
   cursor: pointer;
 }
 
-.modal-acciones button[type="submit"]:hover {
+.bodega-modal-editar-btn-guardar:hover {
   background: #1c5d8c;
 }
 
-.modal-acciones button[type="button"] {
+.bodega-modal-editar-btn-cancelar {
   background: #e74c3c;
   color: #fff;
   border: none;
@@ -225,6 +225,6 @@
   cursor: pointer;
 }
 
-.modal-acciones button[type="button"]:hover {
+.bodega-modal-editar-btn-cancelar:hover {
   background: #c0392b;
 }

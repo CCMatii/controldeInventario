@@ -97,6 +97,10 @@ function Listar({ visible, actualizaVisibilidad }) {
   const handleAgregarUsuario = async (e) => {
     e.preventDefault();
     try {
+      if (parseInt(nuevoIdAgregar, 10) < 0) {
+        setError("El ID no puede ser un número negativo.");
+        return;
+      }
       const contrasenaHasheada = CryptoJS.SHA256(nuevaContrasenaAgregar).toString();
       const nuevoUsuario = await agregarUsuario({
         id: nuevoIdAgregar,
@@ -113,7 +117,7 @@ function Listar({ visible, actualizaVisibilidad }) {
 
   const handleListarCargos = async () => {
     try {
-      const resultado = await listarCargos(); // Asegúrate de tener esta función en tu archivo de servicios
+      const resultado = await listarCargos();
       setCargos(resultado);
     } catch (error) {
       console.error("No se pudieron listar los cargos:", error);
@@ -274,10 +278,8 @@ function Listar({ visible, actualizaVisibilidad }) {
                   </select>
                 </label>
                 <div className="modal-acciones">
-                  <button type="submit">Guardar</button>
-                  <button type="button" onClick={cerrarModal}>
-                    Cancelar
-                  </button>
+                  <button type="submit" className="listar-modal-agregar-btn-guardar">Guardar</button>
+                  <button type="button" className="listar-modal-agregar-btn-cancelar"onClick={cerrarModal}>Cancelar</button>
                 </div>
               </form>
             </div>

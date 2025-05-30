@@ -9,12 +9,12 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
   const [productoEdit, setProductoEdit] = React.useState(null);
   const [nuevoNombre, setNuevoNombre] = React.useState("");
   const [nuevaDescripcion, setNuevaDescripcion] = React.useState("");
-  const [nuevoProovedor, setNuevoProovedor] = React.useState(""); // Cambiado a "proovedor"
+  const [nuevoProovedor, setNuevoProovedor] = React.useState("");
   const [modalAgregar, setModalAgregar] = React.useState(false);
   const [nuevoIdAgregar, setNuevoIdAgregar] = React.useState("");
   const [nuevoNombreAgregar, setNuevoNombreAgregar] = React.useState("");
   const [nuevaDescripcionAgregar, setNuevaDescripcionAgregar] = React.useState("");
-  const [nuevoProovedorAgregar, setNuevoProovedorAgregar] = React.useState(""); // Cambiado a "proovedor"
+  const [nuevoProovedorAgregar, setNuevoProovedorAgregar] = React.useState("");
 
   const handleListarProductos = async () => {
     try {
@@ -38,7 +38,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setProductoEdit(producto);
     setNuevoNombre(producto.producto_nombre);
     setNuevaDescripcion(producto.producto_descripcion);
-    setNuevoProovedor(producto.producto_proovedor); // Cambiado a "proovedor"
+    setNuevoProovedor(producto.producto_proovedor);
     setModalAbierto(true);
   };
 
@@ -47,7 +47,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setProductoEdit(null);
     setNuevoNombre("");
     setNuevaDescripcion("");
-    setNuevoProovedor(""); // Cambiado a "proovedor"
+    setNuevoProovedor("");
   };
 
   const handleGuardar = async (e) => {
@@ -57,12 +57,12 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
         id: productoEdit.producto_id,
         nombre: nuevoNombre,
         descripcion: nuevaDescripcion,
-        proovedor: nuevoProovedor, // Cambiado a "proovedor"
+        proovedor: nuevoProovedor,
       });
       setProductos(
         productos.map((p) =>
           p.producto_id === productoEdit.producto_id
-            ? { ...p, producto_nombre: nuevoNombre, producto_descripcion: nuevaDescripcion, producto_proovedor: nuevoProovedor } // Cambiado a "proovedor"
+            ? { ...p, producto_nombre: nuevoNombre, producto_descripcion: nuevaDescripcion, producto_proovedor: nuevoProovedor }
             : p
         )
       );
@@ -76,7 +76,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setNuevoIdAgregar("");
     setNuevoNombreAgregar("");
     setNuevaDescripcionAgregar("");
-    setNuevoProovedorAgregar(""); // Cambiado a "proovedor"
+    setNuevoProovedorAgregar("");
     setModalAgregar(true);
   };
 
@@ -85,17 +85,22 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setNuevoIdAgregar("");
     setNuevoNombreAgregar("");
     setNuevaDescripcionAgregar("");
-    setNuevoProovedorAgregar(""); // Cambiado a "proovedor"
+    setNuevoProovedorAgregar("");
   };
 
   const handleAgregarProducto = async (e) => {
     e.preventDefault();
     try {
+      if (parseInt(nuevoIdAgregar, 10) < 0) {
+        setError("El ID no puede ser un número negativo.");
+        return;
+      }
+
       const nuevoProducto = await agregarProducto({
-        producto_id: parseInt(nuevoIdAgregar, 10), // Convertir a entero
+        producto_id: parseInt(nuevoIdAgregar, 10),
         producto_nombre: nuevoNombreAgregar,
         producto_descripcion: nuevaDescripcionAgregar,
-        producto_proovedor: parseInt(nuevoProovedorAgregar, 10), // Convertir a entero
+        producto_proovedor: parseInt(nuevoProovedorAgregar, 10),
       });
       setProductos([...productos, nuevoProducto]);
       cerrarModalAgregar();
@@ -126,7 +131,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
               <th>ID</th>
               <th>Nombre</th>
               <th>Descripción</th>
-              <th>Proovedor</th> {/* Cambiado a "proovedor" */}
+              <th>Proovedor</th> 
               <th>Acciones</th>
             </tr>
           </thead>
@@ -136,7 +141,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                 <td>{producto.producto_id}</td>
                 <td>{producto.producto_nombre}</td>
                 <td>{producto.producto_descripcion}</td>
-                <td>{producto.producto_proovedor}</td> {/* Cambiado a "proovedor" */}
+                <td>{producto.producto_proovedor}</td>
                 <td>
                   <button
                     className="botonEditar"
