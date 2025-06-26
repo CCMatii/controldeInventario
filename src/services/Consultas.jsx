@@ -195,8 +195,8 @@ export const modificarProducto = async (producto) => {
   if (producto.nombre) productoData.producto_nombre = producto.nombre; 
   if (producto.descripcion) productoData.producto_descripcion = producto.descripcion; 
   if (producto.proveedor) productoData.producto_proovedor = producto.proveedor; 
+  if (producto.categoria) productoData.producto_categoria = producto.categoria;
 
- 
   if (Object.keys(productoData).length === 0) {
     throw new Error("No se proporcionaron datos para actualizar");
   }
@@ -257,7 +257,7 @@ export const eliminarProducto = async (productoId) => {
 }
 
 export const agregarProducto = async (producto) => {
-  const url = `${urlBase}productos/add?producto_id=${producto.producto_id}&producto_nombre=${encodeURIComponent(producto.producto_nombre)}&producto_descripcion=${encodeURIComponent(producto.producto_descripcion)}&producto_proovedor=${producto.producto_proovedor}`;
+  const url = `${urlBase}productos/add?producto_id=${producto.producto_id}&producto_nombre=${encodeURIComponent(producto.producto_nombre)}&producto_descripcion=${encodeURIComponent(producto.producto_descripcion)}&producto_proovedor=${producto.producto_proovedor}&producto_categoria=${encodeURIComponent(producto.producto_categoria)}`;
 
   const options = {
     method: "POST",
@@ -410,34 +410,6 @@ export const eliminarProveedor = async (proveedorId) => {
     return { success: true };
   } catch (error) {
     console.error("Error capturado al eliminar proveedor:", error);
-    throw error;
-  }
-}
-
-export const listarCargos = async () => {
-  const url = `${urlBase}cargos`;
-
-  const options = {
-    method: "GET",
-    headers: {
-      Accept: "application/json"
-    }
-  };
-
-  try {
-    const response = await fetch(url, options);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Error al listar cargos:", errorText);
-      throw new Error("No se pudo listar los cargos");
-    }
-
-    const result = await response.json();
-    console.log("Lista de cargos:", result);
-    return result;
-  } catch (error) {
-    console.error("Error capturado al listar cargos:", error);
     throw error;
   }
 }
@@ -764,3 +736,237 @@ export const eliminarBodega = async (bodegaId) => {
     throw error;
   }
 }
+
+export const listarCategorias = async () => {
+  const url = `${urlBase}categoria`;
+
+  const options = {
+    method: "GET",
+    headers: {
+      Accept: "application/json"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al listar categorías:", errorText);
+      throw new Error("No se pudo listar las categorías");
+    }
+
+    const result = await response.json();
+    console.log("Lista de categorías:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al listar categorías:", error);
+    throw error;
+  }
+}
+
+export const agregarCategoria = async ({ categoria_nombre, categoria_descripcion }) => {
+  const url = `${urlBase}categoria/add?categoria_nombre=${encodeURIComponent(categoria_nombre)}&categoria_descripcion=${encodeURIComponent(categoria_descripcion)}`;
+
+  const options = {
+    method: "POST",
+    headers: {
+      Accept: "application/json"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al agregar categoría:", errorText);
+      throw new Error("No se pudo agregar la categoría");
+    }
+
+    const result = await response.json();
+    console.log("Categoría agregada exitosamente:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al agregar categoría:", error);
+    throw error;
+  }
+};
+
+export const modificarCategoria = async ({ nombre_original, categoria_nombre, categoria_descripcion }) => {
+  const url = `${urlBase}categoria/update/${encodeURIComponent(nombre_original)}`; // <-- usa /{categoria_nombre}
+
+  const categoriaData = {};
+  if (categoria_nombre) categoriaData.categoria_nombre = categoria_nombre;
+  if (categoria_descripcion) categoriaData.categoria_descripcion = categoria_descripcion;
+
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(categoriaData)
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al modificar categoría:", errorText);
+      throw new Error("No se pudo modificar la categoría");
+    }
+
+    const result = await response.json();
+    console.log("Categoría modificada exitosamente:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al modificar categoría:", error);
+    throw error;
+  }
+};
+
+export const eliminarCategoria = async (categoriaNombre) => {
+  const url = `${urlBase}categoria/delete/${encodeURIComponent(categoriaNombre)}`; // <-- usa /{categoria_nombre}
+
+  const options = {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al eliminar categoría:", errorText);
+      throw new Error("No se pudo eliminar la categoría");
+    }
+
+    console.log(`Categoría ${categoriaNombre} eliminada exitosamente`);
+    return { success: true };
+  } catch (error) {
+    console.error("Error capturado al eliminar categoría:", error);
+    throw error;
+  }
+};
+
+export const listarCargos = async () => {
+  const url = `${urlBase}cargo/`;
+
+  const options = {
+    method: "GET",
+    headers: {
+      Accept: "application/json"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al listar cargos:", errorText);
+      throw new Error("No se pudo listar los cargos");
+    }
+
+    const result = await response.json();
+    console.log("Lista de cargos:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al listar cargos:", error);
+    throw error;
+  }
+};
+
+export const agregarCargo = async ({ cargo_nombre, cargo_descripcion }) => {
+  const url = `${urlBase}cargo/add?cargo_nombre=${encodeURIComponent(cargo_nombre)}&cargo_descripcion=${encodeURIComponent(cargo_descripcion)}`;
+
+  const options = {
+    method: "POST",
+    headers: {
+      Accept: "application/json"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al agregar cargo:", errorText);
+      throw new Error("No se pudo agregar el cargo");
+    }
+
+    const result = await response.json();
+    console.log("Cargo agregado exitosamente:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al agregar cargo:", error);
+    throw error;
+  }
+};
+
+export const modificarCargo = async ({ nombre_original, cargo_nombre, cargo_descripcion }) => {
+  const url = `${urlBase}cargo/update/${encodeURIComponent(nombre_original)}`;
+
+  const cargoData = {};
+  if (cargo_nombre) cargoData.cargo_nombre = cargo_nombre;
+  if (cargo_descripcion) cargoData.cargo_descripcion = cargo_descripcion;
+
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify(cargoData)
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al modificar cargo:", errorText);
+      throw new Error("No se pudo modificar el cargo");
+    }
+
+    const result = await response.json();
+    console.log("Cargo modificado exitosamente:", result);
+    return result;
+  } catch (error) {
+    console.error("Error capturado al modificar cargo:", error);
+    throw error;
+  }
+};
+
+export const eliminarCargo = async (cargoNombre) => {
+  const url = `${urlBase}cargo/delete/${encodeURIComponent(cargoNombre)}`;
+
+  const options = {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json"
+    }
+  };
+
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error al eliminar cargo:", errorText);
+      throw new Error("No se pudo eliminar el cargo");
+    }
+
+    console.log(`Cargo ${cargoNombre} eliminado exitosamente`);
+    return { success: true };
+  } catch (error) {
+    console.error("Error capturado al eliminar cargo:", error);
+    throw error;
+  }
+};

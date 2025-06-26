@@ -3,7 +3,7 @@ import { listarProductos, listarBodegas, agregarMovimiento } from "../services/c
 import { ContextoAutenticacion } from "../context/auntenticarContext";
 import "./MovimientoModal.css";
 
-function MovimientoModal({ visible, actualizaVisibilidad }) {
+function MovimientoModal({ visible, actualizaVisibilidad, onMovimientoRealizado }) {
   const { credenciales } = useContext(ContextoAutenticacion);
   const [productos, setProductos] = useState([]);
   const [bodegas, setBodegas] = useState([]);
@@ -66,6 +66,10 @@ function MovimientoModal({ visible, actualizaVisibilidad }) {
 
       const respuesta = await agregarMovimiento(movimiento);
       console.log("Movimiento registrado:", respuesta);
+
+      if (onMovimientoRealizado) {
+        onMovimientoRealizado();
+      }
 
       cerrarModal();
     } catch (error) {

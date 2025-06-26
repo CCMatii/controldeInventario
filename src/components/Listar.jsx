@@ -1,6 +1,7 @@
 import React from "react";
 import { listarUsuarios, eliminarUsuario, modificarUsuario, agregarUsuario, listarCargos } from "../services/consultas";
 import CryptoJS from "crypto-js";
+import ListarCargos from "./ListarCargos";
 import "./Listar.css";
 
 function Listar({ visible, actualizaVisibilidad }) {
@@ -17,6 +18,7 @@ function Listar({ visible, actualizaVisibilidad }) {
   const [nuevaContrasenaAgregar, setNuevaContrasenaAgregar] = React.useState("");
   const [nuevoCargoAgregar, setNuevoCargoAgregar] = React.useState("");
   const [nuevoIdAgregar, setNuevoIdAgregar] = React.useState(""); // Nuevo estado para el ID
+  const [modalCargos, setModalCargos] = React.useState(false); // <-- Nuevo estado
 
   const handleListarUsuarios = async () => {
     try {
@@ -144,7 +146,10 @@ function Listar({ visible, actualizaVisibilidad }) {
       <div className="listar-modal-contenido">
         <button className="listar-modal-cerrar" onClick={() => actualizaVisibilidad(false)}>✖️</button>
         <h2 className="title-listausuario">Lista de Usuarios</h2>
-        <button className="agregarbutton" onClick={abrirModalAgregar}>Agregar Usuario</button>
+        <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+          <button className="agregarbutton" onClick={abrirModalAgregar}>Agregar Usuario</button>
+          <button className="agregarbutton" onClick={() => setModalCargos(true)}>Ver Cargos</button>
+        </div>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <table className="tabla-usuarios">
           <thead>
@@ -285,6 +290,7 @@ function Listar({ visible, actualizaVisibilidad }) {
             </div>
           </div>
         )}
+        <ListarCargos visible={modalCargos} onClose={() => setModalCargos(false)} />
       </div>
     </div>
   );

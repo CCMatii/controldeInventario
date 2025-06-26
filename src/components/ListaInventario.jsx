@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { listarInventario, agregarInventario, eliminarInventario, listarProductos, eliminarCantidadInventario } from "../services/consultas";
-import "./Inventario.css";
+import { listarInventario, agregarInventario, eliminarInventario, listarProductos, eliminarCantidadInventario, listarBodegas } from "../services/consultas";
+import "./ListaInventario.css";
 import MovimientoModal from "./MovimientoModal";
 
 function ListaInventario({ visible }) {
@@ -16,6 +16,8 @@ function ListaInventario({ visible }) {
   const [eliminarBodegaId, setEliminarBodegaId] = useState("");
   const [cantidadAEliminar, setCantidadAEliminar] = useState("");
   const [modalMovimientoVisible, setModalMovimientoVisible] = useState(false);
+  const [bodegas, setBodegas] = useState([]); // NUEVO
+  const [bodegaFiltro, setBodegaFiltro] = useState(""); // NUEVO
 
   const fetchInventario = async () => {
         try {
@@ -35,10 +37,20 @@ function ListaInventario({ visible }) {
         }
       };
 
+      const fetchBodegas = async () => {
+        try {
+          const resultado = await listarBodegas();
+          setBodegas(resultado);
+        } catch (err) {
+          setError("No se pudieron listar las bodegas. Inténtalo de nuevo.");
+        }
+      };
+
   useEffect(() => {
     if (visible) {
       fetchInventario();
       fetchProductos();
+      fetchBodegas(); // NUEVO
     }
   }, [visible]);
 
@@ -171,19 +183,36 @@ function ListaInventario({ visible }) {
     fetchProductos();
   };
 
+  // Filtra el inventario según la bodega seleccionada
+  const inventarioFiltrado = bodegaFiltro
+    ? inventario.filter((item) => String(item.bodega_id) === String(bodegaFiltro))
+    : inventario;
+
   if (!visible) return null;
 
   return (
     <div className="inventario">
       <h2 className="inventario-title">Gestión de Inventario</h2>
       <div className="inventario-botones">
-        <button onClick={abrirModalAgregar} style={{ marginBottom: "10px" }}>
-          Agregar producto a Inventario
+        <button className="agreg" onClick={abrirModalAgregar} style={{ marginBottom: "10px" }}>
+          Agregar a inventario
         </button>
-        <button onClick={abrirModalMovimiento}>Registrar Movimiento</button>
-        <button onClick={handleActualizar} title="Actualizar Inventario" style={{ marginLeft: "10px" }}>
-          🔄 Actualizar
-        </button>
+        <button className="agreg" onClick={abrirModalMovimiento}>Registrar Movimiento</button>
+        <div className="inventario-filtro">
+        <label htmlFor="bodegaFiltro">Filtrar por Bodega:</label>
+        <select
+          value={bodegaFiltro}
+          onChange={(e) => setBodegaFiltro(e.target.value)}
+          style={{ marginLeft: "10px" }}
+        >
+          <option value="">Todas las bodegas</option>
+          {bodegas.map((bodega) => (
+            <option key={bodega.bodega_id} value={bodega.bodega_id}>
+              {bodega.bodega_nombre || bodega.bodega_id}
+            </option>
+          ))}
+        </select>
+        </div>
       </div>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <table className="tabla-inventario">
@@ -192,35 +221,38 @@ function ListaInventario({ visible }) {
             <th>ID del Producto</th>
             <th>Nombre del Producto</th>
             <th>Cantidad</th>
-            <th>ID de bodega</th>
+            <th>Bodega</th> {/* Cambia el encabezado */}
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {inventario.map((item) => (
-            <tr key={item.inventario_id}>
-              <td>{item.producto_id}</td>
-              <td>{item.producto_nombre}</td>
-              <td>{item.inventario_cantidad}</td>
-              <td>{item.bodega_id}</td>
-              <td>
-                <button
-                  className="botonEliminar"
-                  onClick={() => handleEliminarInventario(item.inventario_id)}
-                  title="Eliminar"
-                >
-                  ✖️
-                </button>
-                <button
-                  className="botonEliminarCantidad"
-                  onClick={() => abrirModalEliminar(item)}
-                  title="Eliminar Cantidad"
-                >
-                  ➖
-                </button>
-              </td>
-            </tr>
-          ))}
+          {inventarioFiltrado.map((item) => {
+            const bodega = bodegas.find(b => String(b.bodega_id) === String(item.bodega_id));
+            return (
+              <tr key={item.inventario_id}>
+                <td>{item.producto_id}</td>
+                <td>{item.producto_nombre}</td>
+                <td>{item.inventario_cantidad}</td>
+                <td>{bodega ? bodega.bodega_nombre : item.bodega_id}</td> {/* Muestra el nombre o el id si no se encuentra */}
+                <td>
+                  <button
+                    className="botonEliminar"
+                    onClick={() => handleEliminarInventario(item.inventario_id)}
+                    title="Eliminar"
+                  >
+                    ✖️
+                  </button>
+                  <button
+                    className="botonEliminarCantidad"
+                    onClick={() => abrirModalEliminar(item)}
+                    title="Eliminar Cantidad"
+                  >
+                    ➖
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 
@@ -274,7 +306,6 @@ function ListaInventario({ visible }) {
         </div>
       )}
 
-      {/* Modal Eliminar */}
       {modalEliminar && (
         <div className="inventario-modal-fondo">
           <div className="inventario-modal-contenido">
@@ -311,6 +342,7 @@ function ListaInventario({ visible }) {
       <MovimientoModal
         visible={modalMovimientoVisible}
         actualizaVisibilidad={cerrarModalMovimiento}
+        onMovimientoRealizado={handleActualizar}
       />
     </div>
   );

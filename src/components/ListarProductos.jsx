@@ -1,9 +1,11 @@
-import React from "react";
-import { listarProductos, eliminarProducto, modificarProducto, agregarProducto } from "../services/consultas";
+import React, { useState } from "react";
+import { listarProductos, eliminarProducto, modificarProducto, agregarProducto, listarCategorias } from "../services/consultas";
+import ListarCategorias from "./ListarCategorias";
 import "./ListarProductos.css";
 
 function ListarProductos({ visible, actualizaVisibilidad }) {
   const [productos, setProductos] = React.useState([]);
+  const [categorias, setCategorias] = React.useState([]);
   const [error, setError] = React.useState("");
   const [modalAbierto, setModalAbierto] = React.useState(false);
   const [productoEdit, setProductoEdit] = React.useState(null);
@@ -15,6 +17,16 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
   const [nuevoNombreAgregar, setNuevoNombreAgregar] = React.useState("");
   const [nuevaDescripcionAgregar, setNuevaDescripcionAgregar] = React.useState("");
   const [nuevoProovedorAgregar, setNuevoProovedorAgregar] = React.useState("");
+  const [nuevoCategoria, setNuevoCategoria] = React.useState("");
+  const [modalCategorias, setModalCategorias] = useState(false);
+
+  // Cargar productos y categorías al abrir el modal
+  React.useEffect(() => {
+    if (visible) {
+      handleListarProductos();
+      handleListarCategorias();
+    }
+  }, [visible]);
 
   const handleListarProductos = async () => {
     try {
@@ -22,6 +34,15 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
       setProductos(resultado);
     } catch (error) {
       setError("No se pudo listar los productos. Inténtalo de nuevo.");
+    }
+  };
+
+  const handleListarCategorias = async () => {
+    try {
+      const resultado = await listarCategorias();
+      setCategorias(resultado);
+    } catch (error) {
+      setError("No se pudieron cargar las categorías.");
     }
   };
 
@@ -39,6 +60,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setNuevoNombre(producto.producto_nombre);
     setNuevaDescripcion(producto.producto_descripcion);
     setNuevoProovedor(producto.producto_proovedor);
+    setNuevoCategoria(producto.producto_categoria);
     setModalAbierto(true);
   };
 
@@ -48,6 +70,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setNuevoNombre("");
     setNuevaDescripcion("");
     setNuevoProovedor("");
+    setNuevoCategoria("");
   };
 
   const handleGuardar = async (e) => {
@@ -58,11 +81,18 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
         nombre: nuevoNombre,
         descripcion: nuevaDescripcion,
         proovedor: nuevoProovedor,
+        categoria: nuevoCategoria,
       });
       setProductos(
         productos.map((p) =>
           p.producto_id === productoEdit.producto_id
-            ? { ...p, producto_nombre: nuevoNombre, producto_descripcion: nuevaDescripcion, producto_proovedor: nuevoProovedor }
+            ? {
+                ...p,
+                producto_nombre: nuevoNombre,
+                producto_descripcion: nuevaDescripcion,
+                producto_proovedor: nuevoProovedor,
+                producto_categoria: nuevoCategoria,
+              }
             : p
         )
       );
@@ -77,6 +107,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setNuevoNombreAgregar("");
     setNuevaDescripcionAgregar("");
     setNuevoProovedorAgregar("");
+    setNuevoCategoria("");
     setModalAgregar(true);
   };
 
@@ -86,6 +117,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setNuevoNombreAgregar("");
     setNuevaDescripcionAgregar("");
     setNuevoProovedorAgregar("");
+    setNuevoCategoria("");
   };
 
   const handleAgregarProducto = async (e) => {
@@ -101,6 +133,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
         producto_nombre: nuevoNombreAgregar,
         producto_descripcion: nuevaDescripcionAgregar,
         producto_proovedor: parseInt(nuevoProovedorAgregar, 10),
+        producto_categoria: nuevoCategoria,
       });
       setProductos([...productos, nuevoProducto]);
       cerrarModalAgregar();
@@ -110,12 +143,6 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     }
   };
 
-  React.useEffect(() => {
-    if (visible) {
-      handleListarProductos();
-    }
-  }, [visible]);
-
   if (!visible) return null;
 
   return (
@@ -123,7 +150,10 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
       <div className="listar-modal-contenido">
         <button className="listar-modal-cerrar" onClick={() => actualizaVisibilidad(false)}>✖️</button>
         <h2 className="title-listaproductos">Lista de Productos</h2>
-        <button className="agregarbutton" onClick={abrirModalAgregar}>Agregar Producto</button>
+        <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+          <button className="agregarbutton" onClick={abrirModalAgregar}>Agregar Producto</button>
+          <button className="agregarbutton" onClick={() => setModalCategorias(true)}>Ver Categorías</button>
+        </div>
         {error && <p style={{ color: "red" }}>{error}</p>}
         <table className="tabla-productos">
           <thead>
@@ -131,7 +161,9 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
               <th>ID</th>
               <th>Nombre</th>
               <th>Descripción</th>
-              <th>Proovedor</th> 
+              <th>Proveedor</th>
+              <th>Categoría</th>
+              <th>Cantidad total</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -142,6 +174,8 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                 <td>{producto.producto_nombre}</td>
                 <td>{producto.producto_descripcion}</td>
                 <td>{producto.producto_proovedor}</td>
+                <td>{producto.producto_categoria}</td>
+                <td>{producto.cantidad_total}</td>
                 <td>
                   <button
                     className="botonEditar"
@@ -203,6 +237,21 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                     required
                   />
                 </label>
+                <label>
+                  Categoría:
+                  <select
+                    value={nuevoCategoria}
+                    onChange={(e) => setNuevoCategoria(e.target.value)}
+                    required
+                  >
+                    <option value="">Seleccione una categoría</option>
+                    {categorias.map((cat) => (
+                      <option key={cat.categoria_id || cat} value={cat.categoria_nombre || cat}>
+                        {cat.categoria_nombre || cat}
+                      </option>
+                    ))}
+                  </select>
+                </label>
                 <div className="listar-modal-agregar-acciones">
                   <button type="submit" className="listar-modal-agregar-btn-guardar">Agregar</button>
                   <button type="button" className="listar-modal-agregar-btn-cancelar" onClick={cerrarModalAgregar}>
@@ -246,6 +295,21 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                     required
                   />
                 </label>
+                <label>
+                  Categoría:
+                  <select
+                    value={nuevoCategoria}
+                    onChange={(e) => setNuevoCategoria(e.target.value)}
+                    required
+                  >
+                    <option value="">Seleccione una categoría</option>
+                    {categorias.map((cat) => (
+                      <option key={cat.categoria_id || cat} value={cat.categoria_nombre || cat}>
+                        {cat.categoria_nombre || cat}
+                      </option>
+                    ))}
+                  </select>
+                </label>
                 <div className="modal-acciones">
                   <button type="submit">Guardar</button>
                   <button type="button" onClick={cerrarModal}>
@@ -256,6 +320,10 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
             </div>
           </div>
         )}
+        <ListarCategorias
+          visible={modalCategorias}
+          onClose={() => setModalCategorias(false)}
+        />
       </div>
     </div>
   );

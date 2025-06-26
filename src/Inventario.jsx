@@ -7,6 +7,7 @@ import ListaInventario from './components/ListaInventario';
 import ListarProductos from './components/ListarProductos';
 import ListMovimientos from './components/ListaMovimentos';
 import ListaBodega from './components/ListaBodega';
+import './Inventario.css';
 
 const InventarioApp = () => {
   const { estaAutenticado, credenciales } = useContext(ContextoAutenticacion);
@@ -30,14 +31,17 @@ const InventarioApp = () => {
         <div className="contenido-inventario">
           {credenciales.cargo_nombre === "Administrador" && (
             <>
-              <button onClick={() => toggleVisibilidad('listar')}>Manejo de Usuarios</button>
-              <button onClick={() => toggleVisibilidad('listarProvee')}>Manejo de Proveedores</button>
-              <button onClick={() => toggleVisibilidad('bodega')}>Manejo de Bodegas</button>
+              <button className='btn btn-moving-gradient btn-moving-gradient--blue' onClick={() => toggleVisibilidad('listar')}>Manejo de Usuarios</button>
+              <button className='btn btn-moving-gradient btn-moving-gradient--blue' onClick={() => toggleVisibilidad('listarProvee')}>Manejo de Proveedores</button>
+              <button className='btn btn-moving-gradient btn-moving-gradient--blue' onClick={() => toggleVisibilidad('bodega')}>Manejo de Bodegas</button>
             </>
           )}
-          <button onClick={() => toggleVisibilidad('productos')}>Manejo de Productos</button>
-          <button onClick={() => toggleVisibilidad('movimientos')}>Movimientos Realizados</button>
-          <ListaInventario visible={true} />
+          <button className='btn btn-moving-gradient btn-moving-gradient--blue' onClick={() => toggleVisibilidad('productos')}>Manejo de Productos</button>
+          <button className='btn btn-moving-gradient btn-moving-gradient--blue' onClick={() => toggleVisibilidad('movimientos')}>Movimientos Realizados</button>
+          <div className='inventario-lista'>
+            <ListaInventario visible={true} />
+          </div>
+          
         </div>
       ) : (
         <Login visible={true} actualizaVisibilidad={() => {}} />
