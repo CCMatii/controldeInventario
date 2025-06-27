@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { listarProductos, eliminarProducto, modificarProducto, agregarProducto, listarCategorias } from "../services/consultas";
+import { listarProductos, eliminarProducto, modificarProducto, agregarProducto, listarCategorias, listarProveedores } from "../services/consultas";
 import ListarCategorias from "./ListarCategorias";
 import "./ListarProductos.css";
 
 function ListarProductos({ visible, actualizaVisibilidad }) {
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  const [error, setError] = useState("");
+  const [proveedores, setProveedores] = useState([]);
+  const [errorGeneral, setErrorGeneral] = useState(""); // Para errores generales
+  const [errorAgregar, setErrorAgregar] = useState(""); // Para modal agregar
+  const [errorModificar, setErrorModificar] = useState(""); // Para modal modificar
   const [modalAbierto, setModalAbierto] = useState(false);
   const [productoEdit, setProductoEdit] = useState(null);
   const [nuevoNombre, setNuevoNombre] = useState("");
   const [nuevaDescripcion, setNuevaDescripcion] = useState("");
   const [nuevoProovedor, setNuevoProovedor] = useState("");
+  const [nuevoCategoria, setNuevoCategoria] = useState("");
   const [modalAgregar, setModalAgregar] = useState(false);
   const [nuevoNombreAgregar, setNuevoNombreAgregar] = useState("");
   const [nuevaDescripcionAgregar, setNuevaDescripcionAgregar] = useState("");
   const [nuevoProovedorAgregar, setNuevoProovedorAgregar] = useState("");
-  const [nuevoCategoria, setNuevoCategoria] = useState("");
   const [modalCategorias, setModalCategorias] = useState(false);
 
   // Restricciones
@@ -34,6 +37,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     if (visible) {
       handleListarProductos();
       handleListarCategorias();
+      handleListarProveedores(); // Nuevo
     }
   }, [visible]);
 
@@ -42,7 +46,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
       const resultado = await listarProductos();
       setProductos(resultado);
     } catch (error) {
-      setError("No se pudo listar los productos. Inténtalo de nuevo.");
+      setErrorGeneral("No se pudo listar los productos. Inténtalo de nuevo.");
     }
   };
 
@@ -51,7 +55,16 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
       const resultado = await listarCategorias();
       setCategorias(resultado);
     } catch (error) {
-      setError("No se pudieron cargar las categorías.");
+      setErrorGeneral("No se pudieron cargar las categorías.");
+    }
+  };
+
+  const handleListarProveedores = async () => {
+    try {
+      const resultado = await listarProveedores();
+      setProveedores(resultado);
+    } catch (error) {
+      setErrorGeneral("No se pudieron cargar los proveedores.");
     }
   };
 
@@ -60,28 +73,8 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
       await eliminarProducto(productoId);
       setProductos(productos.filter((producto) => producto.producto_id !== productoId));
     } catch (error) {
-      setError("No se pudo eliminar el producto. Inténtalo de nuevo.");
+      setErrorGeneral("No se pudo eliminar el producto. Inténtalo de nuevo.");
     }
-  };
-
-  const abrirModal = (producto) => {
-    setProductoEdit(producto);
-    setNuevoNombre(producto.producto_nombre);
-    setNuevaDescripcion(producto.producto_descripcion);
-    setNuevoProovedor(producto.producto_proovedor);
-    setNuevoCategoria(producto.producto_categoria);
-    setError("");
-    setModalAbierto(true);
-  };
-
-  const cerrarModal = () => {
-    setModalAbierto(false);
-    setProductoEdit(null);
-    setNuevoNombre("");
-    setNuevaDescripcion("");
-    setNuevoProovedor("");
-    setNuevoCategoria("");
-    setError("");
   };
 
   const handleGuardar = async (e) => {
@@ -92,7 +85,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
       !validarProveedor(nuevoProovedor) ||
       !nuevoCategoria
     ) {
-      setError("Verifica que todos los campos sean válidos. Nombre y descripción mínimo 3 caracteres, sin comenzar con espacio o carácter especial. Proveedor debe ser un número positivo. Selecciona una categoría.");
+      setErrorModificar("Verifica que todos los campos sean válidos. Nombre y descripción mínimo 3 caracteres, sin comenzar con espacio o carácter especial. Selecciona un proveedor y categoria.");
       return;
     }
     try {
@@ -118,8 +111,28 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
       );
       cerrarModal();
     } catch (error) {
-      setError("No se pudo modificar el producto. Inténtalo de nuevo.");
+      setErrorModificar("No se pudo modificar el producto. Inténtalo de nuevo.");
     }
+  };
+
+  const abrirModal = (producto) => {
+    setProductoEdit(producto);
+    setNuevoNombre(producto.producto_nombre);
+    setNuevaDescripcion(producto.producto_descripcion);
+    setNuevoProovedor(producto.producto_proovedor);
+    setNuevoCategoria(producto.producto_categoria);
+    setErrorModificar(""); // Limpiar error del modal modificar
+    setModalAbierto(true);
+  };
+
+  const cerrarModal = () => {
+    setModalAbierto(false);
+    setProductoEdit(null);
+    setNuevoNombre("");
+    setNuevaDescripcion("");
+    setNuevoProovedor("");
+    setNuevoCategoria("");
+    setErrorModificar("");
   };
 
   const abrirModalAgregar = () => {
@@ -127,7 +140,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setNuevaDescripcionAgregar("");
     setNuevoProovedorAgregar("");
     setNuevoCategoria("");
-    setError("");
+    setErrorAgregar(""); // Limpiar error del modal agregar
     setModalAgregar(true);
   };
 
@@ -137,7 +150,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setNuevaDescripcionAgregar("");
     setNuevoProovedorAgregar("");
     setNuevoCategoria("");
-    setError("");
+    setErrorAgregar("");
   };
 
   const handleAgregarProducto = async (e) => {
@@ -148,7 +161,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
       !validarProveedor(nuevoProovedorAgregar) ||
       !nuevoCategoria
     ) {
-      setError("Verifica que todos los campos sean válidos. Nombre y descripción mínimo 3 caracteres, sin comenzar con espacio o carácter especial. Proveedor debe ser un número positivo. Selecciona una categoría.");
+      setErrorAgregar("Verifica que todos los campos sean válidos. Nombre y descripción mínimo 3 caracteres, sin comenzar con espacio o carácter especial. Selecciona un proveedor y categoría.");
       return;
     }
     try {
@@ -161,7 +174,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
       setProductos([...productos, nuevoProducto]);
       cerrarModalAgregar();
     } catch (error) {
-      setError("No se pudo agregar el producto. Inténtalo de nuevo.");
+      setErrorAgregar("No se pudo agregar el producto. Inténtalo de nuevo.");
       console.error(error);
     }
   };
@@ -177,7 +190,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
           <button className="agregarbutton" onClick={abrirModalAgregar}>Agregar Producto</button>
           <button className="agregarbutton" onClick={() => setModalCategorias(true)}>Ver Categorías</button>
         </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {errorGeneral && <p style={{ color: "red" }}>{errorGeneral}</p>}
         <table className="tabla-productos">
           <thead>
             <tr>
@@ -224,6 +237,9 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
           <div className="listar-modal-agregar-fondo">
             <div className="listar-modal-agregar-contenido">
               <h3>Agregar Producto</h3>
+              {errorAgregar && (
+                  <div style={{ color: "red", marginBottom: 8 }}>{errorAgregar}</div>
+                )}
               <form onSubmit={handleAgregarProducto}>
                 <label>
                   Nombre:
@@ -251,16 +267,21 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                 </label>
                 <label>
                   Proveedor:
-                  <input
-                    type="number"
-                    min="1"
+                  <select
                     value={nuevoProovedorAgregar}
                     onChange={(e) => {
                       setNuevoProovedorAgregar(e.target.value);
                       setError("");
                     }}
                     required
-                  />
+                  >
+                    <option value="">Seleccione un proveedor</option>
+                    {proveedores.map((prov) => (
+                      <option key={prov.proveedor_id} value={prov.proveedor_id}>
+                        {prov.proveedor_nombre}
+                      </option>
+                    ))}
+                  </select>
                 </label>
                 <label>
                   Categoría:
@@ -292,6 +313,9 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
           <div className="modal-fondo">
             <div className="modal-contenido">
               <h3>Modificar Producto</h3>
+              {errorModificar && (
+                  <div style={{ color: "red", marginBottom: 8 }}>{errorModificar}</div>
+                )}
               <form onSubmit={handleGuardar}>
                 <label>
                   Nombre:
@@ -319,16 +343,21 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                 </label>
                 <label>
                   Proveedor:
-                  <input
-                    type="number"
-                    min="1"
+                  <select
                     value={nuevoProovedor}
                     onChange={(e) => {
                       setNuevoProovedor(e.target.value);
                       setError("");
                     }}
                     required
-                  />
+                  >
+                    <option value="">Seleccione un proveedor</option>
+                    {proveedores.map((prov) => (
+                      <option key={prov.proveedor_id} value={prov.proveedor_id}>
+                        {prov.proveedor_nombre}
+                      </option>
+                    ))}
+                  </select>
                 </label>
                 <label>
                   Categoría:
@@ -345,6 +374,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                     ))}
                   </select>
                 </label>
+                
                 <div className="modal-acciones">
                   <button type="submit">Guardar</button>
                   <button type="button" onClick={cerrarModal}>

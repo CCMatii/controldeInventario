@@ -17,6 +17,7 @@ function ListarCategorias({ visible, onClose }) {
   useEffect(() => {
     if (visible) {
       cargarCategorias();
+      setErrorGeneral("");
     }
   }, [visible]);
 

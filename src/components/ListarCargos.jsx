@@ -70,6 +70,10 @@ function ListarCargos({ visible, onClose }) {
       setErrorAgregar("El nombre debe tener al menos 3 caracteres.");
       return;
     }
+    if (!descripcion.trim()) {
+      setErrorAgregar("La descripción es obligatoria.");
+      return;
+    }
     try {
       await agregarCargo({ cargo_nombre: nombre, cargo_descripcion: descripcion });
       await cargarCargos();
