@@ -19,6 +19,17 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
   const [nuevoCategoria, setNuevoCategoria] = useState("");
   const [modalCategorias, setModalCategorias] = useState(false);
 
+  // Restricciones
+  const campoValido = (valor) => {
+    const val = valor.trim();
+    return (
+      val.length >= 3 &&
+      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ]/.test(val) &&
+      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ .,'-]+$/.test(val)
+    );
+  };
+  const validarProveedor = (prov) => /^\d+$/.test(prov.trim()) && parseInt(prov, 10) > 0;
+
   useEffect(() => {
     if (visible) {
       handleListarProductos();
@@ -59,6 +70,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setNuevaDescripcion(producto.producto_descripcion);
     setNuevoProovedor(producto.producto_proovedor);
     setNuevoCategoria(producto.producto_categoria);
+    setError("");
     setModalAbierto(true);
   };
 
@@ -69,16 +81,26 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setNuevaDescripcion("");
     setNuevoProovedor("");
     setNuevoCategoria("");
+    setError("");
   };
 
   const handleGuardar = async (e) => {
     e.preventDefault();
+    if (
+      !campoValido(nuevoNombre) ||
+      !campoValido(nuevaDescripcion) ||
+      !validarProveedor(nuevoProovedor) ||
+      !nuevoCategoria
+    ) {
+      setError("Verifica que todos los campos sean válidos. Nombre y descripción mínimo 3 caracteres, sin comenzar con espacio o carácter especial. Proveedor debe ser un número positivo. Selecciona una categoría.");
+      return;
+    }
     try {
       await modificarProducto({
         id: productoEdit.producto_id,
-        nombre: nuevoNombre,
-        descripcion: nuevaDescripcion,
-        proovedor: nuevoProovedor,
+        nombre: nuevoNombre.trim(),
+        descripcion: nuevaDescripcion.trim(),
+        proovedor: parseInt(nuevoProovedor, 10),
         categoria: nuevoCategoria,
       });
       setProductos(
@@ -86,9 +108,9 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
           p.producto_id === productoEdit.producto_id
             ? {
                 ...p,
-                producto_nombre: nuevoNombre,
-                producto_descripcion: nuevaDescripcion,
-                producto_proovedor: nuevoProovedor,
+                producto_nombre: nuevoNombre.trim(),
+                producto_descripcion: nuevaDescripcion.trim(),
+                producto_proovedor: parseInt(nuevoProovedor, 10),
                 producto_categoria: nuevoCategoria,
               }
             : p
@@ -105,6 +127,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setNuevaDescripcionAgregar("");
     setNuevoProovedorAgregar("");
     setNuevoCategoria("");
+    setError("");
     setModalAgregar(true);
   };
 
@@ -114,14 +137,24 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
     setNuevaDescripcionAgregar("");
     setNuevoProovedorAgregar("");
     setNuevoCategoria("");
+    setError("");
   };
 
   const handleAgregarProducto = async (e) => {
     e.preventDefault();
+    if (
+      !campoValido(nuevoNombreAgregar) ||
+      !campoValido(nuevaDescripcionAgregar) ||
+      !validarProveedor(nuevoProovedorAgregar) ||
+      !nuevoCategoria
+    ) {
+      setError("Verifica que todos los campos sean válidos. Nombre y descripción mínimo 3 caracteres, sin comenzar con espacio o carácter especial. Proveedor debe ser un número positivo. Selecciona una categoría.");
+      return;
+    }
     try {
       const nuevoProducto = await agregarProducto({
-        producto_nombre: nuevoNombreAgregar,
-        producto_descripcion: nuevaDescripcionAgregar,
+        producto_nombre: nuevoNombreAgregar.trim(),
+        producto_descripcion: nuevaDescripcionAgregar.trim(),
         producto_proovedor: parseInt(nuevoProovedorAgregar, 10),
         producto_categoria: nuevoCategoria,
       });
@@ -197,7 +230,10 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevoNombreAgregar}
-                    onChange={(e) => setNuevoNombreAgregar(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoNombreAgregar(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -206,7 +242,10 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevaDescripcionAgregar}
-                    onChange={(e) => setNuevaDescripcionAgregar(e.target.value)}
+                    onChange={(e) => {
+                      setNuevaDescripcionAgregar(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -214,8 +253,12 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                   Proveedor:
                   <input
                     type="number"
+                    min="1"
                     value={nuevoProovedorAgregar}
-                    onChange={(e) => setNuevoProovedorAgregar(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoProovedorAgregar(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -255,7 +298,10 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevoNombre}
-                    onChange={(e) => setNuevoNombre(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoNombre(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -264,16 +310,23 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevaDescripcion}
-                    onChange={(e) => setNuevaDescripcion(e.target.value)}
+                    onChange={(e) => {
+                      setNuevaDescripcion(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
                 <label>
                   Proveedor:
                   <input
-                    type="text"
+                    type="number"
+                    min="1"
                     value={nuevoProovedor}
-                    onChange={(e) => setNuevoProovedor(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoProovedor(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>

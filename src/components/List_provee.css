@@ -208,3 +208,9 @@
 .proveedor-modal-agregar-btn-cancelar:hover {
   background: #424242;
 }
+
+.proveedor-error-modal {
+  color: red;
+  margin: 10px 0;
+  font-weight: bold;
+}

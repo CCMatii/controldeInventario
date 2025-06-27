@@ -194,7 +194,8 @@ function Listar({ visible, actualizaVisibilidad }) {
                 <label>
                   ID:
                   <input
-                    type="text"
+                    type="number"
+                    min="1"
                     value={nuevoIdAgregar}
                     onChange={(e) => setNuevoIdAgregar(e.target.value)}
                     required

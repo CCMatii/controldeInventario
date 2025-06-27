@@ -6,7 +6,7 @@ function Productos({ visible }) {
   const [productos, setProductos] = useState([]);
   const [error, setError] = useState("");
   const [modalAbierto, setModalAbierto] = useState(false);
-  const [modalAgregar, setModalAgregar] = useState(false); // Nuevo estado para agregar
+  const [modalAgregar, setModalAgregar] = useState(false);
   const [productoEdit, setProductoEdit] = useState(null);
   const [nuevoNombre, setNuevoNombre] = useState("");
   const [nuevaDescripcion, setNuevaDescripcion] = useState("");
@@ -17,7 +17,19 @@ function Productos({ visible }) {
   const [agregarDescripcion, setAgregarDescripcion] = useState("");
   const [agregarBodega, setAgregarBodega] = useState("");
   const [agregarProveedor, setAgregarProveedor] = useState("");
-  const [agregarId, setAgregarId] = useState(""); // Nuevo estado para el ID
+  const [agregarId, setAgregarId] = useState("");
+
+  // Restricciones
+  const campoValido = (valor) => {
+    const val = valor.trim();
+    return (
+      val.length >= 3 &&
+      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ]/.test(val) &&
+      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ .,'-]+$/.test(val)
+    );
+  };
+  const validarId = (id) => /^\d+$/.test(id.trim()) && parseInt(id, 10) > 0;
+  const validarProveedor = (prov) => /^\d+$/.test(prov.trim()) && parseInt(prov, 10) > 0;
 
   useEffect(() => {
     if (visible) {
@@ -52,11 +64,12 @@ function Productos({ visible }) {
   };
 
   const abrirModalAgregar = () => {
-    setAgregarId(""); // Limpiar el ID al abrir el modal
+    setAgregarId("");
     setAgregarNombre("");
     setAgregarDescripcion("");
     setAgregarBodega("");
     setAgregarProveedor("");
+    setError("");
     setModalAgregar(true);
   };
 
@@ -67,10 +80,18 @@ function Productos({ visible }) {
     setAgregarDescripcion("");
     setAgregarBodega("");
     setAgregarProveedor("");
+    setError("");
   };
 
   const handleGuardar = async (e) => {
     e.preventDefault();
+    if (
+      !campoValido(nuevoNombre) ||
+      !campoValido(nuevaDescripcion)
+    ) {
+      setError("Nombre y descripción deben tener al menos 3 caracteres, no comenzar con espacio o carácter especial, y solo contener letras, números y espacios.");
+      return;
+    }
     try {
       await modificarProducto({
         id: productoEdit.producto_id,
@@ -109,12 +130,22 @@ function Productos({ visible }) {
 
   const handleAgregarProducto = async (e) => {
     e.preventDefault();
+    if (
+      !validarId(agregarId) ||
+      !campoValido(agregarNombre) ||
+      !campoValido(agregarDescripcion) ||
+      !agregarBodega.trim() ||
+      !validarProveedor(agregarProveedor)
+    ) {
+      setError("Verifica que todos los campos sean válidos. ID y Proveedor deben ser números positivos. Nombre y descripción mínimo 3 caracteres, sin comenzar con espacio o carácter especial.");
+      return;
+    }
     try {
       const nuevoProducto = {
-        producto_id: agregarId,
-        producto_nombre: agregarNombre,
-        producto_descripcion: agregarDescripcion,
-        producto_bodega: agregarBodega,
+        producto_id: agregarId.trim(),
+        producto_nombre: agregarNombre.trim(),
+        producto_descripcion: agregarDescripcion.trim(),
+        producto_bodega: agregarBodega.trim(),
         producto_proovedor: Number(agregarProveedor),
       };
       const productoAgregado = await agregarProducto(nuevoProducto);
@@ -234,7 +265,8 @@ function Productos({ visible }) {
               <label>
                 ID:
                 <input
-                  type="text"
+                  type="number"
+                  min="1"
                   value={agregarId}
                   onChange={(e) => setAgregarId(e.target.value)}
                   required
@@ -270,7 +302,8 @@ function Productos({ visible }) {
               <label>
                 Proveedor:
                 <input
-                  type="text"
+                  type="number"
+                  min="1"
                   value={agregarProveedor}
                   onChange={(e) => setAgregarProveedor(e.target.value)}
                   required

@@ -13,6 +13,16 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
   const [nuevoNombreAgregar, setNuevoNombreAgregar] = useState("");
   const [nuevaUbicacionAgregar, setNuevaUbicacionAgregar] = useState("");
 
+  // Restricción: mínimo 3 caracteres, no comienza con espacio/especial, solo letras/números/espacios
+  const campoValido = (valor) => {
+    const val = valor.trim();
+    return (
+      val.length >= 3 &&
+      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ]/.test(val) &&
+      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ .,'-]+$/.test(val)
+    );
+  };
+
   const handleListarBodegas = async () => {
     try {
       const resultado = await listarBodegas();
@@ -35,6 +45,7 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
     setBodegaEdit(bodega);
     setNuevoNombre(bodega.bodega_nombre);
     setNuevaUbicacion(bodega.bodega_ubicacion);
+    setError("");
     setModalAbierto(true);
   };
 
@@ -43,23 +54,30 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
     setBodegaEdit(null);
     setNuevoNombre("");
     setNuevaUbicacion("");
+    setError("");
   };
 
   const handleGuardar = async (e) => {
     e.preventDefault();
+    if (!campoValido(nuevoNombre) || !campoValido(nuevaUbicacion)) {
+      setError(
+        "Nombre y ubicación deben tener al menos 3 caracteres, no comenzar con espacio o carácter especial, y solo contener letras, números y espacios."
+      );
+      return;
+    }
     try {
       await modificarBodega({
         id: bodegaEdit.bodega_id,
-        nombre: nuevoNombre,
-        ubicacion: nuevaUbicacion,
+        nombre: nuevoNombre.trim(),
+        ubicacion: nuevaUbicacion.trim(),
       });
       setBodegas(
         bodegas.map((b) =>
           b.bodega_id === bodegaEdit.bodega_id
             ? {
                 ...b,
-                bodega_nombre: nuevoNombre,
-                bodega_ubicacion: nuevaUbicacion,
+                bodega_nombre: nuevoNombre.trim(),
+                bodega_ubicacion: nuevaUbicacion.trim(),
               }
             : b
         )
@@ -73,6 +91,7 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
   const abrirModalAgregar = () => {
     setNuevoNombreAgregar("");
     setNuevaUbicacionAgregar("");
+    setError("");
     setModalAgregar(true);
   };
 
@@ -80,14 +99,21 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
     setModalAgregar(false);
     setNuevoNombreAgregar("");
     setNuevaUbicacionAgregar("");
+    setError("");
   };
 
   const handleAgregarBodega = async (e) => {
     e.preventDefault();
+    if (!campoValido(nuevoNombreAgregar) || !campoValido(nuevaUbicacionAgregar)) {
+      setError(
+        "Nombre y ubicación deben tener al menos 3 caracteres, no comenzar con espacio o carácter especial, y solo contener letras, números y espacios."
+      );
+      return;
+    }
     try {
       const nuevaBodega = await agregarBodega({
-        nombre: nuevoNombreAgregar,
-        ubicacion: nuevaUbicacionAgregar,
+        nombre: nuevoNombreAgregar.trim(),
+        ubicacion: nuevaUbicacionAgregar.trim(),
       });
       setBodegas([...bodegas, nuevaBodega]);
       cerrarModalAgregar();
@@ -99,6 +125,7 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
   useEffect(() => {
     if (visible) {
       handleListarBodegas();
+      setError("");
     }
   }, [visible]);
 
@@ -110,7 +137,7 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
         <button className="bodega-modal-cerrar" onClick={() => actualizaVisibilidad(false)}>✖️</button>
         <h2 className="bodega-title">Lista de Bodegas</h2>
         <button className="bodega-agregar-button" onClick={abrirModalAgregar}>Agregar Bodega</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <div className="bodega-error-modal">{error}</div>}
         <table className="bodega-tabla">
           <thead>
             <tr>
@@ -151,13 +178,17 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
           <div className="bodega-modal-agregar-fondo">
             <div className="bodega-modal-agregar-contenido">
               <h3>Agregar Bodega</h3>
+              {error && <div className="bodega-error-modal">{error}</div>}
               <form onSubmit={handleAgregarBodega}>
                 <label>
                   Nombre:
                   <input
                     type="text"
                     value={nuevoNombreAgregar}
-                    onChange={(e) => setNuevoNombreAgregar(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoNombreAgregar(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -166,7 +197,10 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevaUbicacionAgregar}
-                    onChange={(e) => setNuevaUbicacionAgregar(e.target.value)}
+                    onChange={(e) => {
+                      setNuevaUbicacionAgregar(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -185,13 +219,17 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
           <div className="bodega-modal-fondo">
             <div className="bodega-modal-contenido">
               <h3>Modificar Bodega</h3>
+              {error && <div className="bodega-error-modal">{error}</div>}
               <form onSubmit={handleGuardar}>
                 <label>
                   Nombre:
                   <input
                     type="text"
                     value={nuevoNombre}
-                    onChange={(e) => setNuevoNombre(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoNombre(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -200,7 +238,10 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevaUbicacion}
-                    onChange={(e) => setNuevaUbicacion(e.target.value)}
+                    onChange={(e) => {
+                      setNuevaUbicacion(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>

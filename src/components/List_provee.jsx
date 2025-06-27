@@ -26,6 +26,25 @@ function ListProvee({ visible, actualizaVisibilidad }) {
   const [nuevaComunaAgregar, setNuevaComunaAgregar] = React.useState("");
   const [nuevoGiroAgregar, setNuevoGiroAgregar] = React.useState("");
 
+  // Restricciones
+  const campoValido = (valor) => {
+    const val = valor.trim();
+    return (
+      val.length >= 3 &&
+      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ]/.test(val) &&
+      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ .,'-]+$/.test(val)
+    );
+  };
+  // Permitir "+" en contacto
+  const contactoValido = (valor) => {
+    const val = valor.trim();
+    return (
+      val.length >= 3 &&
+      /^[A-Za-z0-9+]/.test(val) &&
+      /^[A-Za-z0-9 +.,'-]+$/.test(val)
+    );
+  };
+
   const handleListarProveedores = async () => {
     try {
       const resultado = await listarProveedores();
@@ -52,6 +71,7 @@ function ListProvee({ visible, actualizaVisibilidad }) {
     setNuevaDireccion(proveedor.proveedor_direccion);
     setNuevaComuna(proveedor.proveedor_comuna);
     setNuevoGiro(proveedor.proveedor_giro);
+    setError("");
     setModalAbierto(true);
   };
 
@@ -64,19 +84,33 @@ function ListProvee({ visible, actualizaVisibilidad }) {
     setNuevaDireccion("");
     setNuevaComuna("");
     setNuevoGiro("");
+    setError("");
   };
 
   const handleGuardar = async (e) => {
     e.preventDefault();
+    if (
+      !campoValido(nuevoNombre) ||
+      !campoValido(nuevoVendedor) ||
+      !contactoValido(nuevoContacto) ||
+      !campoValido(nuevaDireccion) ||
+      !campoValido(nuevaComuna) ||
+      !campoValido(nuevoGiro)
+    ) {
+      setError(
+        "Todos los campos deben tener al menos 3 caracteres, no comenzar con espacio o carácter especial, y solo contener letras, números y espacios. El contacto puede incluir '+'.",
+      );
+      return;
+    }
     try {
       await modificarProveedor({
         id: proveedorEdit.proveedor_id,
-        nombre: nuevoNombre,
-        vendedor: nuevoVendedor,
-        contacto: nuevoContacto,
-        direccion: nuevaDireccion,
-        comuna: nuevaComuna,
-        giro: nuevoGiro,
+        nombre: nuevoNombre.trim(),
+        vendedor: nuevoVendedor.trim(),
+        contacto: nuevoContacto.trim(),
+        direccion: nuevaDireccion.trim(),
+        comuna: nuevaComuna.trim(),
+        giro: nuevoGiro.trim(),
       });
 
       setProveedores(
@@ -84,15 +118,15 @@ function ListProvee({ visible, actualizaVisibilidad }) {
           p.proveedor_id === proveedorEdit.proveedor_id
             ? {
                 ...p,
-                proveedor_nombre: nuevoNombre,
-                proveedor_vendedor: nuevoVendedor,
-                proveedor_contacto: nuevoContacto,
-                proveedor_direccion: nuevaDireccion,
-                proveedor_comuna: nuevaComuna,
-                proveedor_giro: nuevoGiro,
+                proveedor_nombre: nuevoNombre.trim(),
+                proveedor_vendedor: nuevoVendedor.trim(),
+                proveedor_contacto: nuevoContacto.trim(),
+                proveedor_direccion: nuevaDireccion.trim(),
+                proveedor_comuna: nuevaComuna.trim(),
+                proveedor_giro: nuevoGiro.trim(),
               }
-            : p
-        )
+            : p,
+        ),
       );
       cerrarModal();
     } catch (error) {
@@ -107,6 +141,7 @@ function ListProvee({ visible, actualizaVisibilidad }) {
     setNuevaDireccionAgregar("");
     setNuevaComunaAgregar("");
     setNuevoGiroAgregar("");
+    setError("");
     setModalAgregar(true);
   };
 
@@ -118,18 +153,32 @@ function ListProvee({ visible, actualizaVisibilidad }) {
     setNuevaDireccionAgregar("");
     setNuevaComunaAgregar("");
     setNuevoGiroAgregar("");
+    setError("");
   };
 
   const handleAgregarProveedor = async (e) => {
     e.preventDefault();
+    if (
+      !campoValido(nuevoNombreAgregar) ||
+      !campoValido(nuevoVendedorAgregar) ||
+      !contactoValido(nuevoContactoAgregar) ||
+      !campoValido(nuevaDireccionAgregar) ||
+      !campoValido(nuevaComunaAgregar) ||
+      !campoValido(nuevoGiroAgregar)
+    ) {
+      setError(
+        "Todos los campos deben tener al menos 3 caracteres, no comenzar con espacio o carácter especial, y solo contener letras, números y espacios. El contacto puede incluir '+'.",
+      );
+      return;
+    }
     try {
       const nuevoProveedor = await agregarProveedor({
-        nombre: nuevoNombreAgregar,
-        vendedor: nuevoVendedorAgregar,
-        contacto: nuevoContactoAgregar,
-        direccion: nuevaDireccionAgregar,
-        comuna: nuevaComunaAgregar,
-        giro: nuevoGiroAgregar,
+        nombre: nuevoNombreAgregar.trim(),
+        vendedor: nuevoVendedorAgregar.trim(),
+        contacto: nuevoContactoAgregar.trim(),
+        direccion: nuevaDireccionAgregar.trim(),
+        comuna: nuevaComunaAgregar.trim(),
+        giro: nuevoGiroAgregar.trim(),
       });
       setProveedores([...proveedores, nuevoProveedor]);
       cerrarModalAgregar();
@@ -141,6 +190,7 @@ function ListProvee({ visible, actualizaVisibilidad }) {
   React.useEffect(() => {
     if (visible) {
       handleListarProveedores();
+      setError("");
     }
   }, [visible]);
 
@@ -152,7 +202,7 @@ function ListProvee({ visible, actualizaVisibilidad }) {
         <button className="proveedor-modal-cerrar" onClick={() => actualizaVisibilidad(false)}>✖️</button>
         <h2 className="proveedor-title">Lista de Proveedores</h2>
         <button className="proveedor-agregar-button" onClick={abrirModalAgregar}>Agregar Proveedor</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <div className="proveedor-error-modal">{error}</div>}
         <table className="proveedor-tabla">
           <thead>
             <tr>
@@ -201,13 +251,17 @@ function ListProvee({ visible, actualizaVisibilidad }) {
           <div className="proveedor-modal-agregar-fondo">
             <div className="proveedor-modal-agregar-contenido">
               <h3>Agregar Proveedor</h3>
+              {error && <div className="proveedor-error-modal">{error}</div>}
               <form onSubmit={handleAgregarProveedor}>
                 <label>
                   Nombre:
                   <input
                     type="text"
                     value={nuevoNombreAgregar}
-                    onChange={(e) => setNuevoNombreAgregar(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoNombreAgregar(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -216,7 +270,10 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevoVendedorAgregar}
-                    onChange={(e) => setNuevoVendedorAgregar(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoVendedorAgregar(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -225,7 +282,10 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevoContactoAgregar}
-                    onChange={(e) => setNuevoContactoAgregar(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoContactoAgregar(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -234,7 +294,10 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevaDireccionAgregar}
-                    onChange={(e) => setNuevaDireccionAgregar(e.target.value)}
+                    onChange={(e) => {
+                      setNuevaDireccionAgregar(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -243,7 +306,10 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevaComunaAgregar}
-                    onChange={(e) => setNuevaComunaAgregar(e.target.value)}
+                    onChange={(e) => {
+                      setNuevaComunaAgregar(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -252,7 +318,10 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevoGiroAgregar}
-                    onChange={(e) => setNuevoGiroAgregar(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoGiroAgregar(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -271,13 +340,17 @@ function ListProvee({ visible, actualizaVisibilidad }) {
           <div className="proveedor-modal-fondo">
             <div className="proveedor-modal-contenido">
               <h3>Modificar Proveedor</h3>
+              {error && <div className="proveedor-error-modal">{error}</div>}
               <form onSubmit={handleGuardar}>
                 <label>
                   Nombre:
                   <input
                     type="text"
                     value={nuevoNombre}
-                    onChange={(e) => setNuevoNombre(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoNombre(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -286,7 +359,10 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevoVendedor}
-                    onChange={(e) => setNuevoVendedor(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoVendedor(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -295,7 +371,10 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevoContacto}
-                    onChange={(e) => setNuevoContacto(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoContacto(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -304,7 +383,10 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevaDireccion}
-                    onChange={(e) => setNuevaDireccion(e.target.value)}
+                    onChange={(e) => {
+                      setNuevaDireccion(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -313,7 +395,10 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevaComuna}
-                    onChange={(e) => setNuevaComuna(e.target.value)}
+                    onChange={(e) => {
+                      setNuevaComuna(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>
@@ -322,7 +407,10 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                   <input
                     type="text"
                     value={nuevoGiro}
-                    onChange={(e) => setNuevoGiro(e.target.value)}
+                    onChange={(e) => {
+                      setNuevoGiro(e.target.value);
+                      setError("");
+                    }}
                     required
                   />
                 </label>

@@ -228,3 +228,11 @@
 .bodega-modal-editar-btn-cancelar:hover {
   background: #c0392b;
 }
+
+/* Mensaje de error */
+.bodega-error-modal {
+  color: red;
+  margin: 10px 0;
+  font-weight: bold;
+}
+

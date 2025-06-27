@@ -140,6 +140,11 @@ function ListaInventario({ visible }) {
   const handleEliminarCantidad = async (e) => {
     e.preventDefault();
     try {
+      if (parseInt(cantidadAEliminar, 10) <= 0) {
+        setErrorEliminarCantidad("La cantidad debe ser un número positivo.");
+        return;
+      }
+
       const datos = {
         producto_id: parseInt(eliminarProductoId, 10),
         bodega_id: parseInt(eliminarBodegaId, 10),
@@ -286,6 +291,7 @@ function ListaInventario({ visible }) {
                 Cantidad:
                 <input
                   type="number"
+                  min="1"
                   value={agregarCantidad}
                   onChange={(e) => setAgregarCantidad(e.target.value)}
                   required
@@ -335,6 +341,7 @@ function ListaInventario({ visible }) {
                 Cantidad a Eliminar:
                 <input
                   type="number"
+                  min="1"
                   value={cantidadAEliminar}
                   onChange={(e) => setCantidadAEliminar(e.target.value)}
                   required

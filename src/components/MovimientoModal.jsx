@@ -14,6 +14,16 @@ function MovimientoModal({ visible, actualizaVisibilidad, onMovimientoRealizado 
   const [cantidadMovimiento, setCantidadMovimiento] = useState("");
   const [error, setError] = useState("");
 
+  // Restricción para descripción: mínimo 3 caracteres, no comienza con espacio/especial, solo letras/números/espacios
+  const campoValido = (valor) => {
+    const val = valor.trim();
+    return (
+      val.length >= 3 &&
+      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ]/.test(val) &&
+      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ .,'-]+$/.test(val)
+    );
+  };
+
   const handleListarProductos = async () => {
     try {
       const resultado = await listarProductos();
@@ -47,6 +57,11 @@ function MovimientoModal({ visible, actualizaVisibilidad, onMovimientoRealizado 
     try {
       if (!productoSeleccionado || !bodegaOrigen || !bodegaDestino || !cantidadMovimiento) {
         setError("Todos los campos son obligatorios.");
+        return;
+      }
+
+      if (!campoValido(descripcionMovimiento)) {
+        setError("La descripción debe tener al menos 3 caracteres, no comenzar con espacio o carácter especial, y solo contener letras, números y espacios.");
         return;
       }
 
@@ -152,6 +167,7 @@ function MovimientoModal({ visible, actualizaVisibilidad, onMovimientoRealizado 
             Cantidad:
             <input
               type="number"
+              min="1"
               value={cantidadMovimiento}
               onChange={(e) => setCantidadMovimiento(e.target.value)}
               required

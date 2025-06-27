@@ -60,10 +60,19 @@ function ListarCategorias({ visible, onClose }) {
     setErrorEditar("");
   };
 
+  const campoValido = (valor) => {
+    const val = valor.trim();
+    return (
+      val.length >= 3 &&
+      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ]/.test(val) &&
+      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ .,'-]+$/.test(val)
+    );
+  };
+
   const handleAgregar = async (e) => {
     e.preventDefault();
-    if (!nombre.trim()) {
-      setErrorAgregar("El nombre es obligatorio.");
+    if (!campoValido(nombre) || !campoValido(descripcion)) {
+      setErrorAgregar("Nombre y descripción deben tener al menos 3 caracteres, no comenzar con espacio o carácter especial, y solo contener letras, números y espacios.");
       return;
     }
     try {
@@ -77,8 +86,8 @@ function ListarCategorias({ visible, onClose }) {
 
   const handleEditar = async (e) => {
     e.preventDefault();
-    if (!nombre.trim()) {
-      setErrorEditar("El nombre es obligatorio.");
+    if (!campoValido(nombre) || !campoValido(descripcion)) {
+      setErrorEditar("Nombre y descripción deben tener al menos 3 caracteres, no comenzar con espacio o carácter especial, y solo contener letras, números y espacios.");
       return;
     }
     try {
