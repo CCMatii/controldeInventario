@@ -1,27 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { listarProductos, eliminarProducto, modificarProducto, agregarProducto, listarCategorias } from "../services/consultas";
 import ListarCategorias from "./ListarCategorias";
 import "./ListarProductos.css";
 
 function ListarProductos({ visible, actualizaVisibilidad }) {
-  const [productos, setProductos] = React.useState([]);
-  const [categorias, setCategorias] = React.useState([]);
-  const [error, setError] = React.useState("");
-  const [modalAbierto, setModalAbierto] = React.useState(false);
-  const [productoEdit, setProductoEdit] = React.useState(null);
-  const [nuevoNombre, setNuevoNombre] = React.useState("");
-  const [nuevaDescripcion, setNuevaDescripcion] = React.useState("");
-  const [nuevoProovedor, setNuevoProovedor] = React.useState("");
-  const [modalAgregar, setModalAgregar] = React.useState(false);
-  const [nuevoIdAgregar, setNuevoIdAgregar] = React.useState("");
-  const [nuevoNombreAgregar, setNuevoNombreAgregar] = React.useState("");
-  const [nuevaDescripcionAgregar, setNuevaDescripcionAgregar] = React.useState("");
-  const [nuevoProovedorAgregar, setNuevoProovedorAgregar] = React.useState("");
-  const [nuevoCategoria, setNuevoCategoria] = React.useState("");
+  const [productos, setProductos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [error, setError] = useState("");
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const [productoEdit, setProductoEdit] = useState(null);
+  const [nuevoNombre, setNuevoNombre] = useState("");
+  const [nuevaDescripcion, setNuevaDescripcion] = useState("");
+  const [nuevoProovedor, setNuevoProovedor] = useState("");
+  const [modalAgregar, setModalAgregar] = useState(false);
+  const [nuevoNombreAgregar, setNuevoNombreAgregar] = useState("");
+  const [nuevaDescripcionAgregar, setNuevaDescripcionAgregar] = useState("");
+  const [nuevoProovedorAgregar, setNuevoProovedorAgregar] = useState("");
+  const [nuevoCategoria, setNuevoCategoria] = useState("");
   const [modalCategorias, setModalCategorias] = useState(false);
 
-  // Cargar productos y categorías al abrir el modal
-  React.useEffect(() => {
+  useEffect(() => {
     if (visible) {
       handleListarProductos();
       handleListarCategorias();
@@ -103,7 +101,6 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
   };
 
   const abrirModalAgregar = () => {
-    setNuevoIdAgregar("");
     setNuevoNombreAgregar("");
     setNuevaDescripcionAgregar("");
     setNuevoProovedorAgregar("");
@@ -113,7 +110,6 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
 
   const cerrarModalAgregar = () => {
     setModalAgregar(false);
-    setNuevoIdAgregar("");
     setNuevoNombreAgregar("");
     setNuevaDescripcionAgregar("");
     setNuevoProovedorAgregar("");
@@ -123,13 +119,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
   const handleAgregarProducto = async (e) => {
     e.preventDefault();
     try {
-      if (parseInt(nuevoIdAgregar, 10) < 0) {
-        setError("El ID no puede ser un número negativo.");
-        return;
-      }
-
       const nuevoProducto = await agregarProducto({
-        producto_id: parseInt(nuevoIdAgregar, 10),
         producto_nombre: nuevoNombreAgregar,
         producto_descripcion: nuevaDescripcionAgregar,
         producto_proovedor: parseInt(nuevoProovedorAgregar, 10),
@@ -196,20 +186,12 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
             ))}
           </tbody>
         </table>
+
         {modalAgregar && (
           <div className="listar-modal-agregar-fondo">
             <div className="listar-modal-agregar-contenido">
               <h3>Agregar Producto</h3>
               <form onSubmit={handleAgregarProducto}>
-                <label>
-                  ID:
-                  <input
-                    type="number"
-                    value={nuevoIdAgregar}
-                    onChange={(e) => setNuevoIdAgregar(e.target.value)}
-                    required
-                  />
-                </label>
                 <label>
                   Nombre:
                   <input
@@ -287,7 +269,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                   />
                 </label>
                 <label>
-                  Proovedor:
+                  Proveedor:
                   <input
                     type="text"
                     value={nuevoProovedor}
@@ -320,6 +302,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
             </div>
           </div>
         )}
+
         <ListarCategorias
           visible={modalCategorias}
           onClose={() => setModalCategorias(false)}

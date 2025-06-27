@@ -128,7 +128,7 @@ function MovimientoModal({ visible, actualizaVisibilidad, onMovimientoRealizado 
               <option value="">Seleccione una bodega</option>
               {bodegas.map((bodega) => (
                 <option key={bodega.bodega_id} value={bodega.bodega_id}>
-                  {bodega.bodega_id} {/* Mostrar solo el número de la bodega */}
+                  {bodega.bodega_nombre}
                 </option>
               ))}
             </select>
@@ -143,7 +143,7 @@ function MovimientoModal({ visible, actualizaVisibilidad, onMovimientoRealizado 
               <option value="">Seleccione una bodega</option>
               {bodegas.map((bodega) => (
                 <option key={bodega.bodega_id} value={bodega.bodega_id}>
-                  {bodega.bodega_id} {/* Mostrar solo el número de la bodega */}
+                  {bodega.bodega_nombre}
                 </option>
               ))}
             </select>

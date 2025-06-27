@@ -10,7 +10,6 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
   const [nuevoNombre, setNuevoNombre] = useState("");
   const [nuevaUbicacion, setNuevaUbicacion] = useState("");
   const [modalAgregar, setModalAgregar] = useState(false);
-  const [nuevoIdAgregar, setNuevoIdAgregar] = useState("");
   const [nuevoNombreAgregar, setNuevoNombreAgregar] = useState("");
   const [nuevaUbicacionAgregar, setNuevaUbicacionAgregar] = useState("");
 
@@ -72,7 +71,6 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
   };
 
   const abrirModalAgregar = () => {
-    setNuevoIdAgregar("");
     setNuevoNombreAgregar("");
     setNuevaUbicacionAgregar("");
     setModalAgregar(true);
@@ -80,7 +78,6 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
 
   const cerrarModalAgregar = () => {
     setModalAgregar(false);
-    setNuevoIdAgregar("");
     setNuevoNombreAgregar("");
     setNuevaUbicacionAgregar("");
   };
@@ -88,13 +85,7 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
   const handleAgregarBodega = async (e) => {
     e.preventDefault();
     try {
-      if (parseInt(nuevoIdAgregar, 10) < 0) {
-        setError("El ID no puede ser un número negativo.");
-        return;
-      }
-
       const nuevaBodega = await agregarBodega({
-        id: nuevoIdAgregar,
         nombre: nuevoNombreAgregar,
         ubicacion: nuevaUbicacionAgregar,
       });
@@ -155,20 +146,12 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
             ))}
           </tbody>
         </table>
+
         {modalAgregar && (
           <div className="bodega-modal-agregar-fondo">
             <div className="bodega-modal-agregar-contenido">
               <h3>Agregar Bodega</h3>
               <form onSubmit={handleAgregarBodega}>
-                <label>
-                  ID:
-                  <input
-                    type="text"
-                    value={nuevoIdAgregar}
-                    onChange={(e) => setNuevoIdAgregar(e.target.value)}
-                    required
-                  />
-                </label>
                 <label>
                   Nombre:
                   <input

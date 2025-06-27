@@ -1,5 +1,10 @@
 import React from "react";
-import { listarProveedores, eliminarProveedor, modificarProveedor, agregarProveedor } from "../services/consultas";
+import {
+  listarProveedores,
+  eliminarProveedor,
+  modificarProveedor,
+  agregarProveedor,
+} from "../services/consultas";
 import "./List_provee.css";
 
 function ListProvee({ visible, actualizaVisibilidad }) {
@@ -14,7 +19,6 @@ function ListProvee({ visible, actualizaVisibilidad }) {
   const [nuevaComuna, setNuevaComuna] = React.useState("");
   const [nuevoGiro, setNuevoGiro] = React.useState("");
   const [modalAgregar, setModalAgregar] = React.useState(false);
-  const [nuevoIdAgregar, setNuevoIdAgregar] = React.useState("");
   const [nuevoNombreAgregar, setNuevoNombreAgregar] = React.useState("");
   const [nuevoVendedorAgregar, setNuevoVendedorAgregar] = React.useState("");
   const [nuevoContactoAgregar, setNuevoContactoAgregar] = React.useState("");
@@ -34,7 +38,7 @@ function ListProvee({ visible, actualizaVisibilidad }) {
   const handleEliminarProveedor = async (proveedorId) => {
     try {
       await eliminarProveedor(proveedorId);
-      setProveedores(proveedores.filter((proveedor) => proveedor.proveedor_id !== proveedorId));
+      setProveedores(proveedores.filter((p) => p.proveedor_id !== proveedorId));
     } catch (error) {
       setError("No se pudo eliminar el proveedor. Inténtalo de nuevo.");
     }
@@ -74,6 +78,7 @@ function ListProvee({ visible, actualizaVisibilidad }) {
         comuna: nuevaComuna,
         giro: nuevoGiro,
       });
+
       setProveedores(
         proveedores.map((p) =>
           p.proveedor_id === proveedorEdit.proveedor_id
@@ -96,7 +101,6 @@ function ListProvee({ visible, actualizaVisibilidad }) {
   };
 
   const abrirModalAgregar = () => {
-    setNuevoIdAgregar("");
     setNuevoNombreAgregar("");
     setNuevoVendedorAgregar("");
     setNuevoContactoAgregar("");
@@ -108,7 +112,6 @@ function ListProvee({ visible, actualizaVisibilidad }) {
 
   const cerrarModalAgregar = () => {
     setModalAgregar(false);
-    setNuevoIdAgregar("");
     setNuevoNombreAgregar("");
     setNuevoVendedorAgregar("");
     setNuevoContactoAgregar("");
@@ -120,13 +123,7 @@ function ListProvee({ visible, actualizaVisibilidad }) {
   const handleAgregarProveedor = async (e) => {
     e.preventDefault();
     try {
-      if (parseInt(nuevoIdAgregar, 10) < 0) {
-        setError("El ID no puede ser un número negativo.");
-        return;
-      }
-
       const nuevoProveedor = await agregarProveedor({
-        id: nuevoIdAgregar,
         nombre: nuevoNombreAgregar,
         vendedor: nuevoVendedorAgregar,
         contacto: nuevoContactoAgregar,
@@ -199,20 +196,12 @@ function ListProvee({ visible, actualizaVisibilidad }) {
             ))}
           </tbody>
         </table>
+
         {modalAgregar && (
           <div className="proveedor-modal-agregar-fondo">
             <div className="proveedor-modal-agregar-contenido">
               <h3>Agregar Proveedor</h3>
               <form onSubmit={handleAgregarProveedor}>
-                <label>
-                  ID:
-                  <input
-                    type="text"
-                    value={nuevoIdAgregar}
-                    onChange={(e) => setNuevoIdAgregar(e.target.value)}
-                    required
-                  />
-                </label>
                 <label>
                   Nombre:
                   <input

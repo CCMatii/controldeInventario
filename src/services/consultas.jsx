@@ -257,7 +257,7 @@ export const eliminarProducto = async (productoId) => {
 }
 
 export const agregarProducto = async (producto) => {
-  const url = `${urlBase}productos/add?producto_id=${producto.producto_id}&producto_nombre=${encodeURIComponent(producto.producto_nombre)}&producto_descripcion=${encodeURIComponent(producto.producto_descripcion)}&producto_proovedor=${producto.producto_proovedor}&producto_categoria=${encodeURIComponent(producto.producto_categoria)}`;
+  const url = `${urlBase}productos/add?producto_nombre=${encodeURIComponent(producto.producto_nombre)}&producto_descripcion=${encodeURIComponent(producto.producto_descripcion)}&producto_proovedor=${producto.producto_proovedor}&producto_categoria=${encodeURIComponent(producto.producto_categoria)}`;
 
   const options = {
     method: "POST",
@@ -315,7 +315,7 @@ export const listarProveedores = async () => {
 
 
 export const agregarProveedor = async (proveedor) => {
-  const url = `${urlBase}proveedores/add?proveedor_id=${proveedor.id}&proveedor_nombre=${encodeURIComponent(proveedor.nombre)}&proveedor_vendedor=${encodeURIComponent(proveedor.vendedor)}&proveedor_contacto=${encodeURIComponent(proveedor.contacto)}&proveedor_direccion=${encodeURIComponent(proveedor.direccion)}&proveedor_comuna=${encodeURIComponent(proveedor.comuna)}&proveedor_giro=${encodeURIComponent(proveedor.giro)}`;
+  const url = `${urlBase}proveedores/add?proveedor_nombre=${encodeURIComponent(proveedor.nombre)}&proveedor_vendedor=${encodeURIComponent(proveedor.vendedor)}&proveedor_contacto=${encodeURIComponent(proveedor.contacto)}&proveedor_direccion=${encodeURIComponent(proveedor.direccion)}&proveedor_comuna=${encodeURIComponent(proveedor.comuna)}&proveedor_giro=${encodeURIComponent(proveedor.giro)}`;
 
   const options = {
     method: "POST",
@@ -643,7 +643,7 @@ export const listarBodegas = async () => {
 };
 
 export const agregarBodega = async (bodega) => {
-  const url = `${urlBase}bodegas/add?bodega_id=${bodega.id}&bodega_nombre=${encodeURIComponent(bodega.nombre)}&bodega_ubicacion=${encodeURIComponent(bodega.ubicacion)}`;
+  const url = `${urlBase}bodegas/add?bodega_nombre=${encodeURIComponent(bodega.nombre)}&bodega_ubicacion=${encodeURIComponent(bodega.ubicacion)}`;
 
   const options = {
     method: "POST",

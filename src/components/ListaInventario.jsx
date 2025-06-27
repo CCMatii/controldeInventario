@@ -6,7 +6,9 @@ import MovimientoModal from "./MovimientoModal";
 function ListaInventario({ visible }) {
   const [inventario, setInventario] = useState([]);
   const [productos, setProductos] = useState([]); // Lista de productos disponibles
-  const [error, setError] = useState("");
+  const [errorGeneral, setErrorGeneral] = useState("");
+  const [errorAgregarCantidad, setErrorAgregarCantidad] = useState("");
+  const [errorEliminarCantidad, setErrorEliminarCantidad] = useState("");
   const [modalAgregar, setModalAgregar] = useState(false);
   const [modalEliminar, setModalEliminar] = useState(false);
   const [agregarProductoId, setAgregarProductoId] = useState("");
@@ -24,7 +26,7 @@ function ListaInventario({ visible }) {
           const resultado = await listarInventario();
           setInventario(resultado);
         } catch (err) {
-          setError("No se pudo listar el inventario. Inténtalo de nuevo.");
+          setErrorGeneral("No se pudo listar el inventario. Inténtalo de nuevo.");
         }
       };
 
@@ -33,7 +35,7 @@ function ListaInventario({ visible }) {
           const resultado = await listarProductos();
           setProductos(resultado);
         } catch (err) {
-          setError("No se pudo listar los productos. Inténtalo de nuevo.");
+          setErrorGeneral("No se pudo listar los productos. Inténtalo de nuevo.");
         }
       };
 
@@ -42,7 +44,7 @@ function ListaInventario({ visible }) {
           const resultado = await listarBodegas();
           setBodegas(resultado);
         } catch (err) {
-          setError("No se pudieron listar las bodegas. Inténtalo de nuevo.");
+          setErrorGeneral("No se pudieron listar las bodegas. Inténtalo de nuevo.");
         }
       };
 
@@ -50,15 +52,17 @@ function ListaInventario({ visible }) {
     if (visible) {
       fetchInventario();
       fetchProductos();
-      fetchBodegas(); // NUEVO
+      fetchBodegas();
     }
   }, [visible]);
 
   const abrirModalAgregar = () => {
+    fetchProductos();
     setAgregarProductoId("");
     setAgregarCantidad("");
     setAgregarBodegaId("");
     setModalAgregar(true);
+    setErrorAgregarCantidad("");
   };
 
   const cerrarModalAgregar = () => {
@@ -73,6 +77,7 @@ function ListaInventario({ visible }) {
     setEliminarBodegaId(item.bodega_id);
     setCantidadAEliminar("");
     setModalEliminar(true);
+    setErrorEliminarCantidad("");
   };
 
   const cerrarModalEliminar = () => {
@@ -86,13 +91,13 @@ function ListaInventario({ visible }) {
     e.preventDefault();
     try {
       if (parseInt(agregarCantidad, 10) <= 0) {
-        setError("La cantidad debe ser un número positivo.");
+        setErrorAgregarCantidad("La cantidad debe ser un número positivo.");
         return;
       }
 
       const productoSeleccionado = productos.find((p) => p.producto_id === parseInt(agregarProductoId, 10));
       if (!productoSeleccionado) {
-        setError("El producto seleccionado no existe.");
+        setErrorAgregarCantidad("El producto seleccionado no existe.");
         return;
       }
 
@@ -127,7 +132,7 @@ function ListaInventario({ visible }) {
 
       cerrarModalAgregar();
     } catch (err) {
-      setError("No se pudo agregar el producto al inventario. Inténtalo de nuevo.");
+      setErrorAgregarCantidad("No se pudo agregar el producto al inventario. Inténtalo de nuevo.");
       console.error(err);
     }
   };
@@ -155,7 +160,7 @@ function ListaInventario({ visible }) {
 
       cerrarModalEliminar();
     } catch (err) {
-      setError("No se pudo eliminar la cantidad del inventario. Inténtalo de nuevo.");
+      setErrorEliminarCantidad("No se pudo eliminar la cantidad del inventario. Inténtalo de nuevo.");
       console.error(err);
     }
   };
@@ -165,7 +170,7 @@ function ListaInventario({ visible }) {
       await eliminarInventario(inventarioId);
       setInventario(inventario.filter((item) => item.inventario_id !== inventarioId));
     } catch (err) {
-      setError("No se pudo eliminar el inventario. Inténtalo de nuevo.");
+      setErrorGeneral("No se pudo eliminar el inventario. Inténtalo de nuevo.");
         console.error(err);
     }
   };
@@ -183,7 +188,6 @@ function ListaInventario({ visible }) {
     fetchProductos();
   };
 
-  // Filtra el inventario según la bodega seleccionada
   const inventarioFiltrado = bodegaFiltro
     ? inventario.filter((item) => String(item.bodega_id) === String(bodegaFiltro))
     : inventario;
@@ -214,7 +218,7 @@ function ListaInventario({ visible }) {
         </select>
         </div>
       </div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {errorGeneral && <p style={{ color: "red" }}>{errorGeneral}</p>}
       <table className="tabla-inventario">
         <thead>
           <tr>
@@ -261,6 +265,7 @@ function ListaInventario({ visible }) {
         <div className="inventario-modal-fondo">
           <div className="inventario-modal-contenido">
             <h3>Agregar Inventario</h3>
+            {errorAgregarCantidad && <p style={{ color: "red" }}>{errorAgregarCantidad}</p>}
             <form onSubmit={handleAgregarInventario}>
               <label>
                 Producto:
@@ -287,13 +292,19 @@ function ListaInventario({ visible }) {
                 />
               </label>
               <label>
-                Bodega ID:
-                <input
-                  type="text"
+                Bodega:
+                <select
                   value={agregarBodegaId}
                   onChange={(e) => setAgregarBodegaId(e.target.value)}
                   required
-                />
+                >
+                  <option value="">Seleccione una bodega</option>
+                  {bodegas.map((bodega) => (
+                    <option key={bodega.bodega_id} value={bodega.bodega_id}>
+                      {bodega.bodega_nombre || bodega.bodega_id}
+                    </option>
+                  ))}
+                </select>
               </label>
               <div className="inventario-modal-acciones">
                 <button type="submit" className="inventario-btn-guardar">Agregar</button>
@@ -310,6 +321,7 @@ function ListaInventario({ visible }) {
         <div className="inventario-modal-fondo">
           <div className="inventario-modal-contenido">
             <h3>Eliminar Cantidad del Inventario</h3>
+            {errorEliminarCantidad && <p style={{ color: "red" }}>{errorEliminarCantidad}</p>}
             <form onSubmit={handleEliminarCantidad}>
               <label>
                 Producto ID:

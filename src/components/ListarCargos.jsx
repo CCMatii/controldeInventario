@@ -66,6 +66,10 @@ function ListarCargos({ visible, onClose }) {
       setErrorAgregar("El nombre es obligatorio.");
       return;
     }
+    if (nombre.length < 3) {
+      setErrorAgregar("El nombre debe tener al menos 3 caracteres.");
+      return;
+    }
     try {
       await agregarCargo({ cargo_nombre: nombre, cargo_descripcion: descripcion });
       await cargarCargos();
@@ -79,6 +83,10 @@ function ListarCargos({ visible, onClose }) {
     e.preventDefault();
     if (!nombre.trim()) {
       setErrorEditar("El nombre es obligatorio.");
+      return;
+    }
+    if (nombre.length < 3) {
+      setErrorEditar("El nombre debe tener al menos 3 caracteres.");
       return;
     }
     try {
