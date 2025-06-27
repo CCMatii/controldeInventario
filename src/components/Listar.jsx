@@ -7,7 +7,9 @@ import "./Listar.css";
 function Listar({ visible, actualizaVisibilidad }) {
   const [usuarios, setUsuarios] = React.useState([]);
   const [cargos, setCargos] = React.useState([]);
-  const [error, setError] = React.useState("");
+  const [errorGeneral, setErrorGeneral] = React.useState("");
+  const [errorAgregar, setErrorAgregar] = React.useState("");
+  const [errorEditar, setErrorEditar] = React.useState("");
   const [modalAbierto, setModalAbierto] = React.useState(false);
   const [usuarioEdit, setUsuarioEdit] = React.useState(null);
   const [nuevoNombre, setNuevoNombre] = React.useState("");
@@ -25,7 +27,7 @@ function Listar({ visible, actualizaVisibilidad }) {
       const resultado = await listarUsuarios();
       setUsuarios(resultado);
     } catch (error) {
-      setError("No se pudo listar los usuarios. Inténtalo de nuevo.");
+      setErrorGeneral("No se pudo listar los usuarios. Inténtalo de nuevo.");
     }
   };
 
@@ -34,7 +36,7 @@ function Listar({ visible, actualizaVisibilidad }) {
       await eliminarUsuario(usuarioId);
       setUsuarios(usuarios.filter((usuario) => usuario.usuario_id !== usuarioId));
     } catch (error) {
-      setError("No se pudo eliminar el usuario. Inténtalo de nuevo.");
+      setErrorGeneral("No se pudo eliminar el usuario. Inténtalo de nuevo.");
     }
   };
 
@@ -44,6 +46,9 @@ function Listar({ visible, actualizaVisibilidad }) {
     setNuevaContrasena("");
     setNuevoCargo(usuario.cargo_nombre);
     setModalAbierto(true);
+    setErrorGeneral("");
+    setErrorEditar("");
+    setErrorAgregar("");
   };
 
   const cerrarModal = () => {
@@ -56,6 +61,16 @@ function Listar({ visible, actualizaVisibilidad }) {
 
   const handleGuardar = async (e) => {
     e.preventDefault();
+
+    if(nuevoNombre.trim() === "") {
+      setErrorEditar("El nombre no puede estar vacío.");
+      return;
+    }
+    if(nuevoCargo.trim() === "") {
+      setErrorEditar("El cargo no puede estar vacío.");
+      return;
+    }
+    
     try {
       let contrasenaHasheada = nuevaContrasena;
       if (nuevaContrasena) {
@@ -76,7 +91,7 @@ function Listar({ visible, actualizaVisibilidad }) {
       );
       cerrarModal();
     } catch (error) {
-      setError("No se pudo modificar el usuario. Inténtalo de nuevo.");
+      setErrorEditar("No se pudo modificar el usuario. Inténtalo de nuevo.");
     }
   };
 
@@ -86,6 +101,7 @@ function Listar({ visible, actualizaVisibilidad }) {
     setNuevaContrasenaAgregar("");
     setNuevoCargoAgregar("");
     setModalAgregar(true);
+    setErrorAgregar("");
   };
 
   const cerrarModalAgregar = () => {
@@ -103,6 +119,19 @@ function Listar({ visible, actualizaVisibilidad }) {
         setError("El ID no puede ser un número negativo.");
         return;
       }
+      if (nuevoNombreAgregar.trim() === "") {
+        setError("El nombre no puede estar vacío.");
+        return;
+      }
+      if (nuevaContrasenaAgregar.trim() === "") {
+        setError("La contraseña no puede estar vacía.");
+        return;
+      }
+      if (nuevoCargoAgregar.trim() === "") {
+        setError("El cargo no puede estar vacío.");
+        return;
+      }
+
       const contrasenaHasheada = CryptoJS.SHA256(nuevaContrasenaAgregar).toString();
       const nuevoUsuario = await agregarUsuario({
         id: nuevoIdAgregar,
@@ -113,7 +142,7 @@ function Listar({ visible, actualizaVisibilidad }) {
       setUsuarios([...usuarios, nuevoUsuario]);
       cerrarModalAgregar();
     } catch (error) {
-      setError("No se pudo agregar el usuario. Inténtalo de nuevo.");
+      setErrorAgregar("No se pudo agregar el usuario. Inténtalo de nuevo.");
     }
   };
 
@@ -122,7 +151,7 @@ function Listar({ visible, actualizaVisibilidad }) {
       const resultado = await listarCargos();
       setCargos(resultado);
     } catch (error) {
-      console.error("No se pudieron listar los cargos:", error);
+      setErrorGeneral("No se pudieron cargar los cargos. Inténtalo de nuevo.");
     }
   };
 
@@ -150,7 +179,7 @@ function Listar({ visible, actualizaVisibilidad }) {
           <button className="agregarbutton" onClick={abrirModalAgregar}>Agregar Usuario</button>
           <button className="agregarbutton" onClick={() => setModalCargos(true)}>Ver Cargos</button>
         </div>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {errorGeneral && <p style={{ color: "red" }}>{errorGeneral}</p>}
         <table className="tabla-usuarios">
           <thead>
             <tr>
@@ -190,15 +219,15 @@ function Listar({ visible, actualizaVisibilidad }) {
           <div className="listar-modal-agregar-fondo">
             <div className="listar-modal-agregar-contenido">
               <h3>Agregar Usuario</h3>
+              {errorAgregar && <p style={{ color: "red" }}>{errorAgregar}</p>}
               <form onSubmit={handleAgregarUsuario}>
                 <label>
                   ID:
                   <input
                     type="number"
-                    min="1"
                     value={nuevoIdAgregar}
                     onChange={(e) => setNuevoIdAgregar(e.target.value)}
-                    required
+                    
                   />
                 </label>
                 <label>
@@ -207,7 +236,7 @@ function Listar({ visible, actualizaVisibilidad }) {
                     type="text"
                     value={nuevoNombreAgregar}
                     onChange={(e) => setNuevoNombreAgregar(e.target.value)}
-                    required
+                    
                   />
                 </label>
                 <label>
@@ -216,7 +245,7 @@ function Listar({ visible, actualizaVisibilidad }) {
                     type="password"
                     value={nuevaContrasenaAgregar}
                     onChange={(e) => setNuevaContrasenaAgregar(e.target.value)}
-                    required
+                    
                   />
                 </label>
                 <label>
@@ -224,7 +253,7 @@ function Listar({ visible, actualizaVisibilidad }) {
                   <select
                     value={nuevoCargoAgregar}
                     onChange={(e) => setNuevoCargoAgregar(e.target.value)}
-                    required
+                    
                   >
                     <option value="">Seleccione un cargo</option>
                     {cargos.map((cargo) => (
@@ -249,6 +278,7 @@ function Listar({ visible, actualizaVisibilidad }) {
           <div className="modal-fondo">
             <div className="modal-contenido">
               <h3>Modificar Usuario</h3>
+              {errorEditar && <p style={{ color: "red" }}>{errorEditar}</p>}
               <form onSubmit={handleGuardar}>
                 <label>
                   Nombre:
@@ -256,7 +286,6 @@ function Listar({ visible, actualizaVisibilidad }) {
                     type="text"
                     value={nuevoNombre}
                     onChange={(e) => setNuevoNombre(e.target.value)}
-                    required
                   />
                 </label>
                 <label>
@@ -273,7 +302,6 @@ function Listar({ visible, actualizaVisibilidad }) {
                   <select
                     value={nuevoCargo}
                     onChange={(e) => setNuevoCargo(e.target.value)}
-                    required
                   >
                     <option value="">Seleccione un cargo</option>
                     {cargos.map((cargo) => (

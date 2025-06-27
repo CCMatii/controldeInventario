@@ -203,10 +203,10 @@ function ListaInventario({ visible }) {
     <div className="inventario">
       <h2 className="inventario-title">Gestión de Inventario</h2>
       <div className="inventario-botones">
-        <button className="agreg" onClick={abrirModalAgregar} style={{ marginBottom: "10px" }}>
+        <button className="btn flash-slide flash-slide--black" onClick={abrirModalAgregar} style={{ marginBottom: "10px" }}>
           Agregar a inventario
         </button>
-        <button className="agreg" onClick={abrirModalMovimiento}>Registrar Movimiento</button>
+        <button className="btn flash-slide flash-slide--black" onClick={abrirModalMovimiento}>Registrar Movimiento</button>
         <div className="inventario-filtro">
         <label htmlFor="bodegaFiltro">Filtrar por Bodega:</label>
         <select
