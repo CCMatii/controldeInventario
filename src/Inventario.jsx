@@ -28,24 +28,27 @@ const InventarioApp = () => {
   return (
     <div className="inventario-app">
       {estaAutenticado ? (
-        <div className="contenido-inventario">
-          {credenciales.cargo_nombre === "Administrador" && (
-            <>
-              <button className='btn btn-moving-gradient btn-moving-gradient--blue' onClick={() => toggleVisibilidad('listar')}>Manejo de Usuarios</button>
-              <button className='btn btn-moving-gradient btn-moving-gradient--blue' onClick={() => toggleVisibilidad('listarProvee')}>Manejo de Proveedores</button>
-              <button className='btn btn-moving-gradient btn-moving-gradient--blue' onClick={() => toggleVisibilidad('bodega')}>Manejo de Bodegas</button>
-            </>
-          )}
-          <button className='btn btn-moving-gradient btn-moving-gradient--blue' onClick={() => toggleVisibilidad('productos')}>Manejo de Productos</button>
-          <button className='btn btn-moving-gradient btn-moving-gradient--blue' onClick={() => toggleVisibilidad('movimientos')}>Movimientos Realizados</button>
-          <div className='inventario-lista'>
-            <ListaInventario visible={true} />
+        <>
+          <nav className="navbar-inventario">
+            {credenciales.cargo_nombre === "Administrador" && (
+              <>
+                <span className="navbar-link" onClick={() => toggleVisibilidad('listar')}>Manejo de Usuarios</span>
+                <span className="navbar-link" onClick={() => toggleVisibilidad('listarProvee')}>Manejo de Proveedores</span>
+                <span className="navbar-link" onClick={() => toggleVisibilidad('bodega')}>Manejo de Bodegas</span>
+              </>
+            )}
+            <span className="navbar-link" onClick={() => toggleVisibilidad('productos')}>Manejo de Productos</span>
+            <span className="navbar-link" onClick={() => toggleVisibilidad('movimientos')}>Movimientos Realizados</span>
+          </nav>
+          <div className="contenido-inventario">
+            <div className='inventario-lista'>
+              <ListaInventario visible={true} />
+            </div>
           </div>
-          
-        </div>
+        </>
       ) : (
         <Login visible={true} actualizaVisibilidad={() => {}} />
-      )} 
+      )}
       <Listar visible={listarVisible} actualizaVisibilidad={setListarVisible} />
       <ListProvee visible={listarProveeVisible} actualizaVisibilidad={setListarProveeVisible} />
       <ListMovimientos visible={movimientosVisible} actualizaVisibilidad={setMovimientosVisible} />

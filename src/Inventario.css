@@ -4,3 +4,40 @@
     width: 100%;
     max-width: 1200px;
 }
+
+.navbar-inventario {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(90deg, #8e5ae8cc 0%, #c7a0eccc 100%);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  z-index: 1000;
+  box-shadow: 0 2px 16px 0 rgba(142, 90, 232, 0.10), 0 2px 8px rgba(0,0,0,0.08);
+  backdrop-filter: blur(8px);
+  border-bottom: 1.5px solid #bfa4e6;
+}
+
+.navbar-link {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.25rem;             
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s, border-bottom 0.2s;
+  padding-bottom: 4px;            
+  border-bottom: 2px solid transparent;
+}
+
+.navbar-link:hover {
+  color: #ffe082;
+  border-bottom: 2px solid #ffe082;
+}
+
+.contenido-inventario {
+  margin-top: 100px; 
+}

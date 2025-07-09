@@ -12,10 +12,19 @@
 }
 
 .tabla-inventario {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  table-layout: fixed;
+  width: 95%;
+  min-width: 1100px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(255,255,255,0.85);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10);
+  margin-top: 24px;
+  border-bottom: 1px solid #000;
 }
 
 .tabla-inventario th,
@@ -26,12 +35,56 @@
 }
 
 .tabla-inventario th {
-  background-color: #6a0dad;
-  font-weight: bold;
+  background: #7c1fff;
+  color: #fff;
+  font-weight: 700;
+  padding: 16px 10px;
+  text-align: center;
+  font-size: 1.08rem;
+  border-bottom: 3px solid #a77cff;
 }
 
 .tabla-inventario td {
+  padding: 14px 10px;
+  text-align: center;
+  font-size: 1.05rem;
+  border-bottom: 1px solid #e0d7fa;
   color: #000;
+}
+
+.tabla-inventario tbody tr:nth-child(even) {
+  background: #f3edff;
+}
+.tabla-inventario tbody tr:nth-child(odd) {
+  background: #ede7fa;
+}
+
+.tabla-inventario tbody tr:hover {
+  background: #e1d1fa;
+  transition: background 0.2s;
+}
+
+.tabla-inventario th:first-child {
+  border-top-left-radius: 16px;
+}
+.tabla-inventario th:last-child {
+  border-top-right-radius: 16px;
+}
+.tabla-inventario tr:last-child td:first-child {
+  border-bottom-left-radius: 16px;
+}
+.tabla-inventario tr:last-child td:last-child {
+  border-bottom-right-radius: 16px;
+}
+
+.tabla-inventario button {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  margin: 0 2px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
 
 .botonEditar,
@@ -50,12 +103,19 @@
 }
 
 .botonEliminar {
-  background-color: #f44336;
-  color: white;
+  background: #ff5252;
+  color: #fff;
+}
+.botonEliminar:hover {
+  background: #d32f2f;
 }
 
 .botonEliminarCantidad {
-  background-color: #ff9800;
+  background: #ffb300;
+  color: #fff;
+}
+.botonEliminarCantidad:hover {
+  background: #ff8f00;
   color: white;
   padding: 5px 10px;
   margin: 0 5px;
@@ -63,10 +123,6 @@
   cursor: pointer;
   font-size: 14px;
   border-radius: 4px;
-}
-
-.botonEliminarCantidad:hover {
-  background-color: #e68900;
 }
 
 .modal-fondo,
