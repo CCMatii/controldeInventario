@@ -5,7 +5,7 @@ import {
   modificarProveedor,
   agregarProveedor,
 } from "../services/consultas";
-import "./List_provee.css";
+import "./List_provee.css"; // Asegúrate de que esta línea esté presente
 
 function ListProvee({ visible, actualizaVisibilidad }) {
   const [proveedores, setProveedores] = React.useState([]);
@@ -338,6 +338,7 @@ function ListProvee({ visible, actualizaVisibilidad }) {
 
         {modalAbierto && (
           <div className="proveedor-modal-fondo">
+            {/* Usamos la misma clase de contenido que el modal principal para mantener la consistencia */}
             <div className="proveedor-modal-contenido">
               <h3>Modificar Proveedor</h3>
               {error && <div className="proveedor-error-modal">{error}</div>}
@@ -415,8 +416,9 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                   />
                 </label>
                 <div className="proveedor-modal-acciones">
-                  <button type="submit">Guardar</button>
-                  <button type="button" onClick={cerrarModal}>
+                  {/* Usamos las clases de los botones de agregar para mantener la consistencia */}
+                  <button type="submit" className="proveedor-modal-agregar-btn-guardar">Guardar</button>
+                  <button type="button" className="proveedor-modal-agregar-btn-cancelar" onClick={cerrarModal}>
                     Cancelar
                   </button>
                 </div>

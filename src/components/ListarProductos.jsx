@@ -184,8 +184,8 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
   return (
     <div className="listar-modal-fondo">
       <div className="listar-modal-contenido">
-        <button className="listar-modal-cerrar" onClick={() => actualizaVisibilidad(false)}>✖️</button>
         <h2 className="title-listaproductos">Lista de Productos</h2>
+        <button className="listar-modal-cerrar" onClick={() => actualizaVisibilidad(false)}>✖️</button>
         <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
           <button className="agregarbutton" onClick={abrirModalAgregar}>Agregar Producto</button>
           <button className="agregarbutton" onClick={() => setModalCategorias(true)}>Ver Categorías</button>

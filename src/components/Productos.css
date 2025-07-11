@@ -1,39 +1,84 @@
-.productos-title{
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 16px;
+.productos-title {
+  font-size: 48px; /* Ajustado */
+  color: #000; /* Ajustado */
+  margin-bottom: 20px; /* Ajustado */
   text-align: center;
+  font-weight: bold; /* Añadido */
 }
 
 .tabla-productos {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-  font-size: x-large;
+  width: 95%; /* Ajustado */
+  min-width: 1100px; /* Ajustado */
+  max-width: 1400px; /* Ajustado */
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: separate; /* Ajustado */
+  border-spacing: 0; /* Ajustado */
+  background: rgba(255, 255, 255, 0.85); /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
+  margin-top: 24px; /* Ajustado */
+  border-bottom: 1px solid #000; /* Ajustado */
 }
 
 .tabla-productos th,
 .tabla-productos td {
-  border: 2px solid #111;
-  padding: 8px 12px;
-  text-align: left;
+  border: 1px solid #000000; /* Ajustado */
+  padding: 8px;
+  text-align: center; /* Ajustado */
 }
 
 .tabla-productos th {
-  background-color: #9f00ee;
+  background-color: #7c1fff; /* Ajustado a morado de ListaInventario.css */
   color: #fff;
+  font-weight: 700; /* Ajustado */
+  padding: 16px 10px; /* Ajustado */
+  font-size: 1.08rem; /* Ajustado */
+  border-bottom: 3px solid #a77cff; /* Ajustado */
 }
 
-.tabla-productos tr:hover {
-  background-color: #e0e0e0;
+.tabla-productos td {
+  padding: 14px 10px; /* Ajustado */
+  text-align: center;
+  font-size: 1.05rem; /* Ajustado */
+  border-bottom: 1px solid #e0d7fa; /* Ajustado */
+  color: #000; /* Ajustado */
+}
+
+.tabla-productos tbody tr:nth-child(even) {
+  background: #f3edff; /* Ajustado */
+}
+.tabla-productos tbody tr:nth-child(odd) {
+  background: #ede7fa; /* Ajustado */
+}
+
+.tabla-productos tbody tr:hover {
+  background: #e1d1fa; /* Ajustado */
+  transition: background 0.2s;
+}
+
+.tabla-productos th:first-child {
+  border-top-left-radius: 0px; /* Eliminado redondeo */
+}
+.tabla-productos th:last-child {
+  border-top-right-radius: 0px; /* Eliminado redondeo */
+}
+.tabla-productos tr:last-child td:first-child {
+  border-bottom-left-radius: 0px; /* Eliminado redondeo */
+}
+.tabla-productos tr:last-child td:last-child {
+  border-bottom-right-radius: 0px; /* Eliminado redondeo */
 }
 
 /* Modal de modificar productos */
 .productos-modal-fondo {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.55);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Ajustado */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,14 +88,14 @@
 .productos-modal-contenido {
   background: #fff;
   padding: 32px 28px 24px 28px;
-  border-radius: 10px;
-  min-width: 320px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  border-radius: 0px; /* Eliminado redondeo */
+  min-width: 400px; /* Ajustado */
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
   position: relative;
 }
 
 .productos-modal-contenido h3 {
-  color: #9f00ee;
+  color: #6a0dad; /* Ajustado a morado */
   margin-bottom: 18px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -63,8 +108,8 @@
 }
 
 .productos-modal-contenido label {
-  font-weight: 600;
-  color: #222;
+  font-weight: bold; /* Ajustado */
+  color: #000; /* Ajustado */
   margin-bottom: 2px;
   display: block;
 }
@@ -78,18 +123,18 @@
 .productos-modal-contenido input[type="text"] {
   width: 100%;
   padding: 9px 12px;
-  border: 1.5px solid #9f00ee;
-  border-radius: 4px;
+  border: 1px solid #dddddd; /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
   font-size: 1rem;
-  background: #f8fafc;
-  color: #222;
+  background: #fff; /* Ajustado */
+  color: #000; /* Ajustado */
   margin-top: 4px;
   margin-bottom: 8px;
   transition: border 0.2s;
 }
 
 .productos-modal-contenido input[type="text"]:focus {
-  border: 1.5px solid #1976d2;
+  border: 1.5px solid purple; /* Ajustado a morado */
   outline: none;
   background: #fff;
 }
@@ -102,10 +147,10 @@
 }
 
 .productos-btn-guardar {
-  background: #9f00ee;
+  background: #4caf50; /* Ajustado a verde */
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 0px; /* Eliminado redondeo */
   padding: 8px 20px;
   font-size: 1rem;
   font-weight: 500;
@@ -114,14 +159,14 @@
 }
 
 .productos-btn-guardar:hover {
-  background: #7a00b3;
+  background: #45a049;
 }
 
 .productos-btn-cancelar {
-  background: #757575;
+  background: #f44336; /* Ajustado a rojo */
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 0px; /* Eliminado redondeo */
   padding: 8px 20px;
   font-size: 1rem;
   font-weight: 500;
@@ -130,11 +175,11 @@
 }
 
 .productos-btn-cancelar:hover {
-  background: #424242;
+  background: #d32f2f;
 }
 
 .contenido-inventario {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Esto centra los hijos horizontalmente */
+  align-items: center;
 }

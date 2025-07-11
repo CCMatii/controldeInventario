@@ -1,171 +1,186 @@
-/* Tabla de proveedores */
-.proveedor-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  color: #000000;
-}
-
-.proveedor-title {
-  color: #000000;
-  text-align: center;
-}
-
-.proveedor-agregar-button {
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
-}
-
-.proveedor-tabla th,
-.proveedor-tabla td {
-  border: 1px solid #000000;
-  padding: 8px;
-  text-align: left;
-}
-
-.proveedor-tabla tr:hover {
-  background-color: #f1f1f1;
-}
-
-.proveedor-tabla th {
-  background-color: #4b0294;
-  color: white;
-}
-
-/* Botones de acción */
-.proveedor-boton-editar {
-  margin-right: 5px;
-  background: #1976d2;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
-  cursor: pointer;
-}
-
-.proveedor-boton-editar:hover {
-  background: #1565c0;
-}
-
-.proveedor-boton-eliminar {
-  background: #d32f2f;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 8px;
-  cursor: pointer;
-}
-
-.proveedor-boton-eliminar:hover {
-  background: #b71c1c;
-}
-
-/* Fondo del modal */
-.proveedor-modal-fondo {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-/* Contenido del modal */
-.proveedor-modal-contenido {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 8px;
-  min-width: 300px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.proveedor-modal-contenido h3 {
-  margin-top: 0;
-}
-
-.proveedor-modal-contenido label {
-  display: block;
-  margin-bottom: 10px;
-}
-
-.proveedor-modal-contenido input {
-  width: 100%;
-  padding: 6px;
-  margin-top: 4px;
-  margin-bottom: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* Acciones del modal */
-.proveedor-modal-acciones {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-/* Modal agregar proveedor */
+/* Fondo modal general */
+.proveedor-modal-fondo,
 .proveedor-modal-agregar-fondo {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.5); /* Ajustado */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 
-.proveedor-modal-agregar-contenido {
+/* Contenido del modal principal */
+.proveedor-modal-contenido {
   background: #fff;
-  padding: 32px 28px 24px 28px;
-  border-radius: 10px;
-  min-width: 320px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  padding: 32px 28px 24px 28px; /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
+  min-width: 400px; /* Ajustado */
+  max-width: 90vw;
   position: relative;
 }
 
-.proveedor-modal-agregar-contenido h3 {
-  color: #1976d2;
-  margin-bottom: 18px;
-  font-weight: 700;
-  letter-spacing: 1px;
+/* Botón cerrar */
+.proveedor-modal-cerrar {
+  position: absolute;
+  top: 12px; /* Ajustado */
+  right: 18px; /* Ajustado */
+  background: transparent;
+  border: none;
+  font-size: 1.5rem; /* Ajustado */
+  cursor: pointer;
+  color: #6a0dad; /* Color morado */
 }
 
-.proveedor-modal-agregar-contenido form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Título */
+.proveedor-title {
+  text-align: center;
+  margin-bottom: 20px; /* Ajustado */
+  color: #000; /* Ajustado */
+  font-weight: bold; /* Añadido */
+}
+
+/* Tabla */
+.proveedor-tabla {
+  width: 95%; /* Ajustado */
+  min-width: 1100px; /* Ajustado */
+  max-width: 1400px; /* Ajustado */
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: separate; /* Ajustado */
+  border-spacing: 0; /* Ajustado */
+  background: rgba(255, 255, 255, 0.85); /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
+  margin-top: 24px; /* Ajustado */
+  border-bottom: 1px solid #000; /* Ajustado */
+}
+
+.proveedor-tabla th,
+.proveedor-tabla td {
+  border: 1px solid #000000; /* Ajustado */
+  padding: 8px;
+  text-align: center; /* Ajustado */
+}
+
+.proveedor-tabla th {
+  background: #7c1fff; /* Ajustado a morado de ListaInventario.css */
+  color: #fff;
+  font-weight: 700; /* Ajustado */
+  padding: 16px 10px; /* Ajustado */
+  font-size: 1.08rem; /* Ajustado */
+  border-bottom: 3px solid #a77cff; /* Ajustado */
+}
+
+.proveedor-tabla td {
+  color: #000; /* Ajustado */
+  padding: 14px 10px; /* Ajustado */
+  font-size: 1.05rem; /* Ajustado */
+  border-bottom: 1px solid #e0d7fa; /* Ajustado */
+}
+
+.proveedor-tabla tr:nth-child(even) {
+  background: #f3edff; /* Ajustado */
+}
+
+.proveedor-tabla tr:hover {
+  background: #e1d1fa; /* Ajustado */
+  transition: background 0.2s; /* Añadido */
+}
+
+/* Botones de acción */
+.proveedor-boton-editar,
+.proveedor-boton-eliminar {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+  transition: color 0.2s;
+  padding: 5px 10px; /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
+}
+
+.proveedor-boton-editar {
+  background-color: #4caf50; /* Ajustado a verde */
+  color: white;
+}
+
+.proveedor-boton-editar:hover {
+  background-color: #45a049;
+}
+
+.proveedor-boton-eliminar {
+  background-color: #ff5252; /* Ajustado a rojo */
+  color: white;
+}
+
+.proveedor-boton-eliminar:hover {
+  background-color: #d32f2f;
+}
+
+/* Botón agregar */
+.proveedor-agregar-button {
+  background: #4caf50; /* Ajustado a verde */
+  color: #fff;
+  border: none;
+  padding: 10px 20px; /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
+  font-size: 16px; /* Ajustado */
+  margin-bottom: 20px; /* Ajustado */
+  cursor: pointer;
+  transition: background 0.2s;
+  display: block; /* Para centrarlo con margin auto */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.proveedor-agregar-button:hover {
+  background: #45a049;
+}
+
+/* Modal agregar */
+.proveedor-modal-agregar-contenido {
+  background: #fff;
+  padding: 32px 28px 24px 28px; /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
+  min-width: 400px; /* Ajustado */
+  max-width: 90vw;
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
+}
+
+.proveedor-modal-agregar-contenido h3 {
+  margin-bottom: 1rem;
+  color: #6a0dad; /* Ajustado a morado */
+  font-weight: 700; /* Añadido */
+  letter-spacing: 1px; /* Añadido */
 }
 
 .proveedor-modal-agregar-contenido label {
-  font-weight: 600;
-  color: #222;
-  margin-bottom: 2px;
   display: block;
+  margin-bottom: 0.7rem;
+  color: #000; /* Ajustado */
+  font-weight: bold; /* Ajustado */
 }
 
-.proveedor-modal-agregar-contenido input[type="text"] {
+.proveedor-modal-agregar-contenido input {
   width: 100%;
-  padding: 9px 12px;
-  border: 1.5px solid #1976d2;
-  border-radius: 4px;
-  font-size: 1rem;
-  background: #f8fafc;
-  color: #222;
-  margin-top: 4px;
-  margin-bottom: 8px;
-  transition: border 0.2s;
+  padding: 9px 12px; /* Ajustado */
+  margin-top: 0.2rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid #dddddd; /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
+  color: #000; /* Ajustado */
+  background: #fff; /* Ajustado */
 }
 
-.proveedor-modal-agregar-contenido input[type="text"]:focus {
-  border: 1.5px solid #1565c0;
+.proveedor-modal-agregar-contenido input:focus {
+  border: 1.5px solid purple; /* Ajustado a morado */
   outline: none;
   background: #fff;
 }
@@ -173,44 +188,40 @@
 .proveedor-modal-agregar-acciones {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 10px;
+  gap: 12px; /* Ajustado */
+  margin-top: 1rem;
 }
 
 .proveedor-modal-agregar-btn-guardar {
-  background: #1976d2;
+  background: #4caf50; /* Ajustado a verde */
   color: #fff;
   border: none;
-  border-radius: 4px;
-  padding: 8px 20px;
-  font-size: 1rem;
-  font-weight: 500;
+  padding: 8px 20px; /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
   cursor: pointer;
-  transition: background 0.2s;
 }
 
 .proveedor-modal-agregar-btn-guardar:hover {
-  background: #1565c0;
+  background: #45a049;
 }
 
 .proveedor-modal-agregar-btn-cancelar {
-  background: #757575;
+  background: #f44336; /* Ajustado a rojo */
   color: #fff;
   border: none;
-  border-radius: 4px;
-  padding: 8px 20px;
-  font-size: 1rem;
-  font-weight: 500;
+  padding: 8px 20px; /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
   cursor: pointer;
-  transition: background 0.2s;
 }
 
 .proveedor-modal-agregar-btn-cancelar:hover {
-  background: #424242;
+  background: #d32f2f;
 }
 
+/* Mensaje de error */
 .proveedor-error-modal {
   color: red;
   margin: 10px 0;
   font-weight: bold;
+  text-align: center; /* Centrar el mensaje de error */
 }

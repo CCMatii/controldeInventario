@@ -15,61 +15,90 @@
 /* Contenido del modal */
 .listar-modal-contenido {
   background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 32px 28px 24px 28px; /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
   width: 80%;
+  max-width: 800px; /* Ajustado */
   max-height: 90%;
   overflow-y: auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
   position: relative;
 }
 
 .listar-modal-cerrar {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px; /* Ajustado */
+  right: 18px; /* Ajustado */
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 1.5rem; /* Ajustado */
   cursor: pointer;
+  color: #6a0dad; /* Color morado */
 }
 
 .title-listamovimientos {
   margin-bottom: 20px;
   text-align: center;
-  font-size: 20px;
+  font-size: 24px; /* Ajustado para ser más prominente */
   font-weight: bold;
-  color: #333;
+  color: #000000;
 }
 
 /* Tabla de movimientos */
 .tabla-movimientos {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
+  border-collapse: separate; /* Ajustado */
+  border-spacing: 0; /* Ajustado */
+  margin-top: 24px; /* Ajustado */
+  background: rgba(255, 255, 255, 0.85); /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
+  border-bottom: 1px solid #000; /* Ajustado */
 }
 
 .tabla-movimientos th,
 .tabla-movimientos td {
-  border: 1px solid #ddd;
+  border: 1px solid #000000; /* Ajustado */
   padding: 8px;
   text-align: center;
 }
 
 .tabla-movimientos th {
-  background-color: purple;
-  font-weight: bold;
+  background-color: #7c1fff; /* Ajustado a morado de ListaInventario.css */
+  font-weight: 700; /* Ajustado */
+  padding: 16px 10px; /* Ajustado */
+  font-size: 1.08rem; /* Ajustado */
+  border-bottom: 3px solid #a77cff; /* Ajustado */
+  color: #fff; /* Añadido */
 }
 
 .tabla-movimientos td {
   color: #000;
+  padding: 14px 10px; /* Ajustado */
+  font-size: 1.05rem; /* Ajustado */
+  border-bottom: 1px solid #e0d7fa; /* Ajustado */
 }
 
 .tabla-movimientos tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #f3edff; /* Ajustado */
 }
 
 .tabla-movimientos tr:hover {
-  background-color: #f1f1f1;
+  background-color: #e1d1fa; /* Ajustado */
+  transition: background 0.2s; /* Añadido */
 }
 
+/* Eliminando redondeo de esquinas de tabla */
+.tabla-movimientos th:first-child {
+  border-top-left-radius: 0px;
+}
+.tabla-movimientos th:last-child {
+  border-top-right-radius: 0px;
+}
+.tabla-movimientos tr:last-child td:first-child {
+  border-bottom-left-radius: 0px;
+}
+.tabla-movimientos tr:last-child td:last-child {
+  border-bottom-right-radius: 0px;
+}

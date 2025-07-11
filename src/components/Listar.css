@@ -28,7 +28,7 @@
   }
   
   .tabla-usuarios th {
-    background-color: #4b0294; /* Color de fondo para el encabezado */
+    background-color: #7c1fff; /* Color de fondo para el encabezado */
     color: white; /* Color del texto del encabezado */
   }
 
@@ -217,4 +217,3 @@
   font-size: 1.5rem;
   cursor: pointer;
 }
-

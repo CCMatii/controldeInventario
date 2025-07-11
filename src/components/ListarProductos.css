@@ -15,42 +15,42 @@
 /* Contenido del modal */
 .listar-modal-contenido {
   background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 32px 28px 24px 28px; /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
   width: 80%;
   max-width: 800px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
   position: relative;
 }
 
 /* Botón para cerrar el modal */
 .listar-modal-cerrar {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px; /* Ajustado */
+  right: 18px; /* Ajustado */
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 1.5rem; /* Ajustado */
   cursor: pointer;
   color: #6a0dad; /* Morado */
 }
 
 /* Título del modal */
 .title-listaproductos {
-  font-size: 24px;
+  font-size: 24px; /* Ajustado para ser más prominente */
   font-weight: bold;
   margin-bottom: 20px;
   text-align: center;
-  color: #6a0dad; /* Morado */
+  color: #000000; 
 }
 
 /* Botón de agregar */
 .agregarbutton {
-  background-color: #4caf50;
+  background-color: #4caf50; /* Mantenido verde */
   color: white;
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 0px; /* Eliminado redondeo */
   cursor: pointer;
   font-size: 16px;
   margin-bottom: 20px;
@@ -63,34 +63,58 @@
 /* Tabla de productos */
 .tabla-productos {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate; /* Ajustado */
+  border-spacing: 0; /* Ajustado */
   margin-bottom: 20px;
   color: #000; /* Texto negro */
+  background: rgba(255, 255, 255, 0.85); /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
+  border-bottom: 1px solid #000; /* Ajustado */
 }
 
 .tabla-productos th,
 .tabla-productos td {
-  border: 1px solid #000000;
+  border: 1px solid #000000; /* Ajustado */
   padding: 10px;
   text-align: center;
 }
 
 .tabla-productos th {
-  background-color: #6a0dad; /* Morado */
+  background-color: #7c1fff; /* Ajustado a morado de ListaInventario.css */
   color: white; /* Texto blanco */
-  font-weight: bold;
+  font-weight: 700; /* Ajustado */
+  padding: 16px 10px; /* Ajustado */
+  font-size: 1.08rem; /* Ajustado */
+  border-bottom: 3px solid #a77cff; /* Ajustado */
 }
 
 .tabla-productos tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #f3edff; /* Ajustado */
 }
 
 .tabla-productos tr:hover {
-  background-color: #f1f1f1;
+  background-color: #e1d1fa; /* Ajustado */
+  transition: background 0.2s; /* Añadido */
 }
 
 .tabla-productos td:last-child {
   white-space: nowrap;
+}
+
+/* Eliminando redondeo de esquinas de tabla */
+.tabla-productos th:first-child {
+  border-top-left-radius: 0px;
+}
+.tabla-productos th:last-child {
+  border-top-right-radius: 0px;
+}
+.tabla-productos tr:last-child td:first-child {
+  border-bottom-left-radius: 0px;
+}
+.tabla-productos tr:last-child td:last-child {
+  border-bottom-right-radius: 0px;
 }
 
 /* Botones de acciones */
@@ -101,20 +125,20 @@
   border: none;
   cursor: pointer;
   font-size: 14px;
-  border-radius: 4px;
+  border-radius: 0px; /* Eliminado redondeo */
 }
 
 .botonEditar {
-  background-color: #2196f3;
+  background-color: #4caf50; /* Ajustado a verde */
   color: white;
 }
 
 .botonEditar:hover {
-  background-color: #1976d2;
+  background-color: #45a049;
 }
 
 .botonEliminar {
-  background-color: #f44336;
+  background-color: #ff5252; /* Ajustado a rojo */
   color: white;
 }
 
@@ -139,10 +163,10 @@
 /* Contenido del modal de agregar */
 .listar-modal-agregar-contenido {
   background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 32px 28px 24px 28px; /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
   width: 400px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
 }
 
 /* Formulario de agregar/modificar */
@@ -158,10 +182,18 @@
   padding: 8px;
   margin-top: 5px;
   margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid #dddddd; /* Ajustado */
+  border-radius: 0px; /* Eliminado redondeo */
   font-size: 14px;
   box-sizing: border-box;
+  color: #000; /* Texto negro */
+  background-color: #fff; /* Fondo blanco */
+}
+
+.listar-modal-agregar-contenido form input:focus {
+  border: 1.5px solid purple; /* Ajustado a morado */
+  outline: none;
+  background: #fff;
 }
 
 /* Botones del formulario */
@@ -171,11 +203,11 @@
 }
 
 .listar-modal-agregar-btn-guardar {
-  background-color: #4caf50;
+  background-color: #4caf50; /* Mantenido verde */
   color: white;
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 0px; /* Eliminado redondeo */
   cursor: pointer;
 }
 
@@ -184,15 +216,14 @@
 }
 
 .listar-modal-agregar-btn-cancelar {
-  background-color: #f44336;
+  background-color: #f44336; /* Mantenido rojo */
   color: white;
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 0px; /* Eliminado redondeo */
   cursor: pointer;
 }
 
 .listar-modal-agregar-btn-cancelar:hover {
   background-color: #d32f2f;
 }
-
