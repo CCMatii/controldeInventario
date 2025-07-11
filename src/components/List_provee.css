@@ -6,7 +6,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5); /* Ajustado */
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,81 +16,89 @@
 /* Contenido del modal principal */
 .proveedor-modal-contenido {
   background: #fff;
-  padding: 32px 28px 24px 28px; /* Ajustado */
-  border-radius: 0px; /* Eliminado redondeo */
-  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
-  min-width: 400px; /* Ajustado */
+  padding: 32px 28px 24px 28px;
+  border-radius: 0px;
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10);
+  min-width: 400px;
   max-width: 90vw;
   position: relative;
+  color: #000;
+}
+
+.proveedor-modal-contenido h3 {
+  color: #1976d2;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
 }
 
 /* Botón cerrar */
 .proveedor-modal-cerrar {
   position: absolute;
-  top: 12px; /* Ajustado */
-  right: 18px; /* Ajustado */
+  top: 12px;
+  right: 18px;
   background: transparent;
   border: none;
-  font-size: 1.5rem; /* Ajustado */
+  font-size: 1.5rem;
   cursor: pointer;
-  color: #6a0dad; /* Color morado */
+  color: #6a0dad;
+  border-radius: 4px;
 }
 
 /* Título */
 .proveedor-title {
   text-align: center;
-  margin-bottom: 20px; /* Ajustado */
-  color: #000; /* Ajustado */
-  font-weight: bold; /* Añadido */
+  margin-bottom: 20px;
+  color: #000;
+  font-weight: bold;
 }
 
 /* Tabla */
 .proveedor-tabla {
-  width: 95%; /* Ajustado */
-  min-width: 1100px; /* Ajustado */
-  max-width: 1400px; /* Ajustado */
+  width: 95%;
+  min-width: 1100px;
+  max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
-  border-collapse: separate; /* Ajustado */
-  border-spacing: 0; /* Ajustado */
-  background: rgba(255, 255, 255, 0.85); /* Ajustado */
-  border-radius: 0px; /* Eliminado redondeo */
+  border-collapse: collapse; /* ✅ FUSIONA BORDES */
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 0px;
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
-  margin-top: 24px; /* Ajustado */
-  border-bottom: 1px solid #000; /* Ajustado */
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10);
+  margin-top: 24px;
 }
 
 .proveedor-tabla th,
 .proveedor-tabla td {
-  border: 1px solid #000000; /* Ajustado */
+  border: 1px solid #000000; /* ✅ Solo un borde */
   padding: 8px;
-  text-align: center; /* Ajustado */
+  text-align: center;
 }
 
 .proveedor-tabla th {
-  background: #7c1fff; /* Ajustado a morado de ListaInventario.css */
+  background: #7c1fff;
   color: #fff;
-  font-weight: 700; /* Ajustado */
-  padding: 16px 10px; /* Ajustado */
-  font-size: 1.08rem; /* Ajustado */
-  border-bottom: 3px solid #a77cff; /* Ajustado */
+  font-weight: 700;
+  padding: 16px 10px;
+  font-size: 1.08rem;
+  /* ✅ Ya no hay border-bottom extra */
 }
 
 .proveedor-tabla td {
-  color: #000; /* Ajustado */
-  padding: 14px 10px; /* Ajustado */
-  font-size: 1.05rem; /* Ajustado */
-  border-bottom: 1px solid #e0d7fa; /* Ajustado */
+  color: #000;
+  padding: 14px 10px;
+  font-size: 1.05rem;
+  /* ✅ Ya no hay border-bottom extra */
 }
 
 .proveedor-tabla tr:nth-child(even) {
-  background: #f3edff; /* Ajustado */
+  background: #f3edff;
 }
 
 .proveedor-tabla tr:hover {
-  background: #e1d1fa; /* Ajustado */
-  transition: background 0.2s; /* Añadido */
+  background: #e1d1fa;
+  transition: background 0.2s;
 }
 
 /* Botones de acción */
@@ -102,13 +110,15 @@
   font-size: 1.1rem;
   margin-right: 0.5rem;
   transition: color 0.2s;
-  padding: 5px 10px; /* Ajustado */
-  border-radius: 0px; /* Eliminado redondeo */
+  padding: 5px 10px;
+  border-radius: 4px;
 }
 
 .proveedor-boton-editar {
-  background-color: #4caf50; /* Ajustado a verde */
+  background-color: #4caf50;
   color: white;
+  border-radius: 4px;
+  padding: 4px 8px;
 }
 
 .proveedor-boton-editar:hover {
@@ -116,8 +126,10 @@
 }
 
 .proveedor-boton-eliminar {
-  background-color: #ff5252; /* Ajustado a rojo */
+  background-color: #ff5252;
   color: white;
+  border-radius: 4px;
+  padding: 4px 8px;
 }
 
 .proveedor-boton-eliminar:hover {
@@ -126,16 +138,16 @@
 
 /* Botón agregar */
 .proveedor-agregar-button {
-  background: #4caf50; /* Ajustado a verde */
+  background: #4caf50;
   color: #fff;
   border: none;
-  padding: 10px 20px; /* Ajustado */
-  border-radius: 0px; /* Eliminado redondeo */
-  font-size: 16px; /* Ajustado */
-  margin-bottom: 20px; /* Ajustado */
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 20px;
   cursor: pointer;
   transition: background 0.2s;
-  display: block; /* Para centrarlo con margin auto */
+  display: block;
   margin-left: auto;
   margin-right: auto;
 }
@@ -147,75 +159,100 @@
 /* Modal agregar */
 .proveedor-modal-agregar-contenido {
   background: #fff;
-  padding: 32px 28px 24px 28px; /* Ajustado */
-  border-radius: 0px; /* Eliminado redondeo */
-  min-width: 400px; /* Ajustado */
+  padding: 32px 28px 24px 28px;
+  border-radius: 0px;
+  min-width: 400px;
   max-width: 90vw;
-  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10);
 }
 
 .proveedor-modal-agregar-contenido h3 {
   margin-bottom: 1rem;
-  color: #6a0dad; /* Ajustado a morado */
-  font-weight: 700; /* Añadido */
-  letter-spacing: 1px; /* Añadido */
+  color: #6a0dad;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .proveedor-modal-agregar-contenido label {
   display: block;
   margin-bottom: 0.7rem;
-  color: #000; /* Ajustado */
-  font-weight: bold; /* Ajustado */
+  color: #000;
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
 .proveedor-modal-agregar-contenido input {
   width: 100%;
-  padding: 9px 12px; /* Ajustado */
+  padding: 9px 12px;
   margin-top: 0.2rem;
   margin-bottom: 0.6rem;
-  border: 1px solid #dddddd; /* Ajustado */
-  border-radius: 0px; /* Eliminado redondeo */
-  color: #000; /* Ajustado */
-  background: #fff; /* Ajustado */
+  border: 1px solid #dddddd;
+  border-radius: 0px;
+  color: #000;
+  background: #fff;
 }
 
-.proveedor-modal-agregar-contenido input:focus {
-  border: 1.5px solid purple; /* Ajustado a morado */
+.proveedor-modal-agregar-contenido input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 2px solid #1976d2;
+  margin-bottom: 18px;
+  font-size: 1.1rem;
+  background: #f8fafc;
+  color: #222;
+  transition: border 0.2s;
+}
+
+.proveedor-modal-agregar-contenido input[type="text"]:focus {
   outline: none;
+  border: 2px solid #1565c0;
   background: #fff;
 }
 
 .proveedor-modal-agregar-acciones {
   display: flex;
   justify-content: flex-end;
-  gap: 12px; /* Ajustado */
+  gap: 12px;
   margin-top: 1rem;
 }
 
+.proveedor-modal-acciones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+}
+
 .proveedor-modal-agregar-btn-guardar {
-  background: #4caf50; /* Ajustado a verde */
+  background: #4caf50;
   color: #fff;
   border: none;
-  padding: 8px 20px; /* Ajustado */
-  border-radius: 0px; /* Eliminado redondeo */
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .proveedor-modal-agregar-btn-guardar:hover {
-  background: #45a049;
+  background: #388e3c;
 }
 
 .proveedor-modal-agregar-btn-cancelar {
-  background: #f44336; /* Ajustado a rojo */
+  background: #f44336;
   color: #fff;
   border: none;
-  padding: 8px 20px; /* Ajustado */
-  border-radius: 0px; /* Eliminado redondeo */
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .proveedor-modal-agregar-btn-cancelar:hover {
-  background: #d32f2f;
+  background: #c62828;
 }
 
 /* Mensaje de error */
@@ -223,5 +260,5 @@
   color: red;
   margin: 10px 0;
   font-weight: bold;
-  text-align: center; /* Centrar el mensaje de error */
+  text-align: center; 
 }

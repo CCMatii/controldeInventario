@@ -346,7 +346,10 @@ export const agregarProveedor = async (proveedor) => {
 export const modificarProveedor = async (proveedor) => {
   const url = `${urlBase}proveedores/update/${proveedor.id}`;
 
-  const proveedorData = {};
+  const proveedorData = {
+    proveedor_id: proveedor.id,  // <-- obligatorio para el backend
+  };
+
   if (proveedor.nombre) proveedorData.proveedor_nombre = proveedor.nombre; 
   if (proveedor.vendedor) proveedorData.proveedor_vendedor = proveedor.vendedor; 
   if (proveedor.contacto) proveedorData.proveedor_contacto = proveedor.contacto; 
@@ -354,7 +357,7 @@ export const modificarProveedor = async (proveedor) => {
   if (proveedor.comuna) proveedorData.proveedor_comuna = proveedor.comuna; 
   if (proveedor.giro) proveedorData.proveedor_giro = proveedor.giro; 
 
-  if (Object.keys(proveedorData).length === 0) {
+  if (Object.keys(proveedorData).length === 1) { // sólo tiene proveedor_id
     throw new Error("No se proporcionaron datos para actualizar");
   }
 
@@ -828,7 +831,18 @@ export const modificarCategoria = async ({ nombre_original, categoria_nombre, ca
 };
 
 export const eliminarCategoria = async (categoriaNombre) => {
-  const url = `${urlBase}categoria/delete/${encodeURIComponent(categoriaNombre)}`; // <-- usa /{categoria_nombre}
+  // Opción 1: Codificación estándar
+  const nombreCodificado = encodeURIComponent(categoriaNombre);
+  const url = `${urlBase}categoria/delete/${nombreCodificado}`;
+
+  // Opción 2: Reemplazar espacios con +
+  // const nombreCodificado = encodeURIComponent(categoriaNombre).replace(/%20/g, '+');
+  // const url = `${urlBase}categoria/delete/${nombreCodificado}`;
+
+  // Opción 3: Usar query parameter
+  // const url = `${urlBase}categoria/delete?nombre=${encodeURIComponent(categoriaNombre)}`;
+
+  console.log("URL de eliminación:", url); // Para depuración
 
   const options = {
     method: "DELETE",
@@ -843,7 +857,7 @@ export const eliminarCategoria = async (categoriaNombre) => {
     if (!response.ok) {
       const errorText = await response.text();
       console.error("Error al eliminar categoría:", errorText);
-      throw new Error("No se pudo eliminar la categoría");
+      throw new Error(errorText || "No se pudo eliminar la categoría");
     }
 
     console.log(`Categoría ${categoriaNombre} eliminada exitosamente`);

@@ -55,6 +55,7 @@ function ListProvee({ visible, actualizaVisibilidad }) {
   };
 
   const handleEliminarProveedor = async (proveedorId) => {
+    if (!window.confirm("¿Seguro que deseas eliminar este proveedor?")) return;
     try {
       await eliminarProveedor(proveedorId);
       setProveedores(proveedores.filter((p) => p.proveedor_id !== proveedorId));
@@ -88,51 +89,63 @@ function ListProvee({ visible, actualizaVisibilidad }) {
   };
 
   const handleGuardar = async (e) => {
-    e.preventDefault();
-    if (
-      !campoValido(nuevoNombre) ||
-      !campoValido(nuevoVendedor) ||
-      !contactoValido(nuevoContacto) ||
-      !campoValido(nuevaDireccion) ||
-      !campoValido(nuevaComuna) ||
-      !campoValido(nuevoGiro)
-    ) {
-      setError(
-        "Todos los campos deben tener al menos 3 caracteres, no comenzar con espacio o carácter especial, y solo contener letras, números y espacios. El contacto puede incluir '+'.",
-      );
-      return;
-    }
-    try {
-      await modificarProveedor({
-        id: proveedorEdit.proveedor_id,
-        nombre: nuevoNombre.trim(),
-        vendedor: nuevoVendedor.trim(),
-        contacto: nuevoContacto.trim(),
-        direccion: nuevaDireccion.trim(),
-        comuna: nuevaComuna.trim(),
-        giro: nuevoGiro.trim(),
-      });
+  e.preventDefault();
 
-      setProveedores(
-        proveedores.map((p) =>
-          p.proveedor_id === proveedorEdit.proveedor_id
-            ? {
-                ...p,
-                proveedor_nombre: nuevoNombre.trim(),
-                proveedor_vendedor: nuevoVendedor.trim(),
-                proveedor_contacto: nuevoContacto.trim(),
-                proveedor_direccion: nuevaDireccion.trim(),
-                proveedor_comuna: nuevaComuna.trim(),
-                proveedor_giro: nuevoGiro.trim(),
-              }
-            : p,
-        ),
-      );
-      cerrarModal();
-    } catch (error) {
-      setError("No se pudo modificar el proveedor. Inténtalo de nuevo.");
-    }
+  if (!proveedorEdit) {
+    setError("Error interno: proveedor no seleccionado");
+    return;
+  }
+
+  if (
+    !campoValido(nuevoNombre) ||
+    !campoValido(nuevoVendedor) ||
+    !contactoValido(nuevoContacto) ||
+    !campoValido(nuevaDireccion) ||
+    !campoValido(nuevaComuna) ||
+    !campoValido(nuevoGiro)
+  ) {
+    setError(
+      "Todos los campos deben tener al menos 3 caracteres, no comenzar con espacio o carácter especial, y solo contener letras, números y espacios. El contacto puede incluir '+'.",
+    );
+    return;
+  }
+
+  const datosModificar = {
+    id: proveedorEdit.proveedor_id,
+    nombre: nuevoNombre.trim(),
+    vendedor: nuevoVendedor.trim(),
+    contacto: nuevoContacto.trim(),
+    direccion: nuevaDireccion.trim(),
+    comuna: nuevaComuna.trim(),
+    giro: nuevoGiro.trim(),
   };
+
+  console.log("Datos a modificar:", datosModificar);
+
+  try {
+    await modificarProveedor(datosModificar);
+
+    setProveedores(
+      proveedores.map((p) =>
+        p.proveedor_id === proveedorEdit.proveedor_id
+          ? {
+              ...p,
+              proveedor_nombre: datosModificar.nombre,
+              proveedor_vendedor: datosModificar.vendedor,
+              proveedor_contacto: datosModificar.contacto,
+              proveedor_direccion: datosModificar.direccion,
+              proveedor_comuna: datosModificar.comuna,
+              proveedor_giro: datosModificar.giro,
+            }
+          : p,
+      ),
+    );
+
+    cerrarModal();
+  } catch (error) {
+    setError("No se pudo modificar el proveedor. Inténtalo de nuevo.");
+  }
+};
 
   const abrirModalAgregar = () => {
     setNuevoNombreAgregar("");
@@ -249,7 +262,7 @@ function ListProvee({ visible, actualizaVisibilidad }) {
 
         {modalAgregar && (
           <div className="proveedor-modal-agregar-fondo">
-            <div className="proveedor-modal-agregar-contenido">
+            <div className="proveedor-modal-contenido">
               <h3>Agregar Proveedor</h3>
               {error && <div className="proveedor-error-modal">{error}</div>}
               <form onSubmit={handleAgregarProveedor}>
@@ -325,7 +338,7 @@ function ListProvee({ visible, actualizaVisibilidad }) {
                     required
                   />
                 </label>
-                <div className="proveedor-modal-agregar-acciones">
+                <div className="proveedor-modal-acciones">
                   <button type="submit" className="proveedor-modal-agregar-btn-guardar">Agregar</button>
                   <button type="button" className="proveedor-modal-agregar-btn-cancelar" onClick={cerrarModalAgregar}>
                     Cancelar
@@ -338,7 +351,6 @@ function ListProvee({ visible, actualizaVisibilidad }) {
 
         {modalAbierto && (
           <div className="proveedor-modal-fondo">
-            {/* Usamos la misma clase de contenido que el modal principal para mantener la consistencia */}
             <div className="proveedor-modal-contenido">
               <h3>Modificar Proveedor</h3>
               {error && <div className="proveedor-error-modal">{error}</div>}

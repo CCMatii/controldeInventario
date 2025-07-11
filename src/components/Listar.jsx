@@ -32,6 +32,7 @@ function Listar({ visible, actualizaVisibilidad }) {
   };
 
   const handleEliminarUsuario = async (usuarioId) => {
+    if (!window.confirm("¿Seguro que deseas eliminar este cargo?")) return;
     try {
       await eliminarUsuario(usuarioId);
       setUsuarios(usuarios.filter((usuario) => usuario.usuario_id !== usuarioId));
@@ -197,14 +198,14 @@ function Listar({ visible, actualizaVisibilidad }) {
                 <td>{usuario.cargo_nombre}</td>
                 <td>
                   <button
-                    className="botonEditar"
+                    className="botonEditarListar"
                     onClick={() => abrirModal(usuario)}
                     title="Modificar"
                   >
                     ✏️
                   </button>
                   <button
-                    className="botonEliminar"
+                    className="botonEliminarListar"
                     onClick={() => handleEliminarUsuario(usuario.usuario_id)}
                     title="Eliminar"
                   >

@@ -15,31 +15,31 @@
 /* Contenido del modal */
 .listar-modal-contenido {
   background-color: #fff;
-  padding: 32px 28px 24px 28px; /* Ajustado */
-  border-radius: 0px; /* Eliminado redondeo */
+  padding: 32px 28px 24px 28px; 
+  border-radius: 0px; 
   width: 80%;
-  max-width: 800px; /* Ajustado */
+  max-width: 800px; 
   max-height: 90%;
   overflow-y: auto;
-  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10);
   position: relative;
 }
 
 .listar-modal-cerrar {
   position: absolute;
-  top: 12px; /* Ajustado */
-  right: 18px; /* Ajustado */
+  top: 12px;
+  right: 18px; 
   background: none;
   border: none;
-  font-size: 1.5rem; /* Ajustado */
+  font-size: 1.5rem;
   cursor: pointer;
-  color: #6a0dad; /* Color morado */
+  color: #6a0dad; 
 }
 
 .title-listamovimientos {
   margin-bottom: 20px;
   text-align: center;
-  font-size: 24px; /* Ajustado para ser más prominente */
+  font-size: 24px; 
   font-weight: bold;
   color: #000000;
 }
@@ -47,58 +47,40 @@
 /* Tabla de movimientos */
 .tabla-movimientos {
   width: 100%;
-  border-collapse: separate; /* Ajustado */
-  border-spacing: 0; /* Ajustado */
-  margin-top: 24px; /* Ajustado */
-  background: rgba(255, 255, 255, 0.85); /* Ajustado */
-  border-radius: 0px; /* Eliminado redondeo */
+  border-collapse: collapse; 
+  margin-top: 24px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 0px;
   overflow: hidden;
-  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10); /* Estilo de ListaInventario.css */
-  border-bottom: 1px solid #000; /* Ajustado */
+  box-shadow: 0 4px 24px rgba(80, 80, 160, 0.10);
 }
 
 .tabla-movimientos th,
 .tabla-movimientos td {
-  border: 1px solid #000000; /* Ajustado */
+  border: 1px solid #000;
   padding: 8px;
   text-align: center;
 }
 
 .tabla-movimientos th {
-  background-color: #7c1fff; /* Ajustado a morado de ListaInventario.css */
-  font-weight: 700; /* Ajustado */
-  padding: 16px 10px; /* Ajustado */
-  font-size: 1.08rem; /* Ajustado */
-  border-bottom: 3px solid #a77cff; /* Ajustado */
-  color: #fff; /* Añadido */
+  background-color: #7c1fff;
+  color: #fff;
+  font-weight: 700;
+  padding: 16px 10px;
+  font-size: 1.08rem;
 }
 
 .tabla-movimientos td {
   color: #000;
-  padding: 14px 10px; /* Ajustado */
-  font-size: 1.05rem; /* Ajustado */
-  border-bottom: 1px solid #e0d7fa; /* Ajustado */
+  padding: 14px 10px;
+  font-size: 1.05rem;
 }
 
 .tabla-movimientos tr:nth-child(even) {
-  background-color: #f3edff; /* Ajustado */
+  background-color: #f3edff;
 }
 
 .tabla-movimientos tr:hover {
-  background-color: #e1d1fa; /* Ajustado */
-  transition: background 0.2s; /* Añadido */
-}
-
-/* Eliminando redondeo de esquinas de tabla */
-.tabla-movimientos th:first-child {
-  border-top-left-radius: 0px;
-}
-.tabla-movimientos th:last-child {
-  border-top-right-radius: 0px;
-}
-.tabla-movimientos tr:last-child td:first-child {
-  border-bottom-left-radius: 0px;
-}
-.tabla-movimientos tr:last-child td:last-child {
-  border-bottom-right-radius: 0px;
+  background-color: #e1d1fa;
+  transition: background 0.2s;
 }

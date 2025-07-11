@@ -24,14 +24,24 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
 
   // Restricciones
   const campoValido = (valor) => {
-    const val = valor.trim();
-    return (
-      val.length >= 3 &&
-      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ]/.test(val) &&
-      /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ .,'-]+$/.test(val)
-    );
-  };
-  const validarProveedor = (prov) => /^\d+$/.test(prov.trim()) && parseInt(prov, 10) > 0;
+  if (!valor || typeof valor !== 'string') return false;
+  const val = valor.trim();
+  return (
+    val.length >= 3 &&
+    /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ]/.test(val) &&
+    /^[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ .,'-]+$/.test(val)
+  );
+};
+
+// Validación de proveedor (maneja números y strings)
+const validarProveedor = (prov) => {
+  if (prov === null || prov === undefined) return false;
+  
+  // Convertir a string si es número
+  const provStr = typeof prov === 'number' ? String(prov) : prov;
+  
+  return /^\d+$/.test(provStr.trim()) && parseInt(provStr, 10) > 0;
+};
 
   useEffect(() => {
     if (visible) {
@@ -69,6 +79,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
   };
 
   const handleEliminarProducto = async (productoId) => {
+    if (!window.confirm("¿Seguro que deseas eliminar este producto?")) return;
     try {
       await eliminarProducto(productoId);
       setProductos(productos.filter((producto) => producto.producto_id !== productoId));
@@ -312,7 +323,7 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
         {modalAbierto && (
           <div className="modal-fondo">
             <div className="modal-contenido">
-              <h3>Modificar Producto</h3>
+              <h3 className="titlemodificar">Modificar Producto</h3>
               {errorModificar && (
                   <div style={{ color: "red", marginBottom: 8 }}>{errorModificar}</div>
                 )}
@@ -376,8 +387,8 @@ function ListarProductos({ visible, actualizaVisibilidad }) {
                 </label>
                 
                 <div className="modal-acciones">
-                  <button type="submit">Guardar</button>
-                  <button type="button" onClick={cerrarModal}>
+                  <button type="submit" className="listar-modal-agregar-btn-guardar">Guardar</button>
+                  <button type="button" className="listar-modal-agregar-btn-cancelar" onClick={cerrarModal}>
                     Cancelar
                   </button>
                 </div>

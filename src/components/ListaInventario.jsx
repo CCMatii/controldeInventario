@@ -171,6 +171,7 @@ function ListaInventario({ visible }) {
   };
 
   const handleEliminarInventario = async (inventarioId) => {
+    if (!window.confirm("¿Seguro que deseas eliminar este producto del inventario?")) return;
     try {
       await eliminarInventario(inventarioId);
       setInventario(inventario.filter((item) => item.inventario_id !== inventarioId));

@@ -33,6 +33,7 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
   };
 
   const handleEliminarBodega = async (bodegaId) => {
+    if (!window.confirm("¿Seguro que deseas eliminar este bodega?")) return;
     try {
       await eliminarBodega(bodegaId);
       setBodegas(bodegas.filter((bodega) => bodega.bodega_id !== bodegaId));
@@ -176,8 +177,8 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
 
         {modalAgregar && (
           <div className="bodega-modal-agregar-fondo">
-            <div className="bodega-modal-agregar-contenido">
-              <h3>Agregar Bodega</h3>
+            <div className="bodega-modal-contenido">
+              <h3 className="bodega-modal-titulo">Agregar Bodega</h3>
               {error && <div className="bodega-error-modal">{error}</div>}
               <form onSubmit={handleAgregarBodega}>
                 <label>
@@ -218,7 +219,7 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
         {modalAbierto && (
           <div className="bodega-modal-fondo">
             <div className="bodega-modal-contenido">
-              <h3>Modificar Bodega</h3>
+              <h3 className="bodega-modal-titulo">Modificar Bodega</h3>
               {error && <div className="bodega-error-modal">{error}</div>}
               <form onSubmit={handleGuardar}>
                 <label>
@@ -245,9 +246,9 @@ function ListaBodega({ visible, actualizaVisibilidad }) {
                     required
                   />
                 </label>
-                <div className="bodega-modal-acciones">
-                  <button type="submit">Guardar</button>
-                  <button type="button" onClick={cerrarModal}>
+                <div className="bodega-modal-agregar-acciones">
+                  <button type="submit" className="bodega-modal-agregar-btn-guardar">Guardar</button>
+                  <button type="button" className="bodega-modal-agregar-btn-cancelar" onClick={cerrarModal}>
                     Cancelar
                   </button>
                 </div>
